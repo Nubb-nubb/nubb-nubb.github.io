@@ -3,7 +3,7 @@
     <h2 class="section-title">Projects</h2>
 
     <p class="text-text-secondary mb-8">
-      A collection of things I've made, stuff I've done.
+      here for some nerd stuff.
     </p>
 
     <div class="mb-8 border-b border-text-secondary/30">
