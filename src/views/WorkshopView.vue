@@ -16,7 +16,7 @@
       <WorkshopCard
         title="Accessible"
         color="border-plant-green"
-        description="maybe it's free, maybe it's subscription a month. but this way, people can come in and they can use any of the tools. woodworking, metalworking, 3d printing, cnc, laser cutter, acrylic, electrical stations...etc"
+        description="maybe it's free, maybe it's subscription a month. but this way, people can come in and they can use any of the tools. woodworking, metalworking, 3d printing, cnc, laser cutter, acrylic, electrical stations...etc. i feel like i grew up dreaming about accessing tools like this. i dont want that to stop anyone from accomplishing their dreams."
       />
 
       <WorkshopCard
