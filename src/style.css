@@ -1,0 +1,59 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap');
+
+body {
+  @apply bg-warm-white text-text-primary;
+}
+
+h1, h2, h3 {
+  @apply font-display;
+}
+
+.monospace {
+  @apply font-mono text-sm text-text-secondary;
+}
+
+img {
+  @apply max-w-full rounded-sm block;
+}
+
+.nav-link {
+  @apply text-text-primary no-underline text-sm transition-colors duration-200 pb-2 border-b-2 border-transparent hover:border-accent-red;
+}
+
+.nav-link.router-link-active {
+  @apply border-accent-red;
+}
+
+.section-title {
+  @apply text-4xl font-bold mb-4 mt-12;
+}
+
+.caption {
+  @apply italic text-text-secondary mt-4 mb-2;
+}
+
+.date-label {
+  @apply font-mono text-xs text-accent-red uppercase tracking-wide;
+}
+
+.hero {
+  @apply min-h-screen flex items-center justify-center p-8 text-center;
+}
+
+.hero h1 {
+  @apply text-5xl font-bold mb-8 leading-tight;
+}
+
+@media (max-width: 768px) {
+  .hero h1 {
+    @apply text-3xl;
+  }
+  
+  .section-title {
+    @apply text-3xl;
+  }
+}
