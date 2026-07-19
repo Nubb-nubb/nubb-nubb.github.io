@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-warm-white text-text-primary min-h-screen">
+  <div class="bg-warm-white text-text-primary min-h-screen flex flex-col">
     <nav class="sticky top-0 bg-warm-white z-10 border-b border-black/10 backdrop-blur-sm">
       <div class="max-w-3xl mx-auto px-6 py-4 flex justify-center gap-8">
         <RouterLink to="/" class="nav-link">Home</RouterLink>
@@ -9,7 +9,9 @@
       </div>
     </nav>
 
-    <RouterView />
+    <div class="flex-1">
+      <RouterView />
+    </div>
 
     <AppFooter />
 
