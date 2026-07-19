@@ -4,7 +4,7 @@
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-start">
       <!-- Image -->
-      <div class="rounded-sm overflow-hidden">
+      <div class="rounded-sm overflow-hidden cursor-pointer" @click="openPreview(aboutmeImage)">
         <img
           :src="aboutmeImage"
           alt="About me"
@@ -60,13 +60,37 @@
         </div>
       </div>
     </div>
+
+    <div
+      v-if="previewImage"
+      class="fixed inset-0 z-50 bg-black/85 p-4 md:p-8 flex items-center justify-center"
+      @click="closePreview"
+    >
+      <button
+        type="button"
+        class="absolute top-4 right-4 md:top-6 md:right-6 text-white text-3xl leading-none"
+        @click.stop="closePreview"
+        aria-label="Close preview"
+      >
+        ×
+      </button>
+
+      <img
+        :src="previewImage"
+        alt="Preview"
+        class="max-w-[94vw] max-h-[92vh] w-auto h-auto object-contain rounded-sm shadow-2xl"
+        @click.stop
+      />
+    </div>
   </section>
 </template>
 
 <script setup>
 import { ref } from 'vue'
+import { useImagePreview } from '../composables/useImagePreview'
 
 const quickExpanded = ref(false)
 const longExpanded = ref(false)
+const { previewImage, openPreview, closePreview } = useImagePreview()
 const aboutmeImage = `${import.meta.env.BASE_URL}images/aboutme-1.jpg`
 </script>

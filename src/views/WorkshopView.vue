@@ -56,30 +56,28 @@
               <div
                 v-for="media in item.media"
                 :key="media.label"
-                class="rounded-sm border border-text-secondary/20 p-3"
+                class="rounded-sm p-3"
               >
-                <p class="text-xs uppercase tracking-wide text-text-secondary mb-2">
-                  {{ media.type }}
-                </p>
-
                 <img
                   v-if="media.type === 'photo' && media.src"
                   :src="media.src"
                   :alt="media.label"
-                  class="w-full h-40 object-cover rounded-sm"
+                  class="w-full h-56 md:h-64 object-cover rounded-sm cursor-pointer"
+                  @click="openPreview(media.src)"
                 />
 
                 <video
                   v-else-if="media.type === 'video' && media.src"
                   controls
-                  class="w-full h-40 object-cover rounded-sm"
+                  class="w-full h-56 md:h-64 object-cover rounded-sm cursor-pointer"
+                  @click="openPreview(media.src, 'video')"
                 >
                   <source :src="media.src" />
                 </video>
 
                 <div
                   v-else
-                  class="h-40 rounded-sm bg-main-bg border border-dashed border-text-secondary/30 flex items-center justify-center text-xs text-text-secondary"
+                  class="h-56 md:h-64 rounded-sm bg-main-bg border border-dashed border-text-secondary/30 flex items-center justify-center text-xs text-text-secondary"
                 >
                   Add {{ media.type }} here
                 </div>
@@ -105,12 +103,46 @@
     <p class="italic text-text-secondary">
       {{ activeFooter }}
     </p>
+
+    <div
+      v-if="previewImage"
+      class="fixed inset-0 z-50 bg-black/85 p-4 md:p-8 flex items-center justify-center"
+      @click="closePreview"
+    >
+      <button
+        type="button"
+        class="absolute top-4 right-4 md:top-6 md:right-6 text-white text-3xl leading-none"
+        @click.stop="closePreview"
+        aria-label="Close preview"
+      >
+        ×
+      </button>
+
+      <img
+        v-if="previewType === 'image'"
+        :src="previewImage"
+        alt="Workshop preview"
+        class="max-w-[94vw] max-h-[92vh] w-auto h-auto object-contain rounded-sm shadow-2xl"
+        @click.stop
+      />
+
+      <video
+        v-else-if="previewType === 'video'"
+        controls
+        autoplay
+        class="w-full h-full object-contain"
+        @click.stop
+      >
+        <source :src="previewImage" />
+      </video>
+    </div>
   </section>
 </template>
 
 <script setup>
 import { computed, ref } from 'vue'
 import WorkshopCard from '../components/WorkshopCard.vue'
+import { useImagePreview } from '../composables/useImagePreview'
 
 const tabs = [
   { key: 'current', label: 'Current workshop' },
@@ -118,6 +150,7 @@ const tabs = [
 ]
 
 const activeTab = ref('current')
+const { previewImage, previewType, openPreview, closePreview } = useImagePreview()
 
 const colors = [
   'border-accent-red',
@@ -135,17 +168,17 @@ const currentWorkshopItems = [
       '2x Neptune 3 Pro printers and 1x Elegoo Centauri Carbon for prototypes, fixtures, and small production runs.'
     ,
     media: [
-      { type: 'photo', label: 'Neptune 3 Pro pair', src: '' },
-      { type: 'photo', label: 'Elegoo Centauri Carbon', src: '' }
+      { type: 'photo', label: 'Neptune 3 Pro pair', src: `${import.meta.env.BASE_URL}images/neptune-3-pros.jpg` },
+      { type: 'photo', label: 'Elegoo Centauri Carbon', src: `${import.meta.env.BASE_URL}images/centauri-carbon.jpg` }
     ]
   },
   {
     title: 'Shaping & Finishing',
     description:
-      '1x32 belt sander for shaping parts, refining prints, and quick finish work.',
+      'angle grinder and 1x30 belt sander for shaping parts, refining prints, and quick finish work.',
     media: [
-      { type: 'photo', label: 'Belt sander station', src: '' },
-      { type: 'video', label: 'Sanding workflow clip', src: '' }
+      { type: 'video', label: 'Angle grinder', src: `${import.meta.env.BASE_URL}images/angle grinder.mp4` },
+      { type: 'video', label: '1x30 sander', src: `${import.meta.env.BASE_URL}images/1x30 sander.mp4` }
     ]
   },
   {
@@ -162,8 +195,8 @@ const currentWorkshopItems = [
     description:
       'Soldering station for wiring, repairs, controller work, and electronics integration.',
     media: [
-      { type: 'photo', label: 'Soldering station overview', src: '' },
-      { type: 'video', label: 'Board repair timelapse', src: '' }
+      { type: 'photo', label: 'Soldering station overview', src: `${import.meta.env.BASE_URL}images/soldering_station.jpg` },
+      { type: 'video', label: 'Board repair timelapse', src: `${import.meta.env.BASE_URL}images/Spiderman_Electronics.MP4` }
     ]
   },
   {

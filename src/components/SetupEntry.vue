@@ -113,6 +113,7 @@
 
 <script setup>
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
+import { useImagePreview } from '../composables/useImagePreview'
 
 const props = defineProps({
   era: String,
@@ -127,7 +128,7 @@ const props = defineProps({
 })
 
 const failed = ref(new Set())
-const previewImage = ref('')
+const { previewImage, openPreview, closePreview } = useImagePreview()
 
 const imageList = computed(() => {
   if (Array.isArray(props.images) && props.images.length > 0) {
@@ -151,26 +152,4 @@ function markFailed(path) {
 function isFailed(path) {
   return failed.value.has(path)
 }
-
-function openPreview(path) {
-  previewImage.value = path
-}
-
-function closePreview() {
-  previewImage.value = ''
-}
-
-function onKeydown(event) {
-  if (event.key === 'Escape') {
-    closePreview()
-  }
-}
-
-onMounted(() => {
-  window.addEventListener('keydown', onKeydown)
-})
-
-onBeforeUnmount(() => {
-  window.removeEventListener('keydown', onKeydown)
-})
 </script>

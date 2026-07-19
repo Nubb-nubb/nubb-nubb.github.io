@@ -2,8 +2,9 @@
   <section class="hero">
     <div class="w-full max-w-3xl mx-auto">
       <div
-        class="w-full max-w-[61.6rem] mx-auto mb-8 md:mb-12 rounded-sm overflow-hidden"
+        class="w-full max-w-[61.6rem] mx-auto mb-8 md:mb-12 rounded-sm overflow-hidden cursor-pointer"
         style="aspect-ratio: 16/9; display: flex; align-items: center; justify-content: center;"
+        @click="openPreview(carouselImages[currentSlide])"
       >
         <!-- Carousel Container -->
         <div class="relative w-full h-full overflow-hidden">
@@ -51,14 +52,38 @@
         sometimes.
       </p>
     </div>
+
+    <div
+      v-if="previewImage"
+      class="fixed inset-0 z-50 bg-black/85 p-4 md:p-8 flex items-center justify-center"
+      @click="closePreview"
+    >
+      <button
+        type="button"
+        class="absolute top-4 right-4 md:top-6 md:right-6 text-white text-3xl leading-none"
+        @click.stop="closePreview"
+        aria-label="Close preview"
+      >
+        ×
+      </button>
+
+      <img
+        :src="previewImage"
+        alt="Preview"
+        class="max-w-[94vw] max-h-[92vh] w-auto h-auto object-contain rounded-sm shadow-2xl"
+        @click.stop
+      />
+    </div>
   </section>
 </template>
 
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
+import { useImagePreview } from '../composables/useImagePreview'
 
 const showHeroPlaceholder = ref(false)
 const currentSlide = ref(0)
+const { previewImage, openPreview, closePreview } = useImagePreview()
 
 const carouselImages = [
 `${import.meta.env.BASE_URL}images/aboutme-2.jpg`,  
