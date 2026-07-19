@@ -6,6 +6,7 @@
         <RouterLink to="/about" class="nav-link">About</RouterLink>
         <RouterLink to="/setups" class="nav-link">Setups</RouterLink>
         <RouterLink to="/workshop" class="nav-link">Workshop</RouterLink>
+        <RouterLink to="/projects" class="nav-link">Projects</RouterLink>
       </div>
     </nav>
 

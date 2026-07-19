@@ -207,6 +207,15 @@ const currentWorkshopItems = [
       { type: 'video', label: 'Forge build clip 2', src: `${import.meta.env.BASE_URL}images/forge_2.MP4` }
     ]
   },
+  {
+    title: 'Coming Soon',
+    description:
+      'New tools and upgrades on the way!',
+    media: [
+      { type: 'photo', label: 'Mercury Plus wash & cure', src: `${import.meta.env.BASE_URL}images/mercuryplus.webp` },
+      { type: 'photo', label: 'Resin printer', src: `${import.meta.env.BASE_URL}images/resin_printer1.jpg` }
+    ]
+  },
 ]
 
 // Initialize all workshop items as open by default
