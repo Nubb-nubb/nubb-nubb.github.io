@@ -1,5 +1,5 @@
 <template>
-  <section class="max-w-3xl mx-auto px-6 py-20">
+  <section class="max-w-3xl mx-auto px-4 sm:px-6 py-12 sm:py-20">
     <h2 class="section-title">Room Evolution 2022–2026</h2>
 
     <SetupEntry

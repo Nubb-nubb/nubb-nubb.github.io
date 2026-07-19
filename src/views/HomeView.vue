@@ -1,8 +1,8 @@
 <template>
   <section class="hero">
-    <div class="max-w-3xl mx-auto">
+    <div class="w-full max-w-3xl mx-auto">
       <div
-        class="relative left-1/2 -translate-x-1/2 w-[min(78.7vw,61.6rem)] mb-12 rounded-sm overflow-hidden"
+        class="w-full max-w-[61.6rem] mx-auto mb-8 md:mb-12 rounded-sm overflow-hidden"
         style="aspect-ratio: 16/9; display: flex; align-items: center; justify-content: center;"
       >
         <!-- Carousel Container -->
@@ -44,10 +44,10 @@
         </div>
       </div>
 
-      <h1 class="text-5xl font-display font-bold mb-8">
+      <h1 class="text-4xl md:text-5xl font-display font-bold mb-6 md:mb-8 leading-tight">
         I'm in a chinese era of my life
       </h1>
-      <p class="text-xl text-text-secondary">
+      <p class="text-lg md:text-xl text-text-secondary">
         sometimes.
       </p>
     </div>

@@ -4,8 +4,20 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap');
 
+html,
+body,
+#app {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: clip;
+}
+
 body {
   @apply bg-warm-white text-text-primary;
+}
+
+* {
+  min-width: 0;
 }
 
 h1, h2, h3 {
@@ -55,5 +67,15 @@ img {
   
   .section-title {
     @apply text-3xl;
+  }
+}
+
+@media (max-width: 430px) {
+  .hero {
+    @apply px-4 py-10;
+  }
+
+  .section-title {
+    @apply text-2xl mt-8;
   }
 }
