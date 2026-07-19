@@ -34,7 +34,7 @@
         'images/setup-2025-2.jpg',
         'images/setup-2025-3.jpg'
       ]"
-      caption="球球 lights, orchid named Jeremy"
+      caption="球球 lights, home depot ahh orchid"
       description="isnt this setup lowkey TOUGHHHH"
     />
 
