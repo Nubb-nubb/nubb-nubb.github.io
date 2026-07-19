@@ -126,7 +126,7 @@ const colors = [
   'border-wood-dark'
 ]
 
-const openItem = ref('3D Printing Setup')
+const openItem = ref('')
 
 const currentWorkshopItems = [
   {
