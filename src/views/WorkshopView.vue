@@ -38,16 +38,16 @@
           <button
             type="button"
             class="w-full px-5 py-4 flex items-center justify-between text-left"
-            :aria-expanded="openItem === item.title"
+            :aria-expanded="openItems.has(item.title)"
             @click="toggleItem(item.title)"
           >
             <span class="font-bold text-text-primary">{{ item.title }}</span>
             <span class="text-text-secondary text-sm">
-              {{ openItem === item.title ? 'Hide' : 'Show' }}
+              {{ openItems.has(item.title) ? '−' : '+' }}
             </span>
           </button>
 
-          <div v-if="openItem === item.title" class="px-5 pb-5 space-y-4">
+          <div v-if="openItems.has(item.title)" class="px-5 pb-5 space-y-4">
             <p class="text-sm text-text-secondary">
               {{ item.description }}
             </p>
@@ -66,14 +66,24 @@
                   @click="openPreview(media.src)"
                 />
 
-                <video
+                <div
                   v-else-if="media.type === 'video' && media.src"
-                  controls
-                  class="w-full h-56 md:h-64 object-cover rounded-sm cursor-pointer"
+                  class="relative w-full h-56 md:h-64 rounded-sm overflow-hidden cursor-pointer bg-black"
                   @click="openPreview(media.src, 'video')"
                 >
-                  <source :src="media.src" />
-                </video>
+                  <video
+                    :src="media.src"
+                    class="w-full h-full object-cover pointer-events-none"
+                    muted
+                  />
+                  <div class="absolute inset-0 flex items-center justify-center bg-black/30 hover:bg-black/40 transition-colors">
+                    <div class="w-14 h-14 rounded-full bg-white/90 flex items-center justify-center">
+                      <svg class="w-6 h-6 text-black ml-1" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M8 5v14l11-7z"/>
+                      </svg>
+                    </div>
+                  </div>
+                </div>
 
                 <div
                   v-else
@@ -159,13 +169,11 @@ const colors = [
   'border-wood-dark'
 ]
 
-const openItem = ref('')
-
 const currentWorkshopItems = [
   {
     title: '3D Printing Setup',
     description:
-      '2x Neptune 3 Pro printers and 1x Elegoo Centauri Carbon for prototypes, fixtures, and small production runs.'
+      'My cute Neptune 3 Pros and Elegoo Centauri Carbon printers'
     ,
     media: [
       { type: 'photo', label: 'Neptune 3 Pro pair', src: `${import.meta.env.BASE_URL}images/neptune-3-pros.jpg` },
@@ -173,9 +181,18 @@ const currentWorkshopItems = [
     ]
   },
   {
-    title: 'Shaping & Finishing',
+    title: 'Electronics Bench',
     description:
-      'angle grinder and 1x30 belt sander for shaping parts, refining prints, and quick finish work.',
+      'My small but mighty soldering station for wiring, repairs, controller work, and electronics',
+    media: [
+      { type: 'photo', label: 'Soldering station overview', src: `${import.meta.env.BASE_URL}images/soldering_station.jpg` },
+      { type: 'video', label: 'Board repair timelapse', src: `${import.meta.env.BASE_URL}images/Spiderman_Electronics.MP4` }
+    ]
+  },
+  {
+    title: 'Metal Working Tools',
+    description:
+      'Angle grinder and 1x30 belt sander for cutting and sanding stuff',
     media: [
       { type: 'video', label: 'Angle grinder', src: `${import.meta.env.BASE_URL}images/angle grinder.mp4` },
       { type: 'video', label: '1x30 sander', src: `${import.meta.env.BASE_URL}images/1x30 sander.mp4` }
@@ -184,31 +201,16 @@ const currentWorkshopItems = [
   {
     title: 'Forge Corner',
     description:
-      'Small garage forge for blacksmithing experiments and custom metal pieces.',
+      'Small garage forge for blacksmithing... maybe an anvil one day',
     media: [
-      { type: 'photo', label: 'Garage forge layout', src: '' },
-      { type: 'video', label: 'Heating + shaping demo', src: '' }
+      { type: 'video', label: 'Forge build clip 1', src: `${import.meta.env.BASE_URL}images/forge_1.mp4` },
+      { type: 'video', label: 'Forge build clip 2', src: `${import.meta.env.BASE_URL}images/forge_2.MP4` }
     ]
   },
-  {
-    title: 'Electronics Bench',
-    description:
-      'Soldering station for wiring, repairs, controller work, and electronics integration.',
-    media: [
-      { type: 'photo', label: 'Soldering station overview', src: `${import.meta.env.BASE_URL}images/soldering_station.jpg` },
-      { type: 'video', label: 'Board repair timelapse', src: `${import.meta.env.BASE_URL}images/Spiderman_Electronics.MP4` }
-    ]
-  },
-  {
-    title: 'In Progress',
-    description:
-      'This section can keep growing as I add new tools, machines, and better organization.',
-    media: [
-      { type: 'photo', label: 'New additions', src: '' },
-      { type: 'video', label: 'Shop update walkthrough', src: '' }
-    ]
-  }
 ]
+
+// Initialize all workshop items as open by default
+const openItems = ref(new Set(currentWorkshopItems.map(item => item.title)))
 
 const dreamWorkshopCards = [
   {
@@ -234,7 +236,12 @@ const dreamWorkshopCards = [
 ]
 
 const toggleItem = (title) => {
-  openItem.value = openItem.value === title ? '' : title
+  if (openItems.value.has(title)) {
+    openItems.value.delete(title)
+  } else {
+    openItems.value.add(title)
+  }
+  openItems.value = new Set(openItems.value)
 }
 
 const activeFooter = computed(() => {

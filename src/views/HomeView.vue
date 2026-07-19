@@ -46,10 +46,10 @@
       </div>
 
       <h1 class="text-4xl md:text-5xl font-display font-bold mb-6 md:mb-8 leading-tight">
-        I'm in a chinese era of my life
+        I'm in such a chinese era of my life
       </h1>
       <p class="text-lg md:text-xl text-text-secondary">
-        sometimes.
+        hey meta, take his drawls off.
       </p>
     </div>
 

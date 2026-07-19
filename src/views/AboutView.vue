@@ -15,37 +15,23 @@
       <!-- Text Sections -->
       <div class="space-y-4">
         <!-- Quick About Me -->
-        <div class="border-l-4 border-accent-red pl-4">
-          <button
-            @click="quickExpanded = !quickExpanded"
-            class="w-full text-left py-3 font-semibold hover:text-accent-red transition-colors flex items-center justify-between"
-          >
-            <span>Quick About Me</span>
-            <span class="text-sm">{{ quickExpanded ? '−' : '+' }}</span>
-          </button>
-          <div
-            v-if="quickExpanded"
-            class="text-text-secondary text-sm leading-relaxed"
-          >
-            <p>
-              L tiktok brainrot, doesn't wanna read about me :/
-            </p>
-          </div>
-        </div>
+        <CollapsibleSection
+          title="Quick About Me"
+          color="accent-red"
+          v-model="quickExpanded"
+        >
+          <p class="text-text-secondary text-sm leading-relaxed">
+            L tiktok brainrot, doesn't wanna read about me :/
+          </p>
+        </CollapsibleSection>
 
         <!-- Long About Me -->
-        <div class="border-l-4 border-plant-green pl-4">
-          <button
-            @click="longExpanded = !longExpanded"
-            class="w-full text-left py-3 font-semibold hover:text-plant-green transition-colors flex items-center justify-between"
-          >
-            <span>Long About Me</span>
-            <span class="text-sm">{{ longExpanded ? '−' : '+' }}</span>
-          </button>
-          <div
-            v-if="longExpanded"
-            class="text-text-secondary text-sm leading-relaxed space-y-3"
-          >
+        <CollapsibleSection
+          title="Long About Me"
+          color="plant-green"
+          v-model="longExpanded"
+        >
+          <div class="text-text-secondary text-sm leading-relaxed space-y-3">
             <p>
               I was 7 when I started learning origami, 15 when I started learning butterfly knife tricks, and... also 15 when I started memorizing Rubik's cube permutations. For years, I called it passion. I loved the feeling of going from knowing nothing to being good at something, but eventually, the making became hiding. One more video edit, one more PC upgrade, one more game of League while deadlines and expectations loomed. 
               In college, the guilt was constant and suffocating. I had a future I was supposed to want, but I couldnt stop hiding in my projects.
@@ -57,7 +43,7 @@
               One day, I'm gonna have that 200lbs anvil, a CNC machine, a workshop where I can build shit like guitars, furniture, whatever I want. 
             </p>
           </div>
-        </div>
+        </CollapsibleSection>
       </div>
     </div>
 
@@ -88,6 +74,7 @@
 <script setup>
 import { ref } from 'vue'
 import { useImagePreview } from '../composables/useImagePreview'
+import CollapsibleSection from '../components/CollapsibleSection.vue'
 
 const quickExpanded = ref(false)
 const longExpanded = ref(false)
