@@ -32,7 +32,7 @@
         era="Coming Soon"
         title="Blacksmithing Projects"
         :images="[]"
-        caption="Forged creations"
+        caption="blah blah blah"
         description="Projects will be added here soon!"
       />
     </div>
@@ -42,7 +42,7 @@
         era="Coming Soon"
         title="Butterfly Knife Projects"
         :images="[]"
-        caption="Flipping and modding"
+        caption="blah blah blah"
         description="Projects will be added here soon!"
       />
     </div>
@@ -52,7 +52,7 @@
         era="Future"
         title="More Projects"
         :images="[]"
-        caption="Stay tuned"
+        caption="blah blah blah"
         description="More projects on the way!"
       />
     </div>
