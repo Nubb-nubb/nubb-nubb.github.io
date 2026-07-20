@@ -55,7 +55,7 @@
         v-if="blacksmithingViewMode === 'gallery'"
         era="Current"
         title="Blacksmithing Projects"
-        :images="blacksmithingMedia"
+        :images="blacksmithingTimeline.map(e => e.src)"
         :show-sequence-labels="true"
         :start-number="1"
         caption=""
@@ -88,7 +88,7 @@
             class="ml-8 md:ml-0 md:w-[calc(50%-1.5rem)]"
             :class="index % 2 === 0 ? 'md:mr-auto' : 'md:ml-auto'">
             <p class="mb-1.5 text-xs font-mono uppercase tracking-wide text-accent-red">
-              {{ entry.label }}
+              {{ entry.sequence }}. {{ entry.label }}
             </p>
 
             <div class="rounded-sm overflow-hidden bg-[#ebe3d7] border border-black/10">
@@ -104,12 +104,13 @@
                 v-else
                 :src="toPublicPath(entry.src)"
                 :alt="entry.label"
-                class="w-full h-auto object-cover"
+                class="w-full h-auto object-cover cursor-pointer"
+                @click="openPreview(entry.src)"
               />
             </div>
 
-            <p class="mt-1 text-xs font-mono text-text-secondary">
-              {{ entry.sequence }}
+            <p class="mt-2 text-sm text-text-secondary">
+              {{ entry.description }}
             </p>
           </div>
         </article>
@@ -135,12 +136,21 @@
         description="More projects on the way!"
       />
     </div>
+
+    <ImagePreviewModal
+      :preview-image="previewImage"
+      @close="closePreview"
+    />
   </section>
 </template>
 
 <script setup>
 import { ref } from 'vue'
 import SetupEntry from '../components/SetupEntry.vue'
+import ImagePreviewModal from '../components/ImagePreviewModal.vue'
+import { useImagePreview } from '../composables/useImagePreview'
+
+const { previewImage, openPreview, closePreview } = useImagePreview()
 
 const tabs = [
   { key: 'blacksmithing', label: 'Blacksmithing' },
@@ -151,30 +161,25 @@ const tabs = [
 const activeTab = ref('blacksmithing')
 const blacksmithingViewMode = ref('timeline')
 
-const blacksmithingMedia = [
-  'images/blacksmith_1.PNG',
-  'images/blacksmith_2.JPEG',
-  'images/blacksmith_3.MOV',
-  'images/blacksmith_4.png',
-  'images/blacksmith_5.JPEG',
-  'images/blacksmith_6.JPEG',
-  'images/blacksmith_7.MOV',
-  'images/blacksmith_8.MP4',
-  'images/blacksmith_9 .mp4',
-  'images/blacksmith_12.MOV',
-  'images/blacksmith_11.JPEG',
-  'images/blacksmith_13.MP4',
-  'images/blacksmith_14.MOV',
-  'images/blacksmith_15.JPEG',
-  'images/forge_1.mp4',
-  'images/homepage-3.jpg'
+const blacksmithingTimeline = [
+  { src: 'images/blacksmith_1.PNG', label: 'Knife Template', description: 'Knife template that I made on Procreate', sequence: '1' },
+  { src: 'images/blacksmith_2.JPEG', label: 'Tools', description: 'Some machinery I got from Harbor Freight', sequence: '2' },
+  { src: 'images/blacksmith_3.MOV', label: 'Steel', description: 'Steel is 1084 high carbon steel', sequence: '3' },
+  { src: 'images/blacksmith_4.png', label: 'Template Transfer', description: 'Cutting out the template and gluing it onto the steel', sequence: '4' },
+  { src: 'images/blacksmith_7.MOV', label: 'Safety First', description: 'Putting on respirator to prevent eating yucky wucky particles', sequence: '5' },
+  { src: 'images/blacksmith_8.MP4', label: 'Angle Grinding', description: 'Angle grinding out the shape', sequence: '6' },
+  { src: 'images/blacksmith_5.JPEG', label: 'Rough Cutout', description: 'Rough cutout', sequence: '7' },
+  { src: 'images/blacksmith_6.JPEG', label: 'Cleaned Cutout', description: 'Cleaned up cutout', sequence: '8' },
+  { src: 'images/blacksmith_9 .mp4', label: 'Drilling', description: 'Drilling out the holes for pins', sequence: '9' },
+  { src: 'images/1x30 sander.mp4', label: 'Sanding Bevels', description: 'Sanding the bevels', sequence: '10' },
+  { src: 'images/forge_1.mp4', label: 'Heat Treat', description: 'Heat treated to critical temperature (~1475°F), the steel is cherry red and non-magnetic, quenched in canola oil', sequence: '11' },
+  { src: 'images/blacksmith_12.MOV', label: 'Tempering', description: 'Tempering the steel in an oven at 400°F (204°C) for 2 hours, 2 cycles', sequence: '12' },
+  { src: 'images/blacksmith_11.JPEG', label: 'Pins & Wood', description: 'Putting in pins and wood', sequence: '13' },
+  { src: 'images/blacksmith_13.MP4', label: 'Handle Shaping', description: 'Cutting and shaping the handles, gluing it all together with epoxy', sequence: '14' },
+  { src: 'images/blacksmith_15.JPEG', label: 'Leather Sheath', description: 'Making the leather sheath', sequence: '15' },
+  { src: 'images/homepage-3.jpg', label: 'Finished!', description: 'Tadaaaaa', sequence: '16' },
+  { src: 'images/blacksmith_14 .mp4', label: 'Sharpness Test', description: 'Testing the sharpness by cutting some paper', sequence: '17' }
 ]
-
-const blacksmithingTimeline = blacksmithingMedia.map((src, index) => ({
-  src,
-  label: `Point ${index + 1}`,
-  sequence: `${index + 1}`
-}))
 
 function toPublicPath(path) {
   const cleanPath = path.startsWith('/') ? path.slice(1) : path
