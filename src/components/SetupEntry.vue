@@ -64,21 +64,39 @@
 
     <div v-else class="columns-1 sm:columns-2 gap-3 mb-4">
       <div
-        v-for="entryImage in imageList"
-        :key="entryImage"
+        v-for="(entryMedia, mediaIndex) in imageList"
+        :key="entryMedia"
         class="mb-3 break-inside-avoid rounded-sm overflow-hidden bg-[#ebe3d7]"
       >
-        <img
-          v-if="!isFailed(entryImage)"
-          :src="toPublicPath(entryImage)"
-          :alt="title"
-          class="w-full h-auto object-cover cursor-pointer"
-          @error="markFailed(entryImage)"
-          @click="openPreview(entryImage)"
-        />
+        <template v-if="!isFailed(entryMedia)">
+          <video
+            v-if="isVideo(entryMedia)"
+            :src="toPublicPath(entryMedia)"
+            class="w-full h-auto object-cover"
+            controls
+            playsinline
+            preload="metadata"
+            @error="markFailed(entryMedia)"
+          />
+          <img
+            v-else
+            :src="toPublicPath(entryMedia)"
+            :alt="title"
+            class="w-full h-auto object-cover cursor-pointer"
+            @error="markFailed(entryMedia)"
+            @click="openPreview(entryMedia)"
+          />
+        </template>
         <div v-else class="text-center text-gray-600 text-sm py-10 px-4">
-          <p>Missing: {{ entryImage }}</p>
+          <p>Missing: {{ entryMedia }}</p>
         </div>
+
+        <p
+          v-if="showSequenceLabels"
+          class="px-3 py-2 text-xs font-mono text-text-secondary border-t border-black/10 bg-warm-white/70"
+        >
+          {{ sequenceLabel(mediaIndex) }}
+        </p>
       </div>
     </div>
 
@@ -123,6 +141,14 @@ const props = defineProps({
     type: Array,
     default: () => []
   },
+  showSequenceLabels: {
+    type: Boolean,
+    default: false
+  },
+  startNumber: {
+    type: Number,
+    default: 1
+  },
   caption: String,
   description: String
 })
@@ -151,5 +177,13 @@ function markFailed(path) {
 
 function isFailed(path) {
   return failed.value.has(path)
+}
+
+function isVideo(path) {
+  return /\.(mp4|mov|webm|ogg)$/i.test(path)
+}
+
+function sequenceLabel(index) {
+  return `${props.startNumber + index}`
 }
 </script>
