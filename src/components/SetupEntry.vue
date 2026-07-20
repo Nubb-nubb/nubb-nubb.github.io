@@ -19,7 +19,9 @@
     </div>
 
     <div v-else-if="imageList.length === 3" class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
-      <div class="rounded-sm overflow-hidden bg-[#ebe3d7] md:row-span-2 min-h-[280px] md:min-h-[560px]">
+      <div
+        class="rounded-sm overflow-hidden bg-[#ebe3d7] md:row-span-2 min-h-[280px] md:min-h-[560px]"
+      >
         <img
           v-if="!isFailed(imageList[0])"
           :src="toPublicPath(imageList[0])"
@@ -28,7 +30,10 @@
           @error="markFailed(imageList[0])"
           @click="openPreview(imageList[0])"
         />
-        <div v-else class="text-center text-gray-600 text-sm h-full flex items-center justify-center px-4">
+        <div
+          v-else
+          class="text-center text-gray-600 text-sm h-full flex items-center justify-center px-4"
+        >
           <p>Missing: {{ imageList[0] }}</p>
         </div>
       </div>
@@ -42,7 +47,10 @@
           @error="markFailed(imageList[1])"
           @click="openPreview(imageList[1])"
         />
-        <div v-else class="text-center text-gray-600 text-sm h-full flex items-center justify-center px-4">
+        <div
+          v-else
+          class="text-center text-gray-600 text-sm h-full flex items-center justify-center px-4"
+        >
           <p>Missing: {{ imageList[1] }}</p>
         </div>
       </div>
@@ -56,7 +64,10 @@
           @error="markFailed(imageList[2])"
           @click="openPreview(imageList[2])"
         />
-        <div v-else class="text-center text-gray-600 text-sm h-full flex items-center justify-center px-4">
+        <div
+          v-else
+          class="text-center text-gray-600 text-sm h-full flex items-center justify-center px-4"
+        >
           <p>Missing: {{ imageList[2] }}</p>
         </div>
       </div>
@@ -123,18 +134,18 @@ const props = defineProps({
   image: String,
   images: {
     type: Array,
-    default: () => []
+    default: () => [],
   },
   showSequenceLabels: {
     type: Boolean,
-    default: false
+    default: false,
   },
   startNumber: {
     type: Number,
-    default: 1
+    default: 1,
   },
   caption: String,
-  description: String
+  description: String,
 })
 
 const failed = ref(new Set())

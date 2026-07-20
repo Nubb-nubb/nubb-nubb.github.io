@@ -11,7 +11,7 @@
           'px-4 py-2 text-sm font-semibold rounded-t-md transition-colors',
           modelValue === tab.key
             ? 'bg-surface text-text-primary border-b-2 border-accent-red'
-            : 'text-text-secondary hover:text-text-primary'
+            : 'text-text-secondary hover:text-text-primary',
         ]"
         @click="$emit('update:modelValue', tab.key)"
       >
@@ -26,16 +26,16 @@ defineProps({
   tabs: {
     type: Array,
     required: true,
-    validator: (tabs) => tabs.every(tab => tab.key && tab.label)
+    validator: (tabs) => tabs.every((tab) => tab.key && tab.label),
   },
   modelValue: {
     type: String,
-    required: true
+    required: true,
   },
   ariaLabel: {
     type: String,
-    default: 'Navigation tabs'
-  }
+    default: 'Navigation tabs',
+  },
 })
 
 defineEmits(['update:modelValue'])

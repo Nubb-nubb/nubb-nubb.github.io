@@ -8,9 +8,11 @@
         :key="tab.key"
         type="button"
         class="px-3 py-1.5 text-xs sm:text-sm font-semibold rounded-full border transition-colors"
-        :class="activeTab === tab.key
-          ? 'bg-text-primary text-warm-white border-text-primary'
-          : 'bg-transparent text-text-secondary border-text-secondary/40 hover:text-text-primary hover:border-text-primary/50'"
+        :class="
+          activeTab === tab.key
+            ? 'bg-text-primary text-warm-white border-text-primary'
+            : 'bg-transparent text-text-secondary border-text-secondary/40 hover:text-text-primary hover:border-text-primary/50'
+        "
         @click="activeTab = tab.key"
       >
         {{ tab.label }}
@@ -19,10 +21,7 @@
 
     <!-- DIY and Collection tabs -->
     <div v-if="activeTab !== 'wishlist'" class="grid gap-4 grid-cols-2 sm:grid-cols-3">
-      <div
-        v-for="watch in currentWatches"
-        :key="watch.image"
-      >
+      <div v-for="watch in currentWatches" :key="watch.image">
         <img
           :src="toPublicPath(watch.image)"
           :alt="watch.name"
@@ -36,12 +35,11 @@
     <!-- Wishlist tab with sections -->
     <div v-else class="space-y-10">
       <div v-for="section in wishlistSections" :key="section.title">
-        <p class="text-xs font-mono uppercase tracking-wide text-accent-red mb-4">{{ section.title }}</p>
+        <p class="text-xs font-mono uppercase tracking-wide text-accent-red mb-4">
+          {{ section.title }}
+        </p>
         <div class="grid gap-4 grid-cols-2 sm:grid-cols-3">
-          <div
-            v-for="watch in section.watches"
-            :key="watch.image"
-          >
+          <div v-for="watch in section.watches" :key="watch.image">
             <img
               :src="toPublicPath(watch.image)"
               :alt="watch.name"
@@ -54,10 +52,7 @@
       </div>
     </div>
 
-    <ImagePreviewModal
-      :preview-image="previewImage"
-      @close="closePreview"
-    />
+    <ImagePreviewModal :preview-image="previewImage" @close="closePreview" />
   </div>
 </template>
 
@@ -73,20 +68,18 @@ const { toPublicPath } = useMediaUtils()
 const tabs = [
   { key: 'diy', label: 'DIY' },
   { key: 'collection', label: 'Collection' },
-  { key: 'wishlist', label: 'Wishlist' }
+  { key: 'wishlist', label: 'Wishlist' },
 ]
 
 const activeTab = ref('diy')
 
-const diyWatches = [
-  { image: 'images/watch_3.jpg', name: 'DIY Rolex Oyster Perpetual Homage' }
-]
+const diyWatches = [{ image: 'images/watch_3.jpg', name: 'DIY Rolex Oyster Perpetual Homage' }]
 
 const collectionWatches = [
   { image: 'images/watch_3.jpg', name: 'DIY Rolex Oyster Perpetual Homage' },
   { image: 'images/watch_4.jpg', name: 'Casio A158WA' },
   { image: 'images/watch_8.jpg', name: 'Citizen Tsuyosa 37mm' },
-  { image: 'images/watch_12.jpg', name: 'G-Shock' }
+  { image: 'images/watch_12.jpg', name: 'G-Shock' },
 ]
 
 const wishlistSections = [
@@ -95,23 +88,23 @@ const wishlistSections = [
     watches: [
       { image: 'images/watch_6.jpg', name: 'Orient Bambino Small Seconds v7' },
       { image: 'images/watch_5.jpg', name: 'Seiko SPB155 (Baby Alpinist)' },
-      { image: 'images/watch_7.jpg', name: '海鷗表 1963 (Seagull 1963)' }
-    ]
+      { image: 'images/watch_7.jpg', name: '海鷗表 1963 (Seagull 1963)' },
+    ],
   },
   {
     title: 'Potential GMT',
     watches: [
       { image: 'images/watch_2.jpg', name: 'Citizen Series 8 GMT Pepsi' },
-      { image: 'images/watch_10.jpg', name: 'Timex Q GMT Pepsi' }
-    ]
+      { image: 'images/watch_10.jpg', name: 'Timex Q GMT Pepsi' },
+    ],
   },
   {
     title: 'Far Future',
     watches: [
       { image: 'images/watch_9.jpg', name: 'Seiko × One Piece Luffy Gear 5' },
-      { image: 'images/watch_11.jpg', name: 'Grand Seiko SBGA413 Shunbun' }
-    ]
-  }
+      { image: 'images/watch_11.jpg', name: 'Grand Seiko SBGA413 Shunbun' },
+    ],
+  },
 ]
 
 const currentWatches = computed(() => {

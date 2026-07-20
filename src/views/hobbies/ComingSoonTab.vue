@@ -3,7 +3,9 @@
     <p class="text-text-secondary text-sm italic mb-2">in no particular order</p>
 
     <div>
-      <h3 class="text-sm font-mono uppercase tracking-wide text-accent-red mb-2">Tech/Engineering/DIY</h3>
+      <h3 class="text-sm font-mono uppercase tracking-wide text-accent-red mb-2">
+        Tech/Engineering/DIY
+      </h3>
       <ul class="text-text-secondary text-sm space-y-1 ml-4">
         <li>PC Building</li>
         <li>3D Printing</li>
@@ -12,7 +14,9 @@
     </div>
 
     <div>
-      <h3 class="text-sm font-mono uppercase tracking-wide text-accent-red mb-2">Crafts/Handwork</h3>
+      <h3 class="text-sm font-mono uppercase tracking-wide text-accent-red mb-2">
+        Crafts/Handwork
+      </h3>
       <ul class="text-text-secondary text-sm space-y-1 ml-4">
         <li>Crocheting</li>
         <li>Embroidering</li>
@@ -45,7 +49,9 @@
     </div>
 
     <div>
-      <h3 class="text-sm font-mono uppercase tracking-wide text-accent-red mb-2">Outdoor/Physical Activities</h3>
+      <h3 class="text-sm font-mono uppercase tracking-wide text-accent-red mb-2">
+        Outdoor/Physical Activities
+      </h3>
       <ul class="text-text-secondary text-sm space-y-1 ml-4">
         <li>Skating/Longboarding</li>
       </ul>

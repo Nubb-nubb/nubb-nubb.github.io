@@ -29,6 +29,6 @@ export function useMediaUtils() {
   return {
     toPublicPath,
     isVideo,
-    isImage
+    isImage,
   }
 }

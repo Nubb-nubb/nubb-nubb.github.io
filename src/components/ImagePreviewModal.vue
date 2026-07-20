@@ -39,16 +39,16 @@ import { computed } from 'vue'
 const props = defineProps({
   previewImage: {
     type: String,
-    default: ''
+    default: '',
   },
   previewType: {
     type: String,
-    default: 'image' // 'image' or 'video'
+    default: 'image', // 'image' or 'video'
   },
   basePath: {
     type: Boolean,
-    default: true
-  }
+    default: true,
+  },
 })
 
 const emit = defineEmits(['close'])
@@ -56,7 +56,9 @@ const emit = defineEmits(['close'])
 const mediaSrc = computed(() => {
   if (!props.previewImage) return ''
   if (!props.basePath) return props.previewImage
-  const cleanPath = props.previewImage.startsWith('/') ? props.previewImage.slice(1) : props.previewImage
+  const cleanPath = props.previewImage.startsWith('/')
+    ? props.previewImage.slice(1)
+    : props.previewImage
   return `${import.meta.env.BASE_URL}${cleanPath}`
 })
 

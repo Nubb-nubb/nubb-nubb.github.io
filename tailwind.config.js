@@ -1,13 +1,10 @@
 export default {
-  content: [
-    "./index.html",
-    "./src/**/*.{vue,js,ts,jsx,tsx}",
-  ],
+  content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
   theme: {
     extend: {
       colors: {
         'warm-white': '#F5F0E8',
-        'surface': '#FAF7F2',
+        surface: '#FAF7F2',
         'wood-light': '#C4A77D',
         'wood-dark': '#6B4F3A',
         'text-primary': '#2A2520',
@@ -20,8 +17,8 @@ export default {
         display: ['Playfair Display', 'serif'],
         sans: ['Inter', 'system-ui', 'sans-serif'],
         mono: ['JetBrains Mono', 'monospace'],
-      }
-    }
+      },
+    },
   },
   plugins: [],
 }

@@ -22,16 +22,16 @@ import { computed } from 'vue'
 const props = defineProps({
   title: {
     type: String,
-    required: true
+    required: true,
   },
   color: {
     type: String,
-    default: 'accent-red'
+    default: 'accent-red',
   },
   modelValue: {
     type: Boolean,
-    default: false
-  }
+    default: false,
+  },
 })
 
 const emit = defineEmits(['update:modelValue'])
@@ -46,20 +46,20 @@ function toggle() {
 const colorClasses = {
   'accent-red': {
     border: 'border-accent-red',
-    hover: 'hover:text-accent-red'
+    hover: 'hover:text-accent-red',
   },
   'plant-green': {
     border: 'border-plant-green',
-    hover: 'hover:text-plant-green'
+    hover: 'hover:text-plant-green',
   },
   'wood-light': {
     border: 'border-wood-light',
-    hover: 'hover:text-wood-light'
+    hover: 'hover:text-wood-light',
   },
   'wood-dark': {
     border: 'border-wood-dark',
-    hover: 'hover:text-wood-dark'
-  }
+    hover: 'hover:text-wood-dark',
+  },
 }
 
 const borderColorClass = computed(() => colorClasses[props.color]?.border || 'border-accent-red')

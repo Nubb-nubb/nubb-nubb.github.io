@@ -32,6 +32,6 @@ export function useImagePreview() {
     previewImage,
     previewType,
     openPreview,
-    closePreview
+    closePreview,
   }
 }

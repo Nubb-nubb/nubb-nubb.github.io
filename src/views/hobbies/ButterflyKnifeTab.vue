@@ -6,9 +6,11 @@
       <button
         type="button"
         class="px-3 py-1.5 text-xs sm:text-sm font-semibold rounded-full border transition-colors"
-        :class="subTab === 'trainers'
-          ? 'bg-text-primary text-warm-white border-text-primary'
-          : 'bg-transparent text-text-secondary border-text-secondary/40 hover:text-text-primary hover:border-text-primary/50'"
+        :class="
+          subTab === 'trainers'
+            ? 'bg-text-primary text-warm-white border-text-primary'
+            : 'bg-transparent text-text-secondary border-text-secondary/40 hover:text-text-primary hover:border-text-primary/50'
+        "
         @click="subTab = 'trainers'"
       >
         Trainers
@@ -16,9 +18,11 @@
       <button
         type="button"
         class="px-3 py-1.5 text-xs sm:text-sm font-semibold rounded-full border transition-colors"
-        :class="subTab === 'live-blades'
-          ? 'bg-text-primary text-warm-white border-text-primary'
-          : 'bg-transparent text-text-secondary border-text-secondary/40 hover:text-text-primary hover:border-text-primary/50'"
+        :class="
+          subTab === 'live-blades'
+            ? 'bg-text-primary text-warm-white border-text-primary'
+            : 'bg-transparent text-text-secondary border-text-secondary/40 hover:text-text-primary hover:border-text-primary/50'
+        "
         @click="subTab = 'live-blades'"
       >
         Live Blades
@@ -26,10 +30,7 @@
     </div>
 
     <div class="grid gap-4 grid-cols-2">
-      <div
-        v-for="entry in (subTab === 'trainers' ? trainers : liveBlades)"
-        :key="entry.src"
-      >
+      <div v-for="entry in subTab === 'trainers' ? trainers : liveBlades" :key="entry.src">
         <VideoThumbnail
           :src="toPublicPath(entry.src)"
           height="auto"
@@ -65,12 +66,20 @@ const { previewImage, previewType, openPreview, closePreview } = useImagePreview
 const subTab = ref('trainers')
 
 const trainers = [
-  { src: 'images/butterfly_1.MP4', label: 'Squiddy Trainer', description: 'My first butterfly knife' },
-  { src: 'images/butterfly_2.MP4', label: 'Nabalis Cheese', description: '' }
+  {
+    src: 'images/butterfly_1.MP4',
+    label: 'Squiddy Trainer',
+    description: 'My first butterfly knife',
+  },
+  { src: 'images/butterfly_2.MP4', label: 'Nabalis Cheese', description: '' },
 ]
 
 const liveBlades = [
   { src: 'images/butterfly_3.MP4', label: 'Squid Industries Tsunami Clone', description: '' },
-  { src: 'images/butterfly_4.MP4', label: 'BRS Replicant', description: 'I got cooked in this one, but its lowkey my favorite knife' }
+  {
+    src: 'images/butterfly_4.MP4',
+    label: 'BRS Replicant',
+    description: 'I got cooked in this one, but its lowkey my favorite knife',
+  },
 ]
 </script>

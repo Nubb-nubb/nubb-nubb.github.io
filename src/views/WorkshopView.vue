@@ -2,15 +2,9 @@
   <section class="max-w-4xl mx-auto px-4 sm:px-6 py-12 sm:py-20">
     <h2 class="section-title">Workshop</h2>
 
-    <p class="mb-8 text-text-secondary">
+    <p class="mb-8 text-text-secondary"></p>
 
-    </p>
-
-    <TabNavigation
-      :tabs="tabs"
-      v-model="activeTab"
-      aria-label="Workshop tabs"
-    />
+    <TabNavigation :tabs="tabs" v-model="activeTab" aria-label="Workshop tabs" />
 
     <div class="space-y-6 mb-10">
       <div v-if="activeTab === 'current'" class="space-y-4">
@@ -38,11 +32,7 @@
             </p>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <div
-                v-for="media in item.media"
-                :key="media.label"
-                class="rounded-sm p-3"
-              >
+              <div v-for="media in item.media" :key="media.label" class="rounded-sm p-3">
                 <img
                   v-if="media.type === 'photo' && media.src"
                   :src="media.src"
@@ -105,92 +95,121 @@ import { useImagePreview } from '../composables/useImagePreview'
 
 const tabs = [
   { key: 'current', label: 'Current workshop' },
-  { key: 'dream', label: 'Dream workshop' }
+  { key: 'dream', label: 'Dream workshop' },
 ]
 
 const activeTab = ref('current')
 const { previewImage, previewType, openPreview, closePreview } = useImagePreview()
 
-const colors = [
-  'border-accent-red',
-  'border-plant-green',
-  'border-wood-light',
-  'border-wood-dark'
-]
+const colors = ['border-accent-red', 'border-plant-green', 'border-wood-light', 'border-wood-dark']
 
 const currentWorkshopItems = [
   {
     title: '3D Printing Setup',
-    description:
-      'My cute Neptune 3 Pros and Elegoo Centauri Carbon printers'
-    ,
+    description: 'My cute Neptune 3 Pros and Elegoo Centauri Carbon printers',
     media: [
-      { type: 'photo', label: 'Neptune 3 Pro pair', src: `${import.meta.env.BASE_URL}images/neptune-3-pros.jpg` },
-      { type: 'photo', label: 'Elegoo Centauri Carbon', src: `${import.meta.env.BASE_URL}images/centauri-carbon.jpg` }
-    ]
+      {
+        type: 'photo',
+        label: 'Neptune 3 Pro pair',
+        src: `${import.meta.env.BASE_URL}images/neptune-3-pros.jpg`,
+      },
+      {
+        type: 'photo',
+        label: 'Elegoo Centauri Carbon',
+        src: `${import.meta.env.BASE_URL}images/centauri-carbon.jpg`,
+      },
+    ],
   },
   {
     title: 'Electronics Bench',
     description:
       'My small but mighty soldering station for wiring, repairs, controller work, and electronics',
     media: [
-      { type: 'photo', label: 'Soldering station overview', src: `${import.meta.env.BASE_URL}images/soldering_station.jpg` },
-      { type: 'video', label: 'Board repair timelapse', src: `${import.meta.env.BASE_URL}images/Spiderman_Electronics.MP4` }
-    ]
+      {
+        type: 'photo',
+        label: 'Soldering station overview',
+        src: `${import.meta.env.BASE_URL}images/soldering_station.jpg`,
+      },
+      {
+        type: 'video',
+        label: 'Board repair timelapse',
+        src: `${import.meta.env.BASE_URL}images/Spiderman_Electronics.MP4`,
+      },
+    ],
   },
   {
     title: 'Metal Working Tools',
-    description:
-      'Angle grinder and 1x30 belt sander for cutting and sanding stuff',
+    description: 'Angle grinder and 1x30 belt sander for cutting and sanding stuff',
     media: [
-      { type: 'video', label: 'Angle grinder', src: `${import.meta.env.BASE_URL}images/angle grinder.mp4` },
-      { type: 'video', label: '1x30 sander', src: `${import.meta.env.BASE_URL}images/1x30 sander.mp4` }
-    ]
+      {
+        type: 'video',
+        label: 'Angle grinder',
+        src: `${import.meta.env.BASE_URL}images/angle grinder.mp4`,
+      },
+      {
+        type: 'video',
+        label: '1x30 sander',
+        src: `${import.meta.env.BASE_URL}images/1x30 sander.mp4`,
+      },
+    ],
   },
   {
     title: 'Forge Corner',
-    description:
-      'Small garage forge for blacksmithing... maybe an anvil one day',
+    description: 'Small garage forge for blacksmithing... maybe an anvil one day',
     media: [
-      { type: 'video', label: 'Forge build clip 1', src: `${import.meta.env.BASE_URL}images/forge_1.mp4` },
-      { type: 'video', label: 'Forge build clip 2', src: `${import.meta.env.BASE_URL}images/forge_2.MP4` }
-    ]
+      {
+        type: 'video',
+        label: 'Forge build clip 1',
+        src: `${import.meta.env.BASE_URL}images/forge_1.mp4`,
+      },
+      {
+        type: 'video',
+        label: 'Forge build clip 2',
+        src: `${import.meta.env.BASE_URL}images/forge_2.MP4`,
+      },
+    ],
   },
   {
     title: 'Coming Soon',
-    description:
-      'New tools and upgrades on the way!',
+    description: 'New tools and upgrades on the way!',
     media: [
-      { type: 'photo', label: 'Mercury Plus wash & cure', src: `${import.meta.env.BASE_URL}images/mercuryplus.webp` },
-      { type: 'photo', label: 'Resin printer', src: `${import.meta.env.BASE_URL}images/resin_printer1.jpg` }
-    ]
+      {
+        type: 'photo',
+        label: 'Mercury Plus wash & cure',
+        src: `${import.meta.env.BASE_URL}images/mercuryplus.webp`,
+      },
+      {
+        type: 'photo',
+        label: 'Resin printer',
+        src: `${import.meta.env.BASE_URL}images/resin_printer1.jpg`,
+      },
+    ],
   },
 ]
 
 // Initialize all workshop items as open by default
-const openItems = ref(new Set(currentWorkshopItems.map(item => item.title)))
+const openItems = ref(new Set(currentWorkshopItems.map((item) => item.title)))
 
 const dreamWorkshopCards = [
   {
     title: 'Seasonal Maker Space',
     description:
-      'A workshop with rotating focus seasons: blacksmithing, woodworking, CNC/3D printing, and advanced metalwork.'
+      'A workshop with rotating focus seasons: blacksmithing, woodworking, CNC/3D printing, and advanced metalwork.',
   },
   {
     title: 'Open Access Tools',
-    description:
-      'A place where people can access expensive tools without huge upfront costs.'
+    description: 'A place where people can access expensive tools without huge upfront costs.',
   },
   {
     title: 'Guides + Mentorship',
     description:
-      'Beginner-friendly machine guides plus experienced makers who can help plan projects.'
+      'Beginner-friendly machine guides plus experienced makers who can help plan projects.',
   },
   {
     title: 'Always Improving',
     description:
-      'When tools are out of season, they get serviced, upgraded, and stocked for the next cycle.'
-  }
+      'When tools are out of season, they get serviced, upgraded, and stocked for the next cycle.',
+  },
 ]
 
 const toggleItem = (title) => {
@@ -207,6 +226,6 @@ const activeFooter = computed(() => {
     return ''
   }
 
-  return ""
+  return ''
 })
 </script>

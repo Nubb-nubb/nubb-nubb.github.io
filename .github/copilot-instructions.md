@@ -5,10 +5,12 @@ This is a Vue 3 + Vite + Tailwind CSS personal portfolio/hobby site.
 ## Component & Code Reuse
 
 ### Always Check Before Creating
+
 1. **Check for existing components first** - Before creating UI, search `src/components/` for reusable components
 2. **Check for existing composables** - Before adding utility logic, search `src/composables/` for existing functions
 
 ### Required Component Usage
+
 3. **No duplicated modal markup** - Always use `ImagePreviewModal.vue` for image/video previews. It supports both images and videos via the `previewType` prop
 4. **No duplicated tab navigation** - Always use `TabNavigation.vue` for tabbed interfaces
 5. **Use `useImagePreview` composable** - For any preview functionality (handles Escape key, state management)
@@ -20,21 +22,23 @@ This is a Vue 3 + Vite + Tailwind CSS personal portfolio/hobby site.
    - Include `playsinline` attribute for iOS compatibility
 
 ### Existing Components Reference
-| Component | Purpose |
-|-----------|---------|
-| `ImagePreviewModal` | Full-screen image/video preview modal |
-| `VideoThumbnail` | Video thumbnail with play button overlay (50% opacity, full on hover); uses `#t=0.1` for mobile thumbnail; click to preview |
-| `TabNavigation` | Horizontal tab navigation with v-model |
-| `CollapsibleSection` | Expandable accordion section |
-| `SetupEntry` | Image gallery entry with era/title/caption |
-| `WorkshopCard` | Card for workshop items |
-| `AppFooter` | Site footer with social links |
+
+| Component            | Purpose                                                                                                                     |
+| -------------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| `ImagePreviewModal`  | Full-screen image/video preview modal                                                                                       |
+| `VideoThumbnail`     | Video thumbnail with play button overlay (50% opacity, full on hover); uses `#t=0.1` for mobile thumbnail; click to preview |
+| `TabNavigation`      | Horizontal tab navigation with v-model                                                                                      |
+| `CollapsibleSection` | Expandable accordion section                                                                                                |
+| `SetupEntry`         | Image gallery entry with era/title/caption                                                                                  |
+| `WorkshopCard`       | Card for workshop items                                                                                                     |
+| `AppFooter`          | Site footer with social links                                                                                               |
 
 ### Existing Composables Reference
-| Composable | Purpose |
-|------------|---------|
-| `useImagePreview` | Preview state management, Escape key handling |
-| `useMediaUtils` | `toPublicPath()`, `isVideo()`, `isImage()` utilities |
+
+| Composable        | Purpose                                              |
+| ----------------- | ---------------------------------------------------- |
+| `useImagePreview` | Preview state management, Escape key handling        |
+| `useMediaUtils`   | `toPublicPath()`, `isVideo()`, `isImage()` utilities |
 
 ## Tailwind Best Practices
 
@@ -47,7 +51,7 @@ const borderClass = computed(() => `border-${props.color}`)
 // ✅ GOOD - Explicit mapping
 const colorClasses = {
   'accent-red': 'border-accent-red',
-  'plant-green': 'border-plant-green'
+  'plant-green': 'border-plant-green',
 }
 const borderClass = computed(() => colorClasses[props.color] || 'border-accent-red')
 ```
@@ -75,11 +79,13 @@ const borderClass = computed(() => colorClasses[props.color] || 'border-accent-r
 ## When to Create New Components
 
 Create a new component when:
+
 - The same markup pattern appears in 2+ places
 - A section of a view exceeds ~50 lines of template
 - The UI has its own state logic that can be encapsulated
 
 Create a new composable when:
+
 - The same utility function appears in 2+ files
 - Reactive state + methods need to be shared across components
 - Side effects (event listeners, lifecycle) need to be reused

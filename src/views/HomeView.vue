@@ -3,7 +3,7 @@
     <div class="w-full max-w-3xl mx-auto">
       <div
         class="group w-full max-w-[61.6rem] mx-auto mb-8 md:mb-12 rounded-sm overflow-hidden cursor-pointer"
-        style="aspect-ratio: 16/9; display: flex; align-items: center; justify-content: center;"
+        style="aspect-ratio: 16/9; display: flex; align-items: center; justify-content: center"
         @click="openCurrentSlidePreview"
         @touchstart="handleTouchStart"
         @touchmove="handleTouchMove"
@@ -23,7 +23,6 @@
               class="w-full h-full object-cover shrink-0"
               @error="showHeroPlaceholder = true"
             />
-
           </div>
           <div v-if="showHeroPlaceholder" class="text-center text-gray-600 p-8">
             <p class="text-sm">
@@ -58,7 +57,7 @@
               @click.stop="goToSlide(index)"
               :class="[
                 'w-2 h-2 rounded-full transition-all',
-                index === currentSlide ? 'bg-white w-6' : 'bg-white/50'
+                index === currentSlide ? 'bg-white w-6' : 'bg-white/50',
               ]"
               :aria-label="`Go to slide ${index + 1}`"
             />
@@ -69,16 +68,10 @@
       <h1 class="text-4xl md:text-5xl font-display font-bold mb-6 md:mb-8 leading-tight">
         I'm in such a chinese era of my life
       </h1>
-      <p class="text-lg md:text-xl text-text-secondary">
-        hey meta, take his drawls off.
-      </p>
+      <p class="text-lg md:text-xl text-text-secondary">hey meta, take his drawls off.</p>
     </div>
 
-    <ImagePreviewModal
-      :preview-image="previewImage"
-      :base-path="false"
-      @close="closePreview"
-    />
+    <ImagePreviewModal :preview-image="previewImage" :base-path="false" @close="closePreview" />
   </section>
 </template>
 
@@ -96,7 +89,7 @@ const hasSwiped = ref(false)
 const SWIPE_THRESHOLD = 40
 
 const carouselImages = [
-`${import.meta.env.BASE_URL}images/aboutme-2.jpg`,  
+  `${import.meta.env.BASE_URL}images/aboutme-2.jpg`,
   `${import.meta.env.BASE_URL}images/july-2026-setup.jpg`,
   `${import.meta.env.BASE_URL}images/homepage-3.jpg`,
   `${import.meta.env.BASE_URL}images/homepage-2.jpg`,
@@ -191,5 +184,3 @@ onUnmounted(() => {
   }
 }
 </style>
-
-
