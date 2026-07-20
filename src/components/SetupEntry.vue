@@ -69,14 +69,11 @@
         class="mb-3 break-inside-avoid rounded-sm overflow-hidden bg-[#ebe3d7]"
       >
         <template v-if="!isFailed(entryMedia)">
-          <video
+          <VideoThumbnail
             v-if="isVideo(entryMedia)"
             :src="toPublicPath(entryMedia)"
-            class="w-full h-auto object-cover"
-            controls
-            playsinline
-            preload="metadata"
-            @error="markFailed(entryMedia)"
+            height="auto"
+            @click="openPreview(entryMedia, 'video')"
           />
           <img
             v-else
@@ -107,6 +104,7 @@
 
     <ImagePreviewModal
       :preview-image="previewImage"
+      :preview-type="previewType"
       @close="closePreview"
     />
   </div>
@@ -117,6 +115,7 @@ import { computed, ref } from 'vue'
 import { useImagePreview } from '../composables/useImagePreview'
 import { useMediaUtils } from '../composables/useMediaUtils'
 import ImagePreviewModal from './ImagePreviewModal.vue'
+import VideoThumbnail from './VideoThumbnail.vue'
 
 const props = defineProps({
   era: String,
@@ -139,7 +138,7 @@ const props = defineProps({
 })
 
 const failed = ref(new Set())
-const { previewImage, openPreview, closePreview } = useImagePreview()
+const { previewImage, previewType, openPreview, closePreview } = useImagePreview()
 const { toPublicPath, isVideo } = useMediaUtils()
 
 const imageList = computed(() => {

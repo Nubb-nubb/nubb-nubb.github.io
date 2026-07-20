@@ -29,13 +29,11 @@
         </p>
 
         <div class="rounded-sm overflow-hidden bg-[#ebe3d7] border border-black/10">
-          <video
+          <VideoThumbnail
             v-if="isVideo(entry.src)"
             :src="toPublicPath(entry.src)"
-            class="w-full h-auto object-cover"
-            controls
-            playsinline
-            preload="metadata"
+            height="auto"
+            @click="$emit('preview', entry.src, 'video')"
           />
           <img
             v-else
@@ -56,6 +54,7 @@
 
 <script setup>
 import { useMediaUtils } from '../../composables/useMediaUtils'
+import VideoThumbnail from '../../components/VideoThumbnail.vue'
 
 defineEmits(['preview'])
 

@@ -4,9 +4,8 @@
       <div class="max-w-3xl mx-auto px-4 sm:px-6 py-3 sm:py-4 flex flex-wrap justify-center gap-x-6 gap-y-2 sm:gap-8">
         <RouterLink to="/" class="nav-link">Home</RouterLink>
         <RouterLink to="/about" class="nav-link">About</RouterLink>
-        <RouterLink to="/setups" class="nav-link">Setups</RouterLink>
+        <RouterLink to="/projects" class="nav-link">Interests</RouterLink>
         <RouterLink to="/workshop" class="nav-link">Workshop</RouterLink>
-        <RouterLink to="/projects" class="nav-link">Hobbies</RouterLink>
       </div>
     </nav>
 

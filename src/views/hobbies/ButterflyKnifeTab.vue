@@ -28,12 +28,10 @@
         v-for="entry in (subTab === 'trainers' ? trainers : liveBlades)"
         :key="entry.src"
       >
-        <video
+        <VideoThumbnail
           :src="toPublicPath(entry.src)"
-          class="w-full h-auto object-cover rounded-sm"
-          controls
-          playsinline
-          preload="metadata"
+          height="auto"
+          @click="openPreview(entry.src, 'video')"
         />
         <p class="text-xs font-mono uppercase tracking-wide text-accent-red mt-2 mb-1">
           {{ entry.label }}
@@ -43,14 +41,24 @@
         </p>
       </div>
     </div>
+
+    <ImagePreviewModal
+      :preview-image="previewImage"
+      :preview-type="previewType"
+      @close="closePreview"
+    />
   </div>
 </template>
 
 <script setup>
 import { ref } from 'vue'
 import { useMediaUtils } from '../../composables/useMediaUtils'
+import { useImagePreview } from '../../composables/useImagePreview'
+import VideoThumbnail from '../../components/VideoThumbnail.vue'
+import ImagePreviewModal from '../../components/ImagePreviewModal.vue'
 
 const { toPublicPath } = useMediaUtils()
+const { previewImage, previewType, openPreview, closePreview } = useImagePreview()
 
 const subTab = ref('trainers')
 

@@ -51,24 +51,11 @@
                   @click="openPreview(media.src)"
                 />
 
-                <div
+                <VideoThumbnail
                   v-else-if="media.type === 'video' && media.src"
-                  class="relative w-full h-56 md:h-64 rounded-sm overflow-hidden cursor-pointer bg-black"
+                  :src="media.src"
                   @click="openPreview(media.src, 'video')"
-                >
-                  <video
-                    :src="media.src"
-                    class="w-full h-full object-cover pointer-events-none"
-                    muted
-                  />
-                  <div class="absolute inset-0 flex items-center justify-center bg-black/30 hover:bg-black/40 transition-colors">
-                    <div class="w-14 h-14 rounded-full bg-white/90 flex items-center justify-center">
-                      <svg class="w-6 h-6 text-black ml-1" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M8 5v14l11-7z"/>
-                      </svg>
-                    </div>
-                  </div>
-                </div>
+                />
 
                 <div
                   v-else
@@ -113,6 +100,7 @@ import { computed, ref } from 'vue'
 import WorkshopCard from '../components/WorkshopCard.vue'
 import TabNavigation from '../components/TabNavigation.vue'
 import ImagePreviewModal from '../components/ImagePreviewModal.vue'
+import VideoThumbnail from '../components/VideoThumbnail.vue'
 import { useImagePreview } from '../composables/useImagePreview'
 
 const tabs = [

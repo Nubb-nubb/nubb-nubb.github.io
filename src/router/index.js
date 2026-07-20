@@ -1,7 +1,6 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import AboutView from '../views/AboutView.vue'
-import SetupsView from '../views/SetupsView.vue'
 import WorkshopView from '../views/WorkshopView.vue'
 import ProjectsView from '../views/ProjectsView.vue'
 
@@ -20,8 +19,7 @@ const router = createRouter({
     },
     {
       path: '/setups',
-      name: 'setups',
-      component: SetupsView
+      redirect: '/projects'
     },
     {
       path: '/workshop',
