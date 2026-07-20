@@ -28,41 +28,7 @@
     </div>
 
     <div v-if="activeTab === 'blacksmithing'">
-      <div class="mb-4 flex items-center gap-2 border-b border-text-secondary/20 pb-2">
-        <button
-          type="button"
-          class="px-3 py-1.5 text-xs sm:text-sm font-semibold rounded-full border transition-colors"
-          :class="blacksmithingViewMode === 'timeline'
-            ? 'bg-text-primary text-warm-white border-text-primary'
-            : 'bg-transparent text-text-secondary border-text-secondary/40 hover:text-text-primary hover:border-text-primary/50'"
-          @click="blacksmithingViewMode = 'timeline'"
-        >
-          Timeline
-        </button>
-        <button
-          type="button"
-          class="px-3 py-1.5 text-xs sm:text-sm font-semibold rounded-full border transition-colors"
-          :class="blacksmithingViewMode === 'gallery'
-            ? 'bg-text-primary text-warm-white border-text-primary'
-            : 'bg-transparent text-text-secondary border-text-secondary/40 hover:text-text-primary hover:border-text-primary/50'"
-          @click="blacksmithingViewMode = 'gallery'"
-        >
-          Gallery
-        </button>
-      </div>
-
-      <SetupEntry
-        v-if="blacksmithingViewMode === 'gallery'"
-        era="Current"
-        title="Blacksmithing Projects"
-        :images="blacksmithingTimeline.map(e => e.src)"
-        :show-sequence-labels="true"
-        :start-number="1"
-        caption=""
-        description=""
-      />
-
-      <div v-else class="relative pl-0">
+      <div class="relative pl-0">
         <div class="absolute left-4 top-0 bottom-0 w-px bg-text-secondary/30 md:left-1/2 md:-translate-x-1/2" />
 
         <article
@@ -159,7 +125,6 @@ const tabs = [
 ]
 
 const activeTab = ref('blacksmithing')
-const blacksmithingViewMode = ref('timeline')
 
 const blacksmithingTimeline = [
   { src: 'images/blacksmith_1.PNG', label: 'Knife Template', description: 'Knife template that I made on Procreate', sequence: '1' },
