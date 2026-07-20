@@ -6,26 +6,11 @@
 
     </p>
 
-    <div class="mb-8 border-b border-text-secondary/30">
-      <div class="flex flex-wrap gap-3" role="tablist" aria-label="Workshop tabs">
-        <button
-          v-for="tab in tabs"
-          :key="tab.key"
-          role="tab"
-          type="button"
-          :aria-selected="activeTab === tab.key"
-          :class="[
-            'px-4 py-2 text-sm font-semibold rounded-t-md transition-colors',
-            activeTab === tab.key
-              ? 'bg-surface text-text-primary border-b-2 border-accent-red'
-              : 'text-text-secondary hover:text-text-primary'
-          ]"
-          @click="activeTab = tab.key"
-        >
-          {{ tab.label }}
-        </button>
-      </div>
-    </div>
+    <TabNavigation
+      :tabs="tabs"
+      v-model="activeTab"
+      aria-label="Workshop tabs"
+    />
 
     <div class="space-y-6 mb-10">
       <div v-if="activeTab === 'current'" class="space-y-4">
@@ -114,44 +99,20 @@
       {{ activeFooter }}
     </p>
 
-    <div
-      v-if="previewImage"
-      class="fixed inset-0 z-50 bg-black/85 p-4 md:p-8 flex items-center justify-center"
-      @click="closePreview"
-    >
-      <button
-        type="button"
-        class="absolute top-4 right-4 md:top-6 md:right-6 text-white text-3xl leading-none"
-        @click.stop="closePreview"
-        aria-label="Close preview"
-      >
-        ×
-      </button>
-
-      <img
-        v-if="previewType === 'image'"
-        :src="previewImage"
-        alt="Workshop preview"
-        class="max-w-[94vw] max-h-[92vh] w-auto h-auto object-contain rounded-sm shadow-2xl"
-        @click.stop
-      />
-
-      <video
-        v-else-if="previewType === 'video'"
-        controls
-        autoplay
-        class="w-full h-full object-contain"
-        @click.stop
-      >
-        <source :src="previewImage" />
-      </video>
-    </div>
+    <ImagePreviewModal
+      :preview-image="previewImage"
+      :preview-type="previewType"
+      :base-path="false"
+      @close="closePreview"
+    />
   </section>
 </template>
 
 <script setup>
 import { computed, ref } from 'vue'
 import WorkshopCard from '../components/WorkshopCard.vue'
+import TabNavigation from '../components/TabNavigation.vue'
+import ImagePreviewModal from '../components/ImagePreviewModal.vue'
 import { useImagePreview } from '../composables/useImagePreview'
 
 const tabs = [

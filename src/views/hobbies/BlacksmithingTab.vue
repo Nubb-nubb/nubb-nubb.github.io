@@ -55,7 +55,11 @@
 </template>
 
 <script setup>
+import { useMediaUtils } from '../../composables/useMediaUtils'
+
 defineEmits(['preview'])
+
+const { toPublicPath, isVideo } = useMediaUtils()
 
 const timeline = [
   { src: 'images/blacksmith_1.PNG', label: 'Knife Template', description: 'Knife template that I made on Procreate', sequence: '1' },
@@ -76,13 +80,4 @@ const timeline = [
   { src: 'images/homepage-3.jpg', label: 'Finished!', description: 'Tadaaaaa', sequence: '16' },
   { src: 'images/blacksmith_14 .mp4', label: 'Sharpness Test', description: 'Testing the sharpness by cutting some paper', sequence: '17' }
 ]
-
-function toPublicPath(path) {
-  const cleanPath = path.startsWith('/') ? path.slice(1) : path
-  return `${import.meta.env.BASE_URL}${cleanPath}`
-}
-
-function isVideo(path) {
-  return /\.(mp4|mov|webm|ogg)$/i.test(path)
-}
 </script>

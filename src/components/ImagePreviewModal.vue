@@ -13,8 +13,19 @@
       ×
     </button>
 
+    <video
+      v-if="isVideoSrc"
+      controls
+      autoplay
+      class="max-w-[94vw] max-h-[92vh] w-auto h-auto object-contain rounded-sm shadow-2xl"
+      @click.stop
+    >
+      <source :src="mediaSrc" />
+    </video>
+
     <img
-      :src="imageSrc"
+      v-else
+      :src="mediaSrc"
       alt="Preview"
       class="max-w-[94vw] max-h-[92vh] w-auto h-auto object-contain rounded-sm shadow-2xl"
       @click.stop
@@ -30,6 +41,10 @@ const props = defineProps({
     type: String,
     default: ''
   },
+  previewType: {
+    type: String,
+    default: 'image' // 'image' or 'video'
+  },
   basePath: {
     type: Boolean,
     default: true
@@ -38,11 +53,16 @@ const props = defineProps({
 
 const emit = defineEmits(['close'])
 
-const imageSrc = computed(() => {
+const mediaSrc = computed(() => {
   if (!props.previewImage) return ''
   if (!props.basePath) return props.previewImage
   const cleanPath = props.previewImage.startsWith('/') ? props.previewImage.slice(1) : props.previewImage
   return `${import.meta.env.BASE_URL}${cleanPath}`
+})
+
+const isVideoSrc = computed(() => {
+  if (props.previewType === 'video') return true
+  return /\.(mp4|mov|webm|ogg)$/i.test(props.previewImage)
 })
 
 function closePreview() {

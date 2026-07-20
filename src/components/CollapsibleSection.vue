@@ -42,6 +42,26 @@ function toggle() {
   emit('update:modelValue', !props.modelValue)
 }
 
-const borderColorClass = computed(() => `border-${props.color}`)
-const hoverColorClass = computed(() => `hover:text-${props.color}`)
+// Use explicit class mappings to ensure Tailwind JIT includes these classes
+const colorClasses = {
+  'accent-red': {
+    border: 'border-accent-red',
+    hover: 'hover:text-accent-red'
+  },
+  'plant-green': {
+    border: 'border-plant-green',
+    hover: 'hover:text-plant-green'
+  },
+  'wood-light': {
+    border: 'border-wood-light',
+    hover: 'hover:text-wood-light'
+  },
+  'wood-dark': {
+    border: 'border-wood-dark',
+    hover: 'hover:text-wood-dark'
+  }
+}
+
+const borderColorClass = computed(() => colorClasses[props.color]?.border || 'border-accent-red')
+const hoverColorClass = computed(() => colorClasses[props.color]?.hover || 'hover:text-accent-red')
 </script>

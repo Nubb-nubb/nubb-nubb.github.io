@@ -6,26 +6,11 @@
       here for some nerd stuff.
     </p>
 
-    <div class="mb-8 border-b border-text-secondary/30">
-      <div class="flex flex-wrap gap-3" role="tablist" aria-label="Hobby tabs">
-        <button
-          v-for="tab in tabs"
-          :key="tab.key"
-          role="tab"
-          type="button"
-          :aria-selected="activeTab === tab.key"
-          :class="[
-            'px-4 py-2 text-sm font-semibold rounded-t-md transition-colors',
-            activeTab === tab.key
-              ? 'bg-surface text-text-primary border-b-2 border-accent-red'
-              : 'text-text-secondary hover:text-text-primary'
-          ]"
-          @click="activeTab = tab.key"
-        >
-          {{ tab.label }}
-        </button>
-      </div>
-    </div>
+    <TabNavigation
+      :tabs="tabs"
+      v-model="activeTab"
+      aria-label="Hobby tabs"
+    />
 
     <BlacksmithingTab v-if="activeTab === 'blacksmithing'" @preview="openPreview" />
     <ButterflyKnifeTab v-else-if="activeTab === 'butterfly-knife'" />
@@ -42,6 +27,7 @@
 <script setup>
 import { ref } from 'vue'
 import ImagePreviewModal from '../components/ImagePreviewModal.vue'
+import TabNavigation from '../components/TabNavigation.vue'
 import BlacksmithingTab from './hobbies/BlacksmithingTab.vue'
 import ButterflyKnifeTab from './hobbies/ButterflyKnifeTab.vue'
 import WatchesTab from './hobbies/WatchesTab.vue'

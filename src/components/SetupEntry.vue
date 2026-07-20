@@ -113,8 +113,9 @@
 </template>
 
 <script setup>
-import { computed, onBeforeUnmount, onMounted, ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useImagePreview } from '../composables/useImagePreview'
+import { useMediaUtils } from '../composables/useMediaUtils'
 import ImagePreviewModal from './ImagePreviewModal.vue'
 
 const props = defineProps({
@@ -139,6 +140,7 @@ const props = defineProps({
 
 const failed = ref(new Set())
 const { previewImage, openPreview, closePreview } = useImagePreview()
+const { toPublicPath, isVideo } = useMediaUtils()
 
 const imageList = computed(() => {
   if (Array.isArray(props.images) && props.images.length > 0) {
@@ -150,21 +152,12 @@ const imageList = computed(() => {
   return []
 })
 
-function toPublicPath(path) {
-  const cleanPath = path.startsWith('/') ? path.slice(1) : path
-  return `${import.meta.env.BASE_URL}${cleanPath}`
-}
-
 function markFailed(path) {
   failed.value.add(path)
 }
 
 function isFailed(path) {
   return failed.value.has(path)
-}
-
-function isVideo(path) {
-  return /\.(mp4|mov|webm|ogg)$/i.test(path)
 }
 
 function sequenceLabel(index) {

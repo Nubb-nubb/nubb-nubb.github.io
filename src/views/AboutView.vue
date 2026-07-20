@@ -59,27 +59,11 @@
       </div>
     </div>
 
-    <div
-      v-if="previewImage"
-      class="fixed inset-0 z-50 bg-black/85 p-4 md:p-8 flex items-center justify-center"
-      @click="closePreview"
-    >
-      <button
-        type="button"
-        class="absolute top-4 right-4 md:top-6 md:right-6 text-white text-3xl leading-none"
-        @click.stop="closePreview"
-        aria-label="Close preview"
-      >
-        ×
-      </button>
-
-      <img
-        :src="previewImage"
-        alt="Preview"
-        class="max-w-[94vw] max-h-[92vh] w-auto h-auto object-contain rounded-sm shadow-2xl"
-        @click.stop
-      />
-    </div>
+    <ImagePreviewModal
+      :preview-image="previewImage"
+      :base-path="false"
+      @close="closePreview"
+    />
   </section>
 </template>
 
@@ -87,6 +71,7 @@
 import { ref } from 'vue'
 import { useImagePreview } from '../composables/useImagePreview'
 import CollapsibleSection from '../components/CollapsibleSection.vue'
+import ImagePreviewModal from '../components/ImagePreviewModal.vue'
 
 const quickExpanded = ref(false)
 const longExpanded = ref(false)

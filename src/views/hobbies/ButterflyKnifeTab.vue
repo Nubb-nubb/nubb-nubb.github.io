@@ -48,6 +48,9 @@
 
 <script setup>
 import { ref } from 'vue'
+import { useMediaUtils } from '../../composables/useMediaUtils'
+
+const { toPublicPath } = useMediaUtils()
 
 const subTab = ref('trainers')
 
@@ -60,9 +63,4 @@ const liveBlades = [
   { src: 'images/butterfly_3.MP4', label: 'Squid Industries Tsunami Clone', description: '' },
   { src: 'images/butterfly_4.MP4', label: 'BRS Replicant', description: 'I got cooked in this one, but its lowkey my favorite knife' }
 ]
-
-function toPublicPath(path) {
-  const cleanPath = path.startsWith('/') ? path.slice(1) : path
-  return `${import.meta.env.BASE_URL}${cleanPath}`
-}
 </script>
