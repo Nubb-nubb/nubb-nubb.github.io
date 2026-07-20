@@ -20,6 +20,15 @@
       >
         Cults3D
       </a>
+      <a
+        href="https://www.linkedin.com/in/steven-xun-sun"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="nav-link pb-0"
+      >
+        LinkedIn
+      </a>
+
     </div>
   </footer>
 </template>

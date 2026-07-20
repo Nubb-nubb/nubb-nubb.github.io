@@ -105,4 +105,16 @@ onUnmounted(() => {
 })
 </script>
 
+<style scoped>
+.hero {
+  min-height: calc(100vh - 8rem);
+}
+
+@media (max-width: 430px) {
+  .hero {
+    min-height: calc(100vh - 4rem);
+  }
+}
+</style>
+
 
