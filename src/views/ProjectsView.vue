@@ -69,10 +69,18 @@
           v-for="(entry, index) in blacksmithingTimeline"
           :key="entry.src"
           class="relative pb-6 md:pb-0"
-          :class="index % 2 !== 0 && index !== 0 ? 'md:-mt-24' : ''"
+          :class="index !== 0 ? 'md:-mt-24' : ''"
         >
+          <!-- Horizontal connector line (desktop only) -->
           <span
-            class="absolute left-4 top-4 -translate-x-1/2 h-4 w-4 rounded-full border-2 border-warm-white bg-accent-red md:left-1/2"
+            class="hidden md:block absolute top-6 h-px bg-text-secondary/30"
+            :class="index % 2 === 0 ? 'left-[calc(50%-1.5rem)] right-1/2' : 'left-1/2 right-[calc(50%-1.5rem)]'"
+            aria-hidden="true"
+          />
+
+          <!-- Circle marker -->
+          <span
+            class="absolute left-4 top-4 -translate-x-1/2 h-4 w-4 rounded-full border-2 border-warm-white bg-accent-red md:left-1/2 z-10"
             aria-hidden="true"
           />
 
@@ -153,8 +161,8 @@ const blacksmithingMedia = [
   'images/blacksmith_7.MOV',
   'images/blacksmith_8.MP4',
   'images/blacksmith_9 .mp4',
-  'images/blacksmith_11.JPEG',
   'images/blacksmith_12.MOV',
+  'images/blacksmith_11.JPEG',
   'images/blacksmith_13.MP4',
   'images/blacksmith_14.MOV',
   'images/blacksmith_15.JPEG',
