@@ -1,5 +1,7 @@
 <template>
   <div>
+    <h3 class="text-2xl font-display font-bold mb-6 text-wood-dark">Watch Collection 2024–2026</h3>
+
     <div class="mb-4 flex items-center gap-2">
       <button
         v-for="tab in tabs"
@@ -15,7 +17,8 @@
       </button>
     </div>
 
-    <div class="grid gap-6 grid-cols-1 sm:grid-cols-2">
+    <!-- DIY and Collection tabs -->
+    <div v-if="activeTab !== 'wishlist'" class="grid gap-4 grid-cols-2 sm:grid-cols-3">
       <div
         v-for="watch in currentWatches"
         :key="watch.image"
@@ -23,10 +26,31 @@
         <img
           :src="toPublicPath(watch.image)"
           :alt="watch.name"
-          class="w-full h-64 object-cover rounded-sm cursor-pointer"
+          class="w-full h-48 object-cover rounded-sm cursor-pointer"
           @click="openPreview(watch.image)"
         />
         <p class="mt-2 text-sm text-text-primary">{{ watch.name }}</p>
+      </div>
+    </div>
+
+    <!-- Wishlist tab with sections -->
+    <div v-else class="space-y-10">
+      <div v-for="section in wishlistSections" :key="section.title">
+        <p class="text-xs font-mono uppercase tracking-wide text-accent-red mb-4">{{ section.title }}</p>
+        <div class="grid gap-4 grid-cols-2 sm:grid-cols-3">
+          <div
+            v-for="watch in section.watches"
+            :key="watch.image"
+          >
+            <img
+              :src="toPublicPath(watch.image)"
+              :alt="watch.name"
+              class="w-full h-48 object-cover rounded-sm cursor-pointer"
+              @click="openPreview(watch.image)"
+            />
+            <p class="mt-2 text-sm text-text-primary">{{ watch.name }}</p>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -65,19 +89,34 @@ const collectionWatches = [
   { image: 'images/watch_12.jpg', name: 'G-Shock' }
 ]
 
-const wishlistWatches = [
-  { image: 'images/watch_2.jpg', name: 'Citizen Pepsi' },
-  { image: 'images/watch_5.jpg', name: 'Seiko SPB155 (Baby Alpinist)' },
-  { image: 'images/watch_6.jpg', name: 'Orient Bambino Small Seconds v7' },
-  { image: 'images/watch_7.jpg', name: '海鷗表 1963 (Seagull 1963)' },
-  { image: 'images/watch_9.jpg', name: 'Seiko × One Piece Luffy Gear 5' },
-  { image: 'images/watch_10.jpg', name: 'Timex Q GMT Pepsi' },
-  { image: 'images/watch_11.jpg', name: 'Grand Seiko SBGA413 Shunbun' }
+const wishlistSections = [
+  {
+    title: 'Near Future',
+    watches: [
+      { image: 'images/watch_6.jpg', name: 'Orient Bambino Small Seconds v7' },
+      { image: 'images/watch_5.jpg', name: 'Seiko SPB155 (Baby Alpinist)' },
+      { image: 'images/watch_7.jpg', name: '海鷗表 1963 (Seagull 1963)' }
+    ]
+  },
+  {
+    title: 'Potential GMT',
+    watches: [
+      { image: 'images/watch_2.jpg', name: 'Citizen Series 8 GMT Pepsi' },
+      { image: 'images/watch_10.jpg', name: 'Timex Q GMT Pepsi' }
+    ]
+  },
+  {
+    title: 'Far Future',
+    watches: [
+      { image: 'images/watch_9.jpg', name: 'Seiko × One Piece Luffy Gear 5' },
+      { image: 'images/watch_11.jpg', name: 'Grand Seiko SBGA413 Shunbun' }
+    ]
+  }
 ]
 
 const currentWatches = computed(() => {
   if (activeTab.value === 'diy') return diyWatches
   if (activeTab.value === 'collection') return collectionWatches
-  return wishlistWatches
+  return []
 })
 </script>

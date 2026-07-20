@@ -1,5 +1,7 @@
 <template>
   <div>
+    <h3 class="text-2xl font-display font-bold mb-6 text-wood-dark">Butterfly Knife Tricks 2025</h3>
+
     <div class="mb-4 flex items-center gap-2">
       <button
         type="button"

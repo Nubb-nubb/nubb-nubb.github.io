@@ -1,6 +1,9 @@
 <template>
-  <div class="relative pl-0">
-    <div class="absolute left-4 top-0 bottom-0 w-px bg-text-secondary/30 md:left-1/2 md:-translate-x-1/2" />
+  <div>
+    <h3 class="text-2xl font-display font-bold mb-6 text-wood-dark">Hunting & Kitchen Knife 2025</h3>
+
+    <div class="relative pl-0">
+      <div class="absolute left-4 top-0 bottom-0 w-px bg-text-secondary/30 md:left-1/2 md:-translate-x-1/2" />
 
     <article
       v-for="(entry, index) in timeline"
@@ -49,6 +52,7 @@
         </p>
       </div>
     </article>
+    </div>
   </div>
 </template>
 
