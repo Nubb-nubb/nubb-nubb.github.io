@@ -13,13 +13,17 @@ This is a Vue 3 + Vite + Tailwind CSS personal portfolio/hobby site.
 4. **No duplicated tab navigation** - Always use `TabNavigation.vue` for tabbed interfaces
 5. **Use `useImagePreview` composable** - For any preview functionality (handles Escape key, state management)
 6. **Use `useMediaUtils` composable** - For `toPublicPath()` and `isVideo()` utilities. Never duplicate these functions
-7. **Videos must use thumbnail style** - Always use `VideoThumbnail.vue` for video display. Never use inline `<video>` elements with native controls. Videos should show a thumbnail with a play button overlay, and clicking opens the modal for playback
+7. **Videos must use VideoThumbnail component** - Always use `VideoThumbnail.vue` for video display. Never use inline `<video>` elements with native controls. Requirements:
+   - Videos display a thumbnail frame (uses `#t=0.1` media fragment for mobile compatibility)
+   - Play button overlay at 50% opacity, becomes fully visible on hover
+   - Clicking opens the modal for playback via `ImagePreviewModal`
+   - Include `playsinline` attribute for iOS compatibility
 
 ### Existing Components Reference
 | Component | Purpose |
 |-----------|---------|
 | `ImagePreviewModal` | Full-screen image/video preview modal |
-| `VideoThumbnail` | Video thumbnail with play button overlay (click to preview) |
+| `VideoThumbnail` | Video thumbnail with play button overlay (50% opacity, full on hover); uses `#t=0.1` for mobile thumbnail; click to preview |
 | `TabNavigation` | Horizontal tab navigation with v-model |
 | `CollapsibleSection` | Expandable accordion section |
 | `SetupEntry` | Image gallery entry with era/title/caption |
