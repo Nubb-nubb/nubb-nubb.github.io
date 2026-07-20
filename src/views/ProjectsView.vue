@@ -1,13 +1,13 @@
 <template>
   <section class="max-w-3xl mx-auto px-4 sm:px-6 py-10 sm:py-16">
-    <h2 class="section-title">Projects</h2>
+    <h2 class="section-title">Hobbies</h2>
 
     <p class="text-text-secondary mb-8">
       here for some nerd stuff.
     </p>
 
     <div class="mb-8 border-b border-text-secondary/30">
-      <div class="flex flex-wrap gap-3" role="tablist" aria-label="Project tabs">
+      <div class="flex flex-wrap gap-3" role="tablist" aria-label="Hobby tabs">
         <button
           v-for="tab in tabs"
           :key="tab.key"
@@ -84,12 +84,58 @@
     </div>
 
     <div v-else-if="activeTab === 'butterfly-knife'">
+      <div class="mb-4 flex items-center gap-2">
+        <button
+          type="button"
+          class="px-3 py-1.5 text-xs sm:text-sm font-semibold rounded-full border transition-colors"
+          :class="butterflySubTab === 'trainers'
+            ? 'bg-text-primary text-warm-white border-text-primary'
+            : 'bg-transparent text-text-secondary border-text-secondary/40 hover:text-text-primary hover:border-text-primary/50'"
+          @click="butterflySubTab = 'trainers'"
+        >
+          Trainers
+        </button>
+        <button
+          type="button"
+          class="px-3 py-1.5 text-xs sm:text-sm font-semibold rounded-full border transition-colors"
+          :class="butterflySubTab === 'live-blades'
+            ? 'bg-text-primary text-warm-white border-text-primary'
+            : 'bg-transparent text-text-secondary border-text-secondary/40 hover:text-text-primary hover:border-text-primary/50'"
+          @click="butterflySubTab = 'live-blades'"
+        >
+          Live Blades
+        </button>
+      </div>
+
+      <div class="grid gap-4 grid-cols-2">
+        <div
+          v-for="entry in (butterflySubTab === 'trainers' ? butterflyTrainers : butterflyLiveBlades)"
+          :key="entry.src"
+        >
+          <video
+            :src="toPublicPath(entry.src)"
+            class="w-full h-auto object-cover rounded-sm"
+            controls
+            playsinline
+            preload="metadata"
+          />
+          <p class="text-xs font-mono uppercase tracking-wide text-accent-red mt-2 mb-1">
+            {{ entry.label }}
+          </p>
+          <p class="text-xs text-text-secondary">
+            {{ entry.description }}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div v-else-if="activeTab === 'watches'">
       <SetupEntry
         era="Coming Soon"
-        title="Butterfly Knife Projects"
+        title="Watch Collection"
         :images="[]"
-        caption="blah blah blah"
-        description="Projects will be added here soon!"
+        caption=""
+        description="Watch content coming soon!"
       />
     </div>
 
@@ -121,6 +167,7 @@ const { previewImage, openPreview, closePreview } = useImagePreview()
 const tabs = [
   { key: 'blacksmithing', label: 'Blacksmithing' },
   { key: 'butterfly-knife', label: 'Butterfly Knife' },
+  { key: 'watches', label: 'Watches' },
   { key: 'coming-soon', label: 'Coming Soon' }
 ]
 
@@ -144,6 +191,18 @@ const blacksmithingTimeline = [
   { src: 'images/blacksmith_15.JPEG', label: 'Leather Sheath', description: 'Making the leather sheath', sequence: '15' },
   { src: 'images/homepage-3.jpg', label: 'Finished!', description: 'Tadaaaaa', sequence: '16' },
   { src: 'images/blacksmith_14 .mp4', label: 'Sharpness Test', description: 'Testing the sharpness by cutting some paper', sequence: '17' }
+]
+
+const butterflySubTab = ref('trainers')
+
+const butterflyTrainers = [
+  { src: 'images/butterfly_1.MP4', label: 'Squiddy Trainer', description: 'My first butterfly knife' },
+  { src: 'images/butterfly_2.MP4', label: 'Nabalis Cheese', description: '' }
+]
+
+const butterflyLiveBlades = [
+  { src: 'images/butterfly_3.MP4', label: 'Squid Industries Tsunami Clone', description: '' },
+  { src: 'images/butterfly_4.MP4', label: 'BRS Replicant', description: 'I got cooked in this one' }
 ]
 
 function toPublicPath(path) {
