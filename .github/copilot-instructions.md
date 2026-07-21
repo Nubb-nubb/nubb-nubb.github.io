@@ -28,6 +28,7 @@ This is a Vue 3 + Vite + Tailwind CSS personal portfolio/hobby site.
 | `ImagePreviewModal`  | Full-screen image/video preview modal                                                                                       |
 | `VideoThumbnail`     | Video thumbnail with play button overlay (50% opacity, full on hover); uses `#t=0.1` for mobile thumbnail; click to preview |
 | `TabNavigation`      | Horizontal tab navigation with v-model                                                                                      |
+| `RectangularTabs`    | Browser-style rectangular sub-tabs for nested navigation within sections                                                    |
 | `CollapsibleSection` | Expandable accordion section                                                                                                |
 | `SetupEntry`         | Image gallery entry with era/title/caption                                                                                  |
 | `WorkshopCard`       | Card for workshop items                                                                                                     |
