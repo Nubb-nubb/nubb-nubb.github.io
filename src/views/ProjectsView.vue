@@ -10,6 +10,7 @@
     <BlacksmithingTab v-else-if="activeTab === 'blacksmithing'" @preview="openPreview" />
     <ButterflyKnifeTab v-else-if="activeTab === 'butterfly-knife'" />
     <WatchesTab v-else-if="activeTab === 'watches'" />
+    <PrintsTab v-else-if="activeTab === '3d-prints'" />
     <ComingSoonTab v-else-if="activeTab === 'coming-soon'" />
 
     <ImagePreviewModal
@@ -28,6 +29,7 @@ import SetupsTab from './hobbies/SetupsTab.vue'
 import BlacksmithingTab from './hobbies/BlacksmithingTab.vue'
 import ButterflyKnifeTab from './hobbies/ButterflyKnifeTab.vue'
 import WatchesTab from './hobbies/WatchesTab.vue'
+import PrintsTab from './hobbies/3DPrintsTab.vue'
 import ComingSoonTab from './hobbies/ComingSoonTab.vue'
 import { useImagePreview } from '../composables/useImagePreview'
 
@@ -35,6 +37,7 @@ const { previewImage, previewType, openPreview, closePreview } = useImagePreview
 
 const tabs = [
   { key: 'setups', label: 'Setups' },
+  { key: '3d-prints', label: '3D Prints' },
   { key: 'blacksmithing', label: 'Blacksmithing' },
   { key: 'butterfly-knife', label: 'Butterfly Knife' },
   { key: 'watches', label: 'Watches' },
