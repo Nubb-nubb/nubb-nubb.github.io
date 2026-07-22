@@ -35,11 +35,16 @@
     >
       <div class="video-wrapper">
         <video
-          :ref="(el) => (videoRefs[index] = el)"
+          :ref="
+            (el) => {
+              videoRefs[index] = el
+              if (el) el.volume = 0.5
+            }
+          "
           :src="toPublicPath(video)"
           class="video-player"
           loop
-          muted
+          :muted="isMuted"
           playsinline
           @click="togglePlay(index)"
         />
@@ -105,11 +110,11 @@
           <!-- Mute toggle -->
           <button
             class="action-button mute-toggle"
-            @click.stop="toggleMute(index)"
-            :title="mutedStates[index] ? 'Unmute' : 'Mute'"
+            @click.stop="toggleMute()"
+            :title="isMuted ? 'Unmute' : 'Mute'"
           >
             <svg
-              v-if="mutedStates[index]"
+              v-if="isMuted"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
               fill="currentColor"
@@ -133,7 +138,7 @@
                 d="M15.932 7.757a.75.75 0 011.061 0 6 6 0 010 8.486.75.75 0 01-1.06-1.061 4.5 4.5 0 000-6.364.75.75 0 010-1.06z"
               />
             </svg>
-            <span class="action-label">{{ mutedStates[index] ? 'Muted' : 'Sound' }}</span>
+            <span class="action-label">{{ isMuted ? 'Muted' : 'Sound' }}</span>
           </button>
         </div>
       </div>
@@ -258,7 +263,7 @@ const containerRef = ref(null)
 const videoRefs = reactive({})
 const currentIndex = ref(0)
 const pausedStates = reactive({})
-const mutedStates = reactive({})
+const isMuted = ref(false)
 const likedStates = reactive({})
 const likeCounts = reactive({})
 const heartBurst = reactive({})
@@ -270,7 +275,6 @@ const isDarkMode = ref(true)
 // Initialize states
 shuffledVideos.value.forEach((_, index) => {
   pausedStates[index] = true
-  mutedStates[index] = true
   likedStates[index] = false
   likeCounts[index] = 0
   heartBurst[index] = false
@@ -290,12 +294,12 @@ function togglePlay(index) {
   }
 }
 
-function toggleMute(index) {
-  const video = videoRefs[index]
-  if (!video) return
-
-  video.muted = !video.muted
-  mutedStates[index] = video.muted
+function toggleMute() {
+  isMuted.value = !isMuted.value
+  // Apply to all videos
+  Object.values(videoRefs).forEach((video) => {
+    if (video) video.muted = isMuted.value
+  })
 }
 
 function toggleLike(index) {
