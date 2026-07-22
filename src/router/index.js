@@ -3,7 +3,7 @@ import HomeView from '../views/HomeView.vue'
 import AboutView from '../views/AboutView.vue'
 import WorkshopView from '../views/WorkshopView.vue'
 import ProjectsView from '../views/ProjectsView.vue'
-import BrainrotView from '../views/BrainrotView.vue'
+import ShortsView from '../views/ShortsView.vue'
 
 const router = createRouter({
   history: createWebHashHistory(import.meta.env.BASE_URL),
@@ -33,9 +33,9 @@ const router = createRouter({
       component: ProjectsView,
     },
     {
-      path: '/brainrot',
-      name: 'brainrot',
-      component: BrainrotView,
+      path: '/shorts',
+      name: 'shorts',
+      component: ShortsView,
     },
   ],
 })
