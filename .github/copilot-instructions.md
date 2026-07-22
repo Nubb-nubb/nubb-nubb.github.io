@@ -105,3 +105,7 @@ src/
 ├── main.js           # App entry point
 └── style.css         # Global Tailwind styles
 ```
+
+## Nubbnubb Shorts
+
+19. **Add videos to Shorts queue** - Whenever a new video is added anywhere on this site (in `public/images/`), it must also be added to the `allVideos` array in `src/views/ShortsView.vue`. This ensures all videos appear in the TikTok-style Nubbnubb Shorts feed.
