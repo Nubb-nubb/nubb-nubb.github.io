@@ -37,10 +37,11 @@ This is a Vue 3 + Vite + Tailwind CSS personal portfolio/hobby site.
 
 ### Existing Composables Reference
 
-| Composable        | Purpose                                              |
-| ----------------- | ---------------------------------------------------- |
-| `useImagePreview` | Preview state management, Escape key handling        |
-| `useMediaUtils`   | `toPublicPath()`, `isVideo()`, `isImage()` utilities |
+| Composable        | Purpose                                                    |
+| ----------------- | ---------------------------------------------------------- |
+| `useImagePreview` | Preview state management, Escape key handling              |
+| `useMediaUtils`   | `toPublicPath()`, `isVideo()`, `isImage()` utilities       |
+| `useCarousel`     | Auto-scroll carousel with touch swipe support (4s default) |
 
 ## Tailwind Best Practices
 

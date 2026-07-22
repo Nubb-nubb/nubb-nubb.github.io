@@ -18,7 +18,7 @@
             <img
               v-for="(src, i) in carouselImages"
               :key="i"
-              :src="src"
+              :src="toPublicPath(src)"
               :alt="`Setup photo ${i + 1}`"
               class="w-full h-full object-cover shrink-0"
               @error="showHeroPlaceholder = true"
@@ -76,101 +76,38 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref } from 'vue'
 import { useImagePreview } from '../composables/useImagePreview'
+import { useMediaUtils } from '../composables/useMediaUtils'
+import { useCarousel } from '../composables/useCarousel'
 import ImagePreviewModal from '../components/ImagePreviewModal.vue'
 
 const showHeroPlaceholder = ref(false)
-const currentSlide = ref(0)
 const { previewImage, openPreview, closePreview } = useImagePreview()
-const touchStartX = ref(0)
-const touchEndX = ref(0)
-const hasSwiped = ref(false)
-const SWIPE_THRESHOLD = 40
+const { toPublicPath } = useMediaUtils()
 
 const carouselImages = [
-  `${import.meta.env.BASE_URL}images/aboutme-2.jpg`,
-  `${import.meta.env.BASE_URL}images/july-2026-setup.jpg`,
-  `${import.meta.env.BASE_URL}images/homepage-3.jpg`,
-  `${import.meta.env.BASE_URL}images/homepage-2.jpg`,
+  'images/aboutme-2.jpg',
+  'images/july-2026-setup.jpg',
+  'images/homepage-3.jpg',
+  'images/homepage-2.jpg',
 ]
 
-let autoScrollInterval
-
-const startAutoScroll = () => {
-  autoScrollInterval = setInterval(() => {
-    nextSlide()
-  }, 4000) // auto-scroll every 4 seconds
-}
-
-const resetAutoScroll = () => {
-  clearInterval(autoScrollInterval)
-  startAutoScroll()
-}
-
-const prevSlide = () => {
-  currentSlide.value = (currentSlide.value - 1 + carouselImages.length) % carouselImages.length
-}
-
-const goToPreviousSlide = () => {
-  prevSlide()
-  resetAutoScroll()
-}
-
-const nextSlide = () => {
-  currentSlide.value = (currentSlide.value + 1) % carouselImages.length
-}
-
-const goToNextSlide = () => {
-  nextSlide()
-  resetAutoScroll()
-}
-
-const goToSlide = (index) => {
-  currentSlide.value = index
-  resetAutoScroll()
-}
+const {
+  currentSlide,
+  goToPreviousSlide,
+  goToNextSlide,
+  goToSlide,
+  handleTouchStart,
+  handleTouchMove,
+  handleTouchEnd,
+  consumeSwipe,
+} = useCarousel(carouselImages, 4000)
 
 const openCurrentSlidePreview = () => {
-  if (hasSwiped.value) {
-    hasSwiped.value = false
-    return
-  }
-
-  openPreview(carouselImages[currentSlide.value])
+  if (consumeSwipe()) return
+  openPreview(toPublicPath(carouselImages[currentSlide.value]))
 }
-
-const handleTouchStart = (event) => {
-  touchStartX.value = event.changedTouches[0].clientX
-  touchEndX.value = touchStartX.value
-}
-
-const handleTouchMove = (event) => {
-  touchEndX.value = event.changedTouches[0].clientX
-}
-
-const handleTouchEnd = () => {
-  const delta = touchStartX.value - touchEndX.value
-
-  if (Math.abs(delta) < SWIPE_THRESHOLD) {
-    return
-  }
-
-  hasSwiped.value = true
-  if (delta > 0) {
-    goToNextSlide()
-  } else {
-    goToPreviousSlide()
-  }
-}
-
-onMounted(() => {
-  startAutoScroll()
-})
-
-onUnmounted(() => {
-  clearInterval(autoScrollInterval)
-})
 </script>
 
 <style scoped>

@@ -4,28 +4,18 @@
 
     <div class="mb-4 flex items-center gap-2">
       <button
+        v-for="tab in subTabs"
+        :key="tab.key"
         type="button"
         class="px-3 py-1.5 text-xs sm:text-sm font-semibold rounded-full border transition-colors"
         :class="
-          subTab === 'trainers'
+          subTab === tab.key
             ? 'bg-text-primary text-warm-white border-text-primary'
             : 'bg-transparent text-text-secondary border-text-secondary/40 hover:text-text-primary hover:border-text-primary/50'
         "
-        @click="subTab = 'trainers'"
+        @click="subTab = tab.key"
       >
-        Trainers
-      </button>
-      <button
-        type="button"
-        class="px-3 py-1.5 text-xs sm:text-sm font-semibold rounded-full border transition-colors"
-        :class="
-          subTab === 'live-blades'
-            ? 'bg-text-primary text-warm-white border-text-primary'
-            : 'bg-transparent text-text-secondary border-text-secondary/40 hover:text-text-primary hover:border-text-primary/50'
-        "
-        @click="subTab = 'live-blades'"
-      >
-        Live Blades
+        {{ tab.label }}
       </button>
     </div>
 
@@ -64,6 +54,10 @@ const { toPublicPath } = useMediaUtils()
 const { previewImage, previewType, openPreview, closePreview } = useImagePreview()
 
 const subTab = ref('trainers')
+const subTabs = [
+  { key: 'trainers', label: 'Trainers' },
+  { key: 'live-blades', label: 'Live Blades' },
+]
 
 const trainers = [
   {

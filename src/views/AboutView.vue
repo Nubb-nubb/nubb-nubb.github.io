@@ -81,6 +81,11 @@ const aboutSound = `${import.meta.env.BASE_URL}images/abouta.wav`
 
 function playAboutSound() {
   const audio = new Audio(aboutSound)
-  audio.play()
+  audio.onerror = () => {
+    console.error('Failed to load audio file:', aboutSound)
+  }
+  audio.play().catch((err) => {
+    console.error('Failed to play audio:', err)
+  })
 }
 </script>

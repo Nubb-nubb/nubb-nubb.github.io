@@ -11,17 +11,26 @@
 import { computed } from 'vue'
 
 const props = defineProps({
-  title: String,
-  color: String,
-  description: String,
+  title: {
+    type: String,
+    required: true,
+  },
+  color: {
+    type: String,
+    default: 'accent-red',
+  },
+  description: {
+    type: String,
+    default: '',
+  },
 })
 
 const colorClass = computed(() => {
   const colorMap = {
-    'border-accent-red': 'border-l-4 border-accent-red',
-    'border-plant-green': 'border-l-4 border-plant-green',
-    'border-wood-light': 'border-l-4 border-wood-light',
-    'border-wood-dark': 'border-l-4 border-wood-dark',
+    'accent-red': 'border-l-4 border-accent-red',
+    'plant-green': 'border-l-4 border-plant-green',
+    'wood-light': 'border-l-4 border-wood-light',
+    'wood-dark': 'border-l-4 border-wood-dark',
   }
   return colorMap[props.color] || 'border-l-4 border-accent-red'
 })

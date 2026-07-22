@@ -115,9 +115,10 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref } from 'vue'
 import { useImagePreview } from '../../composables/useImagePreview'
 import { useMediaUtils } from '../../composables/useMediaUtils'
+import { useCarousel } from '../../composables/useCarousel'
 import ImagePreviewModal from '../../components/ImagePreviewModal.vue'
 import AlbumGrid from '../../components/AlbumGrid.vue'
 
@@ -135,74 +136,21 @@ const carouselImages = [
   'images/3dprint stuff/Inverted_Spear/IMG_9045.JPEG',
 ]
 
-const currentSlide = ref(0)
-const touchStartX = ref(0)
-const touchEndX = ref(0)
-const hasSwiped = ref(false)
-const SWIPE_THRESHOLD = 40
-let autoScrollInterval
-
-const startAutoScroll = () => {
-  autoScrollInterval = setInterval(() => {
-    currentSlide.value = (currentSlide.value + 1) % carouselImages.length
-  }, 4000)
-}
-
-const resetAutoScroll = () => {
-  clearInterval(autoScrollInterval)
-  startAutoScroll()
-}
-
-const goToPreviousSlide = () => {
-  currentSlide.value = (currentSlide.value - 1 + carouselImages.length) % carouselImages.length
-  resetAutoScroll()
-}
-
-const goToNextSlide = () => {
-  currentSlide.value = (currentSlide.value + 1) % carouselImages.length
-  resetAutoScroll()
-}
-
-const goToSlide = (index) => {
-  currentSlide.value = index
-  resetAutoScroll()
-}
+const {
+  currentSlide,
+  goToPreviousSlide,
+  goToNextSlide,
+  goToSlide,
+  handleTouchStart,
+  handleTouchMove,
+  handleTouchEnd,
+  consumeSwipe,
+} = useCarousel(carouselImages, 4000)
 
 const openCarouselPreview = () => {
-  if (hasSwiped.value) {
-    hasSwiped.value = false
-    return
-  }
+  if (consumeSwipe()) return
   openPreview(carouselImages[currentSlide.value])
 }
-
-const handleTouchStart = (event) => {
-  touchStartX.value = event.changedTouches[0].clientX
-  touchEndX.value = touchStartX.value
-}
-
-const handleTouchMove = (event) => {
-  touchEndX.value = event.changedTouches[0].clientX
-}
-
-const handleTouchEnd = () => {
-  const delta = touchStartX.value - touchEndX.value
-  if (Math.abs(delta) < SWIPE_THRESHOLD) return
-  hasSwiped.value = true
-  if (delta > 0) {
-    goToNextSlide()
-  } else {
-    goToPreviousSlide()
-  }
-}
-
-onMounted(() => {
-  startAutoScroll()
-})
-
-onUnmounted(() => {
-  clearInterval(autoScrollInterval)
-})
 
 const tabs = [
   { key: 'one-piece', label: 'One Piece' },

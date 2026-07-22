@@ -129,12 +129,22 @@ import ImagePreviewModal from './ImagePreviewModal.vue'
 import VideoThumbnail from './VideoThumbnail.vue'
 
 const props = defineProps({
-  era: String,
-  title: String,
-  image: String,
+  era: {
+    type: String,
+    required: true,
+  },
+  title: {
+    type: String,
+    required: true,
+  },
+  image: {
+    type: String,
+    default: '',
+  },
   images: {
     type: Array,
     default: () => [],
+    validator: (arr) => arr.every((item) => typeof item === 'string'),
   },
   showSequenceLabels: {
     type: Boolean,
@@ -143,9 +153,16 @@ const props = defineProps({
   startNumber: {
     type: Number,
     default: 1,
+    validator: (val) => val > 0,
   },
-  caption: String,
-  description: String,
+  caption: {
+    type: String,
+    default: '',
+  },
+  description: {
+    type: String,
+    default: '',
+  },
 })
 
 const failed = ref(new Set())

@@ -101,7 +101,7 @@ const tabs = [
 const activeTab = ref('current')
 const { previewImage, previewType, openPreview, closePreview } = useImagePreview()
 
-const colors = ['border-accent-red', 'border-plant-green', 'border-wood-light', 'border-wood-dark']
+const colors = ['accent-red', 'plant-green', 'wood-light', 'wood-dark']
 
 const currentWorkshopItems = [
   {
