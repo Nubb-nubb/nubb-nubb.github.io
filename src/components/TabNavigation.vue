@@ -1,6 +1,10 @@
 <template>
   <div class="mb-8 border-b border-text-secondary/30">
-    <div class="flex flex-wrap gap-3" role="tablist" :aria-label="ariaLabel">
+    <div
+      class="flex gap-3 overflow-x-auto scrollbar-hide -mx-4 px-4 sm:mx-0 sm:px-0"
+      role="tablist"
+      :aria-label="ariaLabel"
+    >
       <button
         v-for="tab in tabs"
         :key="tab.key"
@@ -8,7 +12,7 @@
         type="button"
         :aria-selected="modelValue === tab.key"
         :class="[
-          'px-4 py-2 text-sm font-semibold rounded-t-md transition-colors',
+          'px-4 py-2 text-sm font-semibold rounded-t-md transition-colors whitespace-nowrap flex-shrink-0',
           modelValue === tab.key
             ? 'bg-surface text-text-primary border-b-2 border-accent-red'
             : 'text-text-secondary hover:text-text-primary',
