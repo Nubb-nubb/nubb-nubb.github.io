@@ -80,6 +80,50 @@
           />
         </div>
       </div>
+
+      <!-- TikTok embed if present -->
+      <div v-if="getTiktokEmbeds(selectedAlbum).length" class="mt-6">
+        <button
+          type="button"
+          class="flex items-center gap-2 text-sm text-text-secondary hover:text-text-primary transition-colors mb-3"
+          @click="showTiktokEmbed = !showTiktokEmbed"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-4 w-4 transition-transform"
+            :class="{ 'rotate-180': showTiktokEmbed }"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M19 9l-7 7-7-7"
+            />
+          </svg>
+          {{ showTiktokEmbed ? 'Hide' : 'Show' }} TikTok
+        </button>
+        <div v-show="showTiktokEmbed" class="flex gap-4 justify-start">
+          <iframe
+            v-for="embed in getTiktokEmbeds(selectedAlbum)"
+            :key="embed"
+            :src="getTikTokEmbedUrl(embed)"
+            class="w-80 rounded-lg"
+            style="height: 740px"
+            allow="
+              accelerometer;
+              autoplay;
+              clipboard-write;
+              encrypted-media;
+              gyroscope;
+              picture-in-picture;
+            "
+            allowfullscreen
+          />
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -102,8 +146,13 @@ defineEmits(['preview'])
 const { toPublicPath, isVideo } = useMediaUtils()
 
 const selectedAlbum = ref(null)
+const showTiktokEmbed = ref(true)
 
 function isVideoOnlyAlbum(album) {
+  // Check if explicit thumbnail is a video, or if all media are videos
+  if (album.thumbnail) {
+    return isVideo(album.thumbnail)
+  }
   return album.media.every((m) => isVideo(m))
 }
 
@@ -120,5 +169,25 @@ function getAlbumThumbnail(album) {
 
 function selectAlbum(album) {
   selectedAlbum.value = album
+}
+
+function getTikTokEmbedUrl(url) {
+  // Extract video ID from TikTok URL and return embed URL
+  const match = url.match(/video\/(\d+)/)
+  if (match) {
+    return `https://www.tiktok.com/embed/v2/${match[1]}`
+  }
+  return url
+}
+
+function getTiktokEmbeds(album) {
+  // Support both single tiktokEmbed and array tiktokEmbeds
+  if (album.tiktokEmbeds && album.tiktokEmbeds.length) {
+    return album.tiktokEmbeds
+  }
+  if (album.tiktokEmbed) {
+    return [album.tiktokEmbed]
+  }
+  return []
 }
 </script>
