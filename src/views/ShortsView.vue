@@ -364,7 +364,6 @@ onUnmounted(() => {
 <style scoped>
 .brainrot-container {
   height: calc(100vh - 60px);
-  height: calc(100dvh - 60px); /* Use dynamic viewport height for mobile browsers */
   overflow-y: scroll;
   scroll-snap-type: y mandatory;
   scroll-behavior: smooth;
@@ -394,14 +393,6 @@ onUnmounted(() => {
     transform 0.2s;
 }
 
-@media (max-width: 500px) {
-  .mode-toggle {
-    top: 70px;
-    left: 8px;
-    padding: 8px;
-  }
-}
-
 .mode-toggle:hover {
   transform: scale(1.1);
   background: rgba(0, 0, 0, 0.8);
@@ -418,7 +409,6 @@ onUnmounted(() => {
 
 .video-slide {
   height: calc(100vh - 60px);
-  height: calc(100dvh - 60px);
   scroll-snap-align: start;
   scroll-snap-stop: always;
   position: relative;
@@ -437,17 +427,10 @@ onUnmounted(() => {
   max-width: 100%;
   max-height: 100%;
   height: 100%;
-  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 8px;
-}
-
-@media (min-width: 500px) {
-  .video-wrapper {
-    padding: 16px;
-  }
+  padding: 16px;
 }
 
 .video-player {
@@ -457,7 +440,7 @@ onUnmounted(() => {
   height: auto;
   object-fit: contain;
   cursor: pointer;
-  border-radius: 16px;
+  border-radius: 24px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
 }
 
@@ -474,7 +457,7 @@ onUnmounted(() => {
 
 .play-overlay {
   position: absolute;
-  inset: 8px;
+  inset: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -482,13 +465,7 @@ onUnmounted(() => {
   color: white;
   cursor: pointer;
   transition: opacity 0.2s;
-  border-radius: 16px;
-}
-
-@media (min-width: 500px) {
-  .play-overlay {
-    inset: 16px;
-  }
+  border-radius: 24px;
 }
 
 @media (min-width: 768px) {
@@ -516,11 +493,10 @@ onUnmounted(() => {
 
 @media (max-width: 500px) {
   .side-actions {
-    right: 12px;
+    right: 8px;
     top: auto;
-    bottom: 80px;
+    bottom: 24px;
     transform: none;
-    gap: 12px;
   }
 }
 
@@ -569,17 +545,6 @@ onUnmounted(() => {
   border-radius: 50%;
 }
 
-@media (max-width: 500px) {
-  .action-button {
-    padding: 10px;
-  }
-
-  .action-button svg {
-    width: 20px;
-    height: 20px;
-  }
-}
-
 .action-button:hover {
   transform: scale(1.1);
   background: rgba(0, 0, 0, 0.7);
@@ -590,12 +555,6 @@ onUnmounted(() => {
   font-weight: 600;
   margin-top: 2px;
   white-space: nowrap;
-}
-
-@media (max-width: 500px) {
-  .action-label {
-    font-size: 9px;
-  }
 }
 
 .like-button.liked {
@@ -700,12 +659,6 @@ onUnmounted(() => {
   color: white;
   opacity: 0.9;
   animation: swipePulse 1.5s ease-in-out infinite;
-}
-
-@media (max-width: 500px) {
-  .swipe-gesture {
-    bottom: 160px;
-  }
 }
 
 .swipe-arrow-top {
