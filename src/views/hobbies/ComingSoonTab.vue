@@ -8,7 +8,6 @@
       </h3>
       <ul class="text-text-secondary text-sm space-y-1 ml-4">
         <li>PC Building</li>
-        <li>3D Printing</li>
         <li>Keyboard Building</li>
       </ul>
     </div>
