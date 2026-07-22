@@ -253,6 +253,10 @@ const onePieceAlbums = [
       'images/3dprint stuff/Sandai_Kitetsu/IMG_0544.PNG',
       'images/3dprint stuff/Sandai_Kitetsu/IMG_3539.JPEG',
       'images/3dprint stuff/Sandai_Kitetsu/IMG_3545.JPEG',
+      'images/3dprint stuff/Enma/IMG_2997.JPEG',
+      'images/3dprint stuff/Enma/IMG_3002.JPEG',
+      'images/3dprint stuff/Enma/IMG_3003.JPEG',
+      'images/3dprint stuff/Enma/IMG_3004.JPEG',
     ],
   },
   {
@@ -264,10 +268,6 @@ const onePieceAlbums = [
       'images/3dprint stuff/Enma/IMG_2946.JPEG',
       'images/3dprint stuff/Enma/IMG_2951.JPEG',
       'images/3dprint stuff/Enma/IMG_2969.JPEG',
-      'images/3dprint stuff/Enma/IMG_2997.JPEG',
-      'images/3dprint stuff/Enma/IMG_3002.JPEG',
-      'images/3dprint stuff/Enma/IMG_3003.JPEG',
-      'images/3dprint stuff/Enma/IMG_3004.JPEG',
       'images/3dprint stuff/Enma/IMG_4070.JPEG',
       'images/3dprint stuff/Enma/IMG_4071.JPEG',
       'images/3dprint stuff/Enma/IMG_4075.JPEG',
@@ -278,6 +278,8 @@ const onePieceAlbums = [
       'images/3dprint stuff/Enma/IMG_9787.JPEG',
       'images/3dprint stuff/Enma/IMG_9789.JPEG',
       'images/3dprint stuff/Enma/IMG_9790.JPEG',
+      'images/3dprint stuff/Enma/enma_new_1.mov',
+      'images/3dprint stuff/Enma/enma_new_2.mov',
     ],
   },
 ]
@@ -386,6 +388,17 @@ const valorantAlbums = [
     label: 'Prime Karambit',
     thumbnail: 'images/3dprint stuff/Prime_Karambit/4F844A2B-AA50-40EA-8EFF-83CC0B9854C0.mov',
     media: ['images/3dprint stuff/Prime_Karambit/4F844A2B-AA50-40EA-8EFF-83CC0B9854C0.mov'],
+  },
+  {
+    key: 'reaver-karambit',
+    label: 'Reaver Karambit',
+    tiktokEmbed: 'https://www.tiktok.com/@elloyellojello/video/7283170877246590250',
+    media: ['images/3dprint stuff/Reaver_Karambit/reaver_karambit_1.png'],
+  },
+  {
+    key: 'wukong-staff',
+    label: 'Wukong Staff',
+    media: ['images/3dprint stuff/Wukong_Staff/Staff_1.jpg'],
   },
 ]
 
