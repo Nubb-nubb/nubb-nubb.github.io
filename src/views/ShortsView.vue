@@ -435,7 +435,7 @@ onUnmounted(() => {
 }
 
 .brainrot-container.light-mode {
-  background-color: #f5f5f5;
+  background-color: #f5f0e8; /* warm-white */
 }
 
 /* iOS-style toggle switch */
@@ -531,7 +531,7 @@ onUnmounted(() => {
 }
 
 .light-mode .video-slide {
-  background-color: #f5f5f5;
+  background-color: #f5f0e8; /* warm-white */
 }
 
 .video-wrapper {
