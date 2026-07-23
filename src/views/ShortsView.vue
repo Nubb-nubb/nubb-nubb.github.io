@@ -416,8 +416,8 @@ onUnmounted(() => {
 .brainrot-container {
   /* Use dvh (dynamic viewport height) for mobile browser chrome */
   /* Nav + Footer + extra padding to ensure footer visibility */
-  height: calc(100dvh - 135px);
-  height: calc(100vh - 135px); /* Fallback for older browsers */
+  height: calc(100dvh - 127px);
+  height: calc(100vh - 127px); /* Fallback for older browsers */
   overflow-y: scroll;
   scroll-snap-type: y mandatory;
   scroll-behavior: smooth;
@@ -430,7 +430,7 @@ onUnmounted(() => {
 
 @supports (height: 100dvh) {
   .brainrot-container {
-    height: calc(100dvh - 135px);
+    height: calc(100dvh - 127px);
   }
 }
 
@@ -512,8 +512,8 @@ onUnmounted(() => {
 
 .video-slide {
   /* Match container height */
-  height: calc(100dvh - 135px);
-  height: calc(100vh - 135px); /* Fallback */
+  height: calc(100dvh - 127px);
+  height: calc(100vh - 127px); /* Fallback */
   flex-shrink: 0;
   scroll-snap-align: start;
   scroll-snap-stop: always;
@@ -526,7 +526,7 @@ onUnmounted(() => {
 
 @supports (height: 100dvh) {
   .video-slide {
-    height: calc(100dvh - 135px);
+    height: calc(100dvh - 127px);
   }
 }
 
@@ -594,13 +594,13 @@ onUnmounted(() => {
 
   .video-player {
     border-radius: 32px;
-    max-height: calc(100dvh - 185px);
-    max-height: calc(100vh - 185px); /* Fallback */
+    max-height: calc(100dvh - 177px);
+    max-height: calc(100vh - 177px); /* Fallback */
   }
 
   @supports (height: 100dvh) {
     .video-player {
-      max-height: calc(100dvh - 185px);
+      max-height: calc(100dvh - 177px);
     }
   }
 }
