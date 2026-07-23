@@ -1,32 +1,39 @@
 <template>
   <div class="brainrot-container" :class="{ 'light-mode': !isDarkMode }" ref="containerRef">
-    <!-- Dark mode toggle -->
-    <button class="mode-toggle" @click="isDarkMode = !isDarkMode">
-      <svg
-        v-if="isDarkMode"
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 24 24"
-        fill="currentColor"
-        class="w-6 h-6"
-      >
-        <path
-          d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM18.894 6.166a.75.75 0 00-1.06-1.06l-1.591 1.59a.75.75 0 101.06 1.061l1.591-1.59zM21.75 12a.75.75 0 01-.75.75h-2.25a.75.75 0 010-1.5H21a.75.75 0 01.75.75zM17.834 18.894a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 10-1.061 1.06l1.59 1.591zM12 18a.75.75 0 01.75.75V21a.75.75 0 01-1.5 0v-2.25A.75.75 0 0112 18zM7.758 17.303a.75.75 0 00-1.061-1.06l-1.591 1.59a.75.75 0 001.06 1.061l1.591-1.59zM6 12a.75.75 0 01-.75.75H3a.75.75 0 010-1.5h2.25A.75.75 0 016 12zM6.697 7.757a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 00-1.061 1.06l1.59 1.591z"
-        />
-      </svg>
-      <svg
-        v-else
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 24 24"
-        fill="currentColor"
-        class="w-6 h-6"
-      >
-        <path
-          fill-rule="evenodd"
-          d="M9.528 1.718a.75.75 0 01.162.819A8.97 8.97 0 009 6a9 9 0 009 9 8.97 8.97 0 003.463-.69.75.75 0 01.981.98 10.503 10.503 0 01-9.694 6.46c-5.799 0-10.5-4.701-10.5-10.5 0-4.368 2.667-8.112 6.46-9.694a.75.75 0 01.818.162z"
-          clip-rule="evenodd"
-        />
-      </svg>
-    </button>
+    <!-- Dark mode toggle (iOS style pill) -->
+    <label class="mode-toggle">
+      <input type="checkbox" v-model="isDarkMode" class="toggle-input" />
+      <span class="toggle-track">
+        <span class="toggle-thumb">
+          <!-- Moon icon for dark mode -->
+          <svg
+            v-if="isDarkMode"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            class="toggle-icon"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M9.528 1.718a.75.75 0 01.162.819A8.97 8.97 0 009 6a9 9 0 009 9 8.97 8.97 0 003.463-.69.75.75 0 01.981.98 10.503 10.503 0 01-9.694 6.46c-5.799 0-10.5-4.701-10.5-10.5 0-4.368 2.667-8.112 6.46-9.694a.75.75 0 01.818.162z"
+              clip-rule="evenodd"
+            />
+          </svg>
+          <!-- Sun icon for light mode -->
+          <svg
+            v-else
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            class="toggle-icon"
+          >
+            <path
+              d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM18.894 6.166a.75.75 0 00-1.06-1.06l-1.591 1.59a.75.75 0 101.06 1.061l1.591-1.59zM21.75 12a.75.75 0 01-.75.75h-2.25a.75.75 0 010-1.5H21a.75.75 0 01.75.75zM17.834 18.894a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 10-1.061 1.06l1.59 1.591zM12 18a.75.75 0 01.75.75V21a.75.75 0 01-1.5 0v-2.25A.75.75 0 0112 18zM7.758 17.303a.75.75 0 00-1.061-1.06l-1.591 1.59a.75.75 0 001.06 1.061l1.591-1.59zM6 12a.75.75 0 01-.75.75H3a.75.75 0 010-1.5h2.25A.75.75 0 016 12zM6.697 7.757a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 00-1.061 1.06l1.59 1.591z"
+            />
+          </svg>
+        </span>
+      </span>
+    </label>
     <div
       v-for="(video, index) in shuffledVideos"
       :key="video"
@@ -430,36 +437,76 @@ onUnmounted(() => {
   background-color: #f5f5f5;
 }
 
-/* Mode toggle button */
+/* iOS-style toggle switch */
 .mode-toggle {
   position: fixed;
   top: 80px;
   left: 16px;
   z-index: 100;
-  background: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(8px);
-  border: none;
-  color: white;
-  padding: 12px;
-  border-radius: 50%;
   cursor: pointer;
-  transition:
-    background 0.2s,
-    transform 0.2s;
+  display: flex;
+  align-items: center;
+  opacity: 0.5;
+  transition: opacity 0.3s;
 }
 
-.mode-toggle:hover {
-  transform: scale(1.1);
-  background: rgba(0, 0, 0, 0.8);
+.mode-toggle:hover,
+.mode-toggle:focus-within {
+  opacity: 1;
 }
 
-.light-mode .mode-toggle {
-  background: transparent;
-  color: #000;
+.toggle-input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
 }
 
-.light-mode .mode-toggle:hover {
-  background: transparent;
+.toggle-track {
+  width: 56px;
+  height: 32px;
+  background: #5e7a5e; /* plant-green when on (dark mode) */
+  border-radius: 16px;
+  position: relative;
+  transition: background 0.3s ease;
+  box-shadow:
+    inset 0 1px 3px rgba(0, 0, 0, 0.15),
+    0 2px 8px rgba(0, 0, 0, 0.25);
+}
+
+.toggle-input:not(:checked) + .toggle-track {
+  background: #c4a77d; /* wood-light when off (light mode) */
+}
+
+.toggle-thumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 28px;
+  height: 28px;
+  background: #faf7f2; /* surface cream color */
+  border-radius: 50%;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow:
+    0 2px 4px rgba(0, 0, 0, 0.2),
+    0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.toggle-input:checked + .toggle-track .toggle-thumb {
+  transform: translateX(24px);
+}
+
+.toggle-icon {
+  width: 16px;
+  height: 16px;
+  color: #6b4f3a; /* wood-dark */
+}
+
+.toggle-input:checked + .toggle-track .toggle-icon {
+  color: #2a2520; /* text-primary for moon */
 }
 
 .video-slide {
@@ -595,9 +642,9 @@ onUnmounted(() => {
 @media (max-width: 500px) {
   .side-actions {
     right: 8px;
-    top: auto;
-    bottom: 24px;
-    transform: none;
+    top: 50%;
+    bottom: auto;
+    transform: translateY(-50%);
   }
 }
 

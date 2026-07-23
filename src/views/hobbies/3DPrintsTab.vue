@@ -59,12 +59,14 @@
       </div>
     </div>
 
-    <div class="mb-4 flex items-center gap-2 flex-wrap">
+    <div
+      class="mb-4 flex items-center gap-2 overflow-x-auto scrollbar-hide -mx-4 px-4 sm:mx-0 sm:px-0 pb-2"
+    >
       <button
         v-for="tab in tabs"
         :key="tab.key"
         type="button"
-        class="px-3 py-1.5 text-xs sm:text-sm font-semibold rounded-full border transition-colors"
+        class="px-3 py-1.5 text-xs sm:text-sm font-semibold rounded-full border transition-colors whitespace-nowrap flex-shrink-0"
         :class="
           activeTab === tab.key
             ? 'bg-text-primary text-warm-white border-text-primary'
