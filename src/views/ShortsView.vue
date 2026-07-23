@@ -34,6 +34,10 @@
       :data-index="index"
     >
       <div class="video-wrapper">
+        <!-- Loading indicator -->
+        <div v-if="loadingStates[index]" class="video-loading">
+          <div class="loading-spinner"></div>
+        </div>
         <video
           :ref="
             (el) => {
@@ -43,10 +47,16 @@
           "
           :src="toPublicPath(video)"
           class="video-player"
+          :class="{ 'video-ready': !loadingStates[index] }"
           loop
           :muted="isMuted"
           playsinline
+          preload="auto"
           @click="togglePlay(index)"
+          @loadeddata="onVideoLoaded(index)"
+          @waiting="loadingStates[index] = true"
+          @playing="loadingStates[index] = false"
+          @error="onVideoError(index)"
         />
         <!-- Play/Pause overlay -->
         <div v-if="pausedStates[index]" class="play-overlay" @click="togglePlay(index)">
@@ -263,7 +273,7 @@ const containerRef = ref(null)
 const videoRefs = reactive({})
 const currentIndex = ref(0)
 const pausedStates = reactive({})
-const isMuted = ref(false)
+const isMuted = ref(true) // Start muted for autoplay policy compliance
 const likedStates = reactive({})
 const likeCounts = reactive({})
 const heartBurst = reactive({})
@@ -271,6 +281,8 @@ const heartPop = reactive({})
 const showSwipeHint = ref(true)
 const showClickHint = ref(true)
 const isDarkMode = ref(true)
+const loadingStates = reactive({})
+const videoErrors = reactive({})
 
 // Initialize states
 shuffledVideos.value.forEach((_, index) => {
@@ -279,15 +291,41 @@ shuffledVideos.value.forEach((_, index) => {
   likeCounts[index] = 0
   heartBurst[index] = false
   heartPop[index] = false
+  loadingStates[index] = true
+  videoErrors[index] = false
 })
 
-function togglePlay(index) {
+function onVideoLoaded(index) {
+  loadingStates[index] = false
+  videoErrors[index] = false
+}
+
+function onVideoError(index) {
+  loadingStates[index] = false
+  videoErrors[index] = true
+  console.warn(`Video ${index} failed to load`)
+}
+
+async function safePlay(video, index) {
+  if (!video) return false
+  try {
+    await video.play()
+    pausedStates[index] = false
+    return true
+  } catch (err) {
+    // Autoplay was prevented - show play button
+    console.log('Autoplay prevented:', err.name)
+    pausedStates[index] = true
+    return false
+  }
+}
+
+async function togglePlay(index) {
   const video = videoRefs[index]
   if (!video) return
 
   if (video.paused) {
-    video.play()
-    pausedStates[index] = false
+    await safePlay(video, index)
   } else {
     video.pause()
     pausedStates[index] = true
@@ -328,8 +366,7 @@ function handleIntersection(entries) {
 
     if (entry.isIntersecting && entry.intersectionRatio > 0.5) {
       currentIndex.value = index
-      video.play()
-      pausedStates[index] = false
+      safePlay(video, index)
       // Hide swipe hint after first scroll
       if (index > 0) {
         showSwipeHint.value = false
@@ -353,6 +390,13 @@ onMounted(() => {
   setTimeout(() => {
     const slides = containerRef.value?.querySelectorAll('.video-slide')
     slides?.forEach((slide) => observer.observe(slide))
+
+    // Try to autoplay the first video immediately
+    // The IntersectionObserver may not fire for already-visible elements
+    const firstVideo = videoRefs[0]
+    if (firstVideo) {
+      safePlay(firstVideo, 0)
+    }
   }, 100)
 })
 
@@ -363,12 +407,23 @@ onUnmounted(() => {
 
 <style scoped>
 .brainrot-container {
-  height: calc(100vh - 60px);
+  /* Use dvh (dynamic viewport height) for mobile browser chrome, fallback to vh */
+  height: calc(100dvh - 60px);
+  height: calc(100vh - 60px); /* Fallback for older browsers */
   overflow-y: scroll;
   scroll-snap-type: y mandatory;
   scroll-behavior: smooth;
   background-color: #000;
   position: relative;
+  /* Prevent overscroll on iOS */
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+@supports (height: 100dvh) {
+  .brainrot-container {
+    height: calc(100dvh - 60px);
+  }
 }
 
 .brainrot-container.light-mode {
@@ -408,7 +463,9 @@ onUnmounted(() => {
 }
 
 .video-slide {
-  height: calc(100vh - 60px);
+  /* Use dvh for mobile browser chrome compatibility */
+  height: calc(100dvh - 60px);
+  height: calc(100vh - 60px); /* Fallback */
   scroll-snap-align: start;
   scroll-snap-stop: always;
   position: relative;
@@ -416,6 +473,12 @@ onUnmounted(() => {
   align-items: center;
   justify-content: center;
   background-color: #000;
+}
+
+@supports (height: 100dvh) {
+  .video-slide {
+    height: calc(100dvh - 60px);
+  }
 }
 
 .light-mode .video-slide {
@@ -442,6 +505,37 @@ onUnmounted(() => {
   cursor: pointer;
   border-radius: 24px;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  /* Prevent flicker during load */
+  background-color: #1a1a1a;
+}
+
+.video-player.video-ready {
+  background-color: transparent;
+}
+
+/* Loading indicator */
+.video-loading {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 5;
+}
+
+.loading-spinner {
+  width: 48px;
+  height: 48px;
+  border: 4px solid rgba(255, 255, 255, 0.2);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 @media (min-width: 768px) {
@@ -451,7 +545,14 @@ onUnmounted(() => {
 
   .video-player {
     border-radius: 32px;
-    max-height: calc(100vh - 108px);
+    max-height: calc(100dvh - 108px);
+    max-height: calc(100vh - 108px); /* Fallback */
+  }
+
+  @supports (height: 100dvh) {
+    .video-player {
+      max-height: calc(100dvh - 108px);
+    }
   }
 }
 
@@ -746,6 +847,19 @@ onUnmounted(() => {
 
 .light-mode .swipe-text {
   text-shadow: 0 1px 3px rgba(255, 255, 255, 0.5);
+}
+
+.light-mode .loading-spinner {
+  border-color: rgba(0, 0, 0, 0.2);
+  border-top-color: #000;
+}
+
+.light-mode .video-player {
+  background-color: #e5e5e5;
+}
+
+.light-mode .video-player.video-ready {
+  background-color: transparent;
 }
 
 .light-mode .video-player {
