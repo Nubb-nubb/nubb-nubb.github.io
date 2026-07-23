@@ -1,16 +1,17 @@
 <template>
-  <div class="border-l-4 pl-4" :class="borderColorClass">
+  <div
+    class="bg-warm-white rounded-lg shadow-[0_-2px_4px_-1px_rgba(0,0,0,0.07),0_4px_6px_-1px_rgba(0,0,0,0.08),0_2px_4px_-1px_rgba(0,0,0,0.04)] overflow-hidden"
+  >
     <button
       type="button"
       @click="toggle"
-      class="w-full text-left py-3 font-semibold transition-colors flex items-center justify-between"
-      :class="hoverColorClass"
+      class="w-full text-left px-4 py-3 transition-colors flex items-center justify-between hover:bg-amber-50"
       :aria-expanded="isOpen"
     >
-      <span class="text-text-primary">{{ title }}</span>
-      <span class="text-sm text-text-secondary">{{ isOpen ? '−' : '+' }}</span>
+      <span class="font-mono text-sm text-accent-red uppercase tracking-wide">{{ title }}</span>
+      <span class="text-sm text-accent-red">{{ isOpen ? '−' : '+' }}</span>
     </button>
-    <div v-if="isOpen" class="pb-4">
+    <div v-if="isOpen" class="p-4">
       <slot />
     </div>
   </div>
@@ -59,6 +60,10 @@ const colorClasses = {
   'wood-dark': {
     border: 'border-wood-dark',
     hover: 'hover:text-wood-dark',
+  },
+  surface: {
+    border: 'border-surface',
+    hover: 'hover:text-text-secondary',
   },
 }
 

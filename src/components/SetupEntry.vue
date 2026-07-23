@@ -1,6 +1,6 @@
 <template>
   <div class="mb-16">
-    <div class="date-label">{{ era }}</div>
+    <div v-if="era" class="date-label">{{ era }}</div>
     <h3 class="text-2xl font-display font-bold mt-2 mb-4 text-wood-dark">{{ title }}</h3>
 
     <div v-if="imageList.length === 1" class="rounded-sm overflow-hidden mb-4 bg-[#ebe3d7]">
