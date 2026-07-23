@@ -1,5 +1,7 @@
 <template>
+  <!-- Card variant -->
   <div
+    v-if="variant === 'card'"
     class="bg-warm-white rounded-lg shadow-[0_-2px_4px_-1px_rgba(0,0,0,0.07),0_4px_6px_-1px_rgba(0,0,0,0.08),0_2px_4px_-1px_rgba(0,0,0,0.04)] overflow-hidden"
   >
     <button
@@ -12,6 +14,22 @@
       <span class="text-sm text-accent-red">{{ isOpen ? '−' : '+' }}</span>
     </button>
     <div v-if="isOpen" class="p-4">
+      <slot />
+    </div>
+  </div>
+
+  <!-- Stripe variant -->
+  <div v-else class="rounded-sm bg-surface border-l-4" :class="borderColorClass">
+    <button
+      type="button"
+      @click="toggle"
+      class="w-full px-5 py-4 flex items-center justify-between text-left"
+      :aria-expanded="isOpen"
+    >
+      <span class="font-bold text-text-primary">{{ title }}</span>
+      <span class="text-sm text-text-secondary">{{ isOpen ? '−' : '+' }}</span>
+    </button>
+    <div v-if="isOpen" class="px-5 pb-5">
       <slot />
     </div>
   </div>
@@ -28,6 +46,11 @@ const props = defineProps({
   color: {
     type: String,
     default: 'accent-red',
+  },
+  variant: {
+    type: String,
+    default: 'card',
+    validator: (v) => ['card', 'stripe'].includes(v),
   },
   modelValue: {
     type: Boolean,

@@ -28,14 +28,24 @@
       <!-- Text Sections -->
       <div class="space-y-4">
         <!-- Quick About Me -->
-        <CollapsibleSection title="Quick About Me" color="accent-red" v-model="quickExpanded">
+        <CollapsibleSection
+          title="Quick About Me"
+          color="accent-red"
+          variant="stripe"
+          v-model="quickExpanded"
+        >
           <p class="text-text-secondary text-sm leading-relaxed">
             L tiktok brainrot, doesn't wanna read about me :/
           </p>
         </CollapsibleSection>
 
         <!-- Long About Me -->
-        <CollapsibleSection title="Long About Me" color="plant-green" v-model="longExpanded">
+        <CollapsibleSection
+          title="Long About Me"
+          color="plant-green"
+          variant="stripe"
+          v-model="longExpanded"
+        >
           <div class="text-text-secondary text-sm leading-relaxed space-y-3">
             <p>
               I was 7 when I started learning origami, 15 when I started learning butterfly knife

@@ -8,25 +8,15 @@
 
     <div class="space-y-6 mb-10">
       <div v-if="activeTab === 'current'" class="space-y-4">
-        <article
+        <CollapsibleSection
           v-for="(item, index) in currentWorkshopItems"
           :key="item.title"
-          class="rounded-sm bg-surface border-l-4"
-          :class="colors[index % colors.length]"
+          :title="item.title"
+          :color="colors[index % colors.length]"
+          variant="stripe"
+          v-model="openStates[item.title]"
         >
-          <button
-            type="button"
-            class="w-full px-5 py-4 flex items-center justify-between text-left"
-            :aria-expanded="openItems.has(item.title)"
-            @click="toggleItem(item.title)"
-          >
-            <span class="font-bold text-text-primary">{{ item.title }}</span>
-            <span class="text-text-secondary text-sm">
-              {{ openItems.has(item.title) ? '−' : '+' }}
-            </span>
-          </button>
-
-          <div v-if="openItems.has(item.title)" class="px-5 pb-5 space-y-4">
+          <div class="space-y-4">
             <p class="text-sm text-text-secondary">
               {{ item.description }}
             </p>
@@ -58,17 +48,21 @@
               </div>
             </div>
           </div>
-        </article>
+        </CollapsibleSection>
       </div>
 
-      <div v-else class="space-y-6">
-        <WorkshopCard
+      <div v-else class="space-y-4">
+        <CollapsibleSection
           v-for="(item, index) in dreamWorkshopCards"
           :key="item.title"
           :title="item.title"
-          :description="item.description"
-          :color="colors[index % colors.length]"
-        />
+          variant="card"
+          v-model="dreamOpenStates[item.title]"
+        >
+          <p class="text-sm text-text-secondary">
+            {{ item.description }}
+          </p>
+        </CollapsibleSection>
       </div>
     </div>
 
@@ -85,8 +79,8 @@
 </template>
 
 <script setup>
-import { computed, ref } from 'vue'
-import WorkshopCard from '../components/WorkshopCard.vue'
+import { computed, reactive, ref } from 'vue'
+import CollapsibleSection from '../components/CollapsibleSection.vue'
 import TabNavigation from '../components/TabNavigation.vue'
 import ImagePreviewModal from '../components/ImagePreviewModal.vue'
 import VideoThumbnail from '../components/VideoThumbnail.vue'
@@ -190,7 +184,9 @@ const currentWorkshopItems = [
 ]
 
 // Initialize all workshop items as open by default
-const openItems = ref(new Set(currentWorkshopItems.map((item) => item.title)))
+const openStates = reactive(
+  Object.fromEntries(currentWorkshopItems.map((item) => [item.title, true]))
+)
 
 const dreamWorkshopCards = [
   {
@@ -214,14 +210,10 @@ const dreamWorkshopCards = [
   },
 ]
 
-const toggleItem = (title) => {
-  if (openItems.value.has(title)) {
-    openItems.value.delete(title)
-  } else {
-    openItems.value.add(title)
-  }
-  openItems.value = new Set(openItems.value)
-}
+// Initialize dream workshop items as closed by default
+const dreamOpenStates = reactive(
+  Object.fromEntries(dreamWorkshopCards.map((item) => [item.title, false]))
+)
 
 const activeFooter = computed(() => {
   if (activeTab.value === 'current') {

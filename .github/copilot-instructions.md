@@ -20,6 +20,10 @@ This is a Vue 3 + Vite + Tailwind CSS personal portfolio/hobby site.
    - Play button overlay at 50% opacity, becomes fully visible on hover
    - Clicking opens the modal for playback via `ImagePreviewModal`
    - Include `playsinline` attribute for iOS compatibility
+8. **Collapsible/dropdown sections must use CollapsibleSection** - Always use `CollapsibleSection.vue` for expandable accordion-style sections. Never create inline expand/collapse markup. It supports two variants:
+   - `variant="card"` - Warm-white card with shadow, monospace red title (used in SetupsTab, Dream Workshop)
+   - `variant="stripe"` - Surface background with colored left border (used in AboutView, Current Workshop)
+   - Use `v-model` for state, `color` prop for stripe border color
 
 ### Existing Components Reference
 
@@ -30,7 +34,7 @@ This is a Vue 3 + Vite + Tailwind CSS personal portfolio/hobby site.
 | `TabNavigation`      | Horizontal tab navigation with v-model (main tabs with overflow menu on mobile)                                             |
 | `PillTabs`           | Pill-style sub-tabs with horizontal scroll on mobile                                                                        |
 | `AlbumGrid`          | Apple Photos-style album grid with thumbnails; click to view contents, back button to return                                |
-| `CollapsibleSection` | Expandable accordion section                                                                                                |
+| `CollapsibleSection` | Expandable accordion section with two variants: `card` (shadow box) or `stripe` (left border)                               |
 | `SetupEntry`         | Image gallery entry with era/title/caption                                                                                  |
 | `WorkshopCard`       | Card for workshop items                                                                                                     |
 | `AppFooter`          | Site footer with social links                                                                                               |
@@ -78,6 +82,7 @@ const borderClass = computed(() => colorClasses[props.color] || 'border-accent-r
 16. **No hardcoded paths** - Always use `import.meta.env.BASE_URL` via `toPublicPath()` for public assets
 17. **No repeated tab UI** - If you see tab button loops being duplicated, use `TabNavigation` or `PillTabs`
 18. **No inline video players** - Never use raw `<video>` elements with native controls; always use `VideoThumbnail` with modal playback
+19. **No inline expand/collapse markup** - Never create custom dropdown/accordion markup; always use `CollapsibleSection` with the appropriate variant
 
 ## When to Create New Components
 
