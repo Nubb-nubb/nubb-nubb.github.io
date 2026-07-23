@@ -35,7 +35,7 @@
               <div v-for="media in item.media" :key="media.label" class="rounded-sm p-3">
                 <img
                   v-if="media.type === 'photo' && media.src"
-                  :src="media.src"
+                  :src="toPublicPath(media.src)"
                   :alt="media.label"
                   class="w-full h-56 md:h-64 object-cover rounded-sm cursor-pointer"
                   @click="openPreview(media.src)"
@@ -43,7 +43,7 @@
 
                 <VideoThumbnail
                   v-else-if="media.type === 'video' && media.src"
-                  :src="media.src"
+                  :src="toPublicPath(media.src)"
                   @click="openPreview(media.src, 'video')"
                 />
 
@@ -79,7 +79,6 @@
     <ImagePreviewModal
       :preview-image="previewImage"
       :preview-type="previewType"
-      :base-path="false"
       @close="closePreview"
     />
   </section>
@@ -92,6 +91,9 @@ import TabNavigation from '../components/TabNavigation.vue'
 import ImagePreviewModal from '../components/ImagePreviewModal.vue'
 import VideoThumbnail from '../components/VideoThumbnail.vue'
 import { useImagePreview } from '../composables/useImagePreview'
+import { useMediaUtils } from '../composables/useMediaUtils'
+
+const { toPublicPath } = useMediaUtils()
 
 const tabs = [
   { key: 'current', label: 'Current workshop' },
@@ -111,12 +113,12 @@ const currentWorkshopItems = [
       {
         type: 'photo',
         label: 'Neptune 3 Pro pair',
-        src: `${import.meta.env.BASE_URL}images/neptune-3-pros.jpg`,
+        src: 'images/neptune-3-pros.jpg',
       },
       {
         type: 'photo',
         label: 'Elegoo Centauri Carbon',
-        src: `${import.meta.env.BASE_URL}images/centauri-carbon.jpg`,
+        src: 'images/centauri-carbon.jpg',
       },
     ],
   },
@@ -128,12 +130,12 @@ const currentWorkshopItems = [
       {
         type: 'photo',
         label: 'Soldering station overview',
-        src: `${import.meta.env.BASE_URL}images/soldering_station.jpg`,
+        src: 'images/soldering_station.jpg',
       },
       {
         type: 'video',
         label: 'Board repair timelapse',
-        src: `${import.meta.env.BASE_URL}images/Spiderman_Electronics.MP4`,
+        src: 'images/Spiderman_Electronics.MP4',
       },
     ],
   },
@@ -144,12 +146,12 @@ const currentWorkshopItems = [
       {
         type: 'video',
         label: 'Angle grinder',
-        src: `${import.meta.env.BASE_URL}images/angle grinder.mp4`,
+        src: 'images/angle grinder.mp4',
       },
       {
         type: 'video',
         label: '1x30 sander',
-        src: `${import.meta.env.BASE_URL}images/1x30 sander.mp4`,
+        src: 'images/1x30 sander.mp4',
       },
     ],
   },
@@ -160,12 +162,12 @@ const currentWorkshopItems = [
       {
         type: 'video',
         label: 'Forge build clip 1',
-        src: `${import.meta.env.BASE_URL}images/forge_1.mp4`,
+        src: 'images/forge_1.mp4',
       },
       {
         type: 'video',
         label: 'Forge build clip 2',
-        src: `${import.meta.env.BASE_URL}images/forge_2.MP4`,
+        src: 'images/forge_2.MP4',
       },
     ],
   },
@@ -176,12 +178,12 @@ const currentWorkshopItems = [
       {
         type: 'photo',
         label: 'Mercury Plus wash & cure',
-        src: `${import.meta.env.BASE_URL}images/mercuryplus.webp`,
+        src: 'images/mercuryplus.webp',
       },
       {
         type: 'photo',
         label: 'Resin printer',
-        src: `${import.meta.env.BASE_URL}images/resin_printer1.jpg`,
+        src: 'images/resin_printer1.jpg',
       },
     ],
   },

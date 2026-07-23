@@ -2,22 +2,7 @@
   <div>
     <h3 class="text-2xl font-display font-bold mb-6 text-wood-dark">Butterfly Knife Tricks 2025</h3>
 
-    <div class="mb-4 flex items-center gap-2">
-      <button
-        v-for="tab in subTabs"
-        :key="tab.key"
-        type="button"
-        class="px-3 py-1.5 text-xs sm:text-sm font-semibold rounded-full border transition-colors"
-        :class="
-          subTab === tab.key
-            ? 'bg-text-primary text-warm-white border-text-primary'
-            : 'bg-transparent text-text-secondary border-text-secondary/40 hover:text-text-primary hover:border-text-primary/50'
-        "
-        @click="subTab = tab.key"
-      >
-        {{ tab.label }}
-      </button>
-    </div>
+    <PillTabs :tabs="subTabs" v-model="subTab" />
 
     <div class="grid gap-4 grid-cols-2">
       <div v-for="entry in subTab === 'trainers' ? trainers : liveBlades" :key="entry.src">
@@ -49,6 +34,7 @@ import { useMediaUtils } from '../../composables/useMediaUtils'
 import { useImagePreview } from '../../composables/useImagePreview'
 import VideoThumbnail from '../../components/VideoThumbnail.vue'
 import ImagePreviewModal from '../../components/ImagePreviewModal.vue'
+import PillTabs from '../../components/PillTabs.vue'
 
 const { toPublicPath } = useMediaUtils()
 const { previewImage, previewType, openPreview, closePreview } = useImagePreview()

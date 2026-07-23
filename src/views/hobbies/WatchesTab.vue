@@ -2,22 +2,7 @@
   <div>
     <h3 class="text-2xl font-display font-bold mb-6 text-wood-dark">Watch Collection 2024–2026</h3>
 
-    <div class="mb-4 flex items-center gap-2">
-      <button
-        v-for="tab in tabs"
-        :key="tab.key"
-        type="button"
-        class="px-3 py-1.5 text-xs sm:text-sm font-semibold rounded-full border transition-colors"
-        :class="
-          activeTab === tab.key
-            ? 'bg-text-primary text-warm-white border-text-primary'
-            : 'bg-transparent text-text-secondary border-text-secondary/40 hover:text-text-primary hover:border-text-primary/50'
-        "
-        @click="activeTab = tab.key"
-      >
-        {{ tab.label }}
-      </button>
-    </div>
+    <PillTabs :tabs="tabs" v-model="activeTab" />
 
     <!-- DIY tab -->
     <div v-if="activeTab === 'diy'">
@@ -161,6 +146,7 @@ import { useImagePreview } from '../../composables/useImagePreview'
 import { useMediaUtils } from '../../composables/useMediaUtils'
 import ImagePreviewModal from '../../components/ImagePreviewModal.vue'
 import VideoThumbnail from '../../components/VideoThumbnail.vue'
+import PillTabs from '../../components/PillTabs.vue'
 
 const { previewImage, previewType, openPreview, closePreview } = useImagePreview()
 const { toPublicPath, isVideo } = useMediaUtils()

@@ -12,7 +12,7 @@ This is a Vue 3 + Vite + Tailwind CSS personal portfolio/hobby site.
 ### Required Component Usage
 
 3. **No duplicated modal markup** - Always use `ImagePreviewModal.vue` for image/video previews. It supports both images and videos via the `previewType` prop
-4. **No duplicated tab navigation** - Always use `TabNavigation.vue` for tabbed interfaces
+4. **No duplicated tab navigation** - Always use `TabNavigation.vue` for main tabbed interfaces, or `PillTabs.vue` for pill-style sub-tabs
 5. **Use `useImagePreview` composable** - For any preview functionality (handles Escape key, state management)
 6. **Use `useMediaUtils` composable** - For `toPublicPath()` and `isVideo()` utilities. Never duplicate these functions
 7. **Videos must use VideoThumbnail component** - Always use `VideoThumbnail.vue` for video display. Never use inline `<video>` elements with native controls. Requirements:
@@ -27,8 +27,8 @@ This is a Vue 3 + Vite + Tailwind CSS personal portfolio/hobby site.
 | -------------------- | --------------------------------------------------------------------------------------------------------------------------- |
 | `ImagePreviewModal`  | Full-screen image/video preview modal                                                                                       |
 | `VideoThumbnail`     | Video thumbnail with play button overlay (50% opacity, full on hover); uses `#t=0.1` for mobile thumbnail; click to preview |
-| `TabNavigation`      | Horizontal tab navigation with v-model                                                                                      |
-| `RectangularTabs`    | Browser-style rectangular sub-tabs for nested navigation within sections                                                    |
+| `TabNavigation`      | Horizontal tab navigation with v-model (main tabs with overflow menu on mobile)                                             |
+| `PillTabs`           | Pill-style sub-tabs with horizontal scroll on mobile                                                                        |
 | `AlbumGrid`          | Apple Photos-style album grid with thumbnails; click to view contents, back button to return                                |
 | `CollapsibleSection` | Expandable accordion section                                                                                                |
 | `SetupEntry`         | Image gallery entry with era/title/caption                                                                                  |
@@ -76,7 +76,7 @@ const borderClass = computed(() => colorClasses[props.color] || 'border-accent-r
 14. **No inline modal HTML** - Never duplicate modal markup; use `ImagePreviewModal`
 15. **No copy-pasted utility functions** - If you find `toPublicPath` or `isVideo` being duplicated, use `useMediaUtils`
 16. **No hardcoded paths** - Always use `import.meta.env.BASE_URL` via `toPublicPath()` for public assets
-17. **No repeated tab UI** - If you see tab button loops being duplicated, use `TabNavigation`
+17. **No repeated tab UI** - If you see tab button loops being duplicated, use `TabNavigation` or `PillTabs`
 18. **No inline video players** - Never use raw `<video>` elements with native controls; always use `VideoThumbnail` with modal playback
 
 ## When to Create New Components

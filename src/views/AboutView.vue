@@ -70,14 +70,16 @@
 <script setup>
 import { ref } from 'vue'
 import { useImagePreview } from '../composables/useImagePreview'
+import { useMediaUtils } from '../composables/useMediaUtils'
 import CollapsibleSection from '../components/CollapsibleSection.vue'
 import ImagePreviewModal from '../components/ImagePreviewModal.vue'
 
+const { toPublicPath } = useMediaUtils()
 const quickExpanded = ref(false)
 const longExpanded = ref(false)
 const { previewImage, openPreview, closePreview } = useImagePreview()
-const aboutmeImage = `${import.meta.env.BASE_URL}images/aboutme-1.jpg`
-const aboutSound = `${import.meta.env.BASE_URL}images/abouta.wav`
+const aboutmeImage = toPublicPath('images/aboutme-1.jpg')
+const aboutSound = toPublicPath('images/abouta.wav')
 
 function playAboutSound() {
   const audio = new Audio(aboutSound)
