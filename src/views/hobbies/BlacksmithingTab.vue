@@ -4,6 +4,63 @@
       Hunting & Kitchen Knife 2025
     </h3>
 
+    <!-- Carousel -->
+    <div
+      class="group w-full max-w-2xl mx-auto mb-8 rounded-sm overflow-hidden cursor-pointer"
+      style="aspect-ratio: 16/9"
+      @click="openCurrentSlidePreview"
+      @touchstart="handleTouchStart"
+      @touchmove="handleTouchMove"
+      @touchend="handleTouchEnd"
+    >
+      <div class="relative w-full h-full overflow-hidden">
+        <div
+          class="flex h-full transition-transform duration-1000 ease-in-out"
+          :style="{ transform: `translateX(-${currentSlide * 100}%)` }"
+        >
+          <img
+            v-for="(src, i) in carouselImages"
+            :key="i"
+            :src="toPublicPath(src)"
+            :alt="`Knife photo ${i + 1}`"
+            class="w-full h-full object-cover shrink-0"
+          />
+        </div>
+
+        <!-- Carousel Arrows -->
+        <button
+          type="button"
+          class="hidden sm:flex absolute left-3 top-1/2 -translate-y-1/2 h-10 w-10 items-center justify-center rounded-full bg-black/35 text-white opacity-0 group-hover:opacity-100 focus:opacity-100 transition-opacity"
+          @click.stop="goToPreviousSlide"
+          aria-label="Previous slide"
+        >
+          <span aria-hidden="true">&#10094;</span>
+        </button>
+        <button
+          type="button"
+          class="hidden sm:flex absolute right-3 top-1/2 -translate-y-1/2 h-10 w-10 items-center justify-center rounded-full bg-black/35 text-white opacity-0 group-hover:opacity-100 focus:opacity-100 transition-opacity"
+          @click.stop="goToNextSlide"
+          aria-label="Next slide"
+        >
+          <span aria-hidden="true">&#10095;</span>
+        </button>
+
+        <!-- Carousel Indicators -->
+        <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
+          <button
+            v-for="(_, index) in carouselImages"
+            :key="index"
+            @click.stop="goToSlide(index)"
+            :class="[
+              'w-2 h-2 rounded-full transition-all',
+              index === currentSlide ? 'bg-white w-6' : 'bg-white/50',
+            ]"
+            :aria-label="`Go to slide ${index + 1}`"
+          />
+        </div>
+      </div>
+    </div>
+
     <div class="relative pl-0">
       <div
         class="absolute left-4 top-0 bottom-0 w-px bg-text-secondary/30 md:left-1/2 md:-translate-x-1/2"
@@ -67,11 +124,34 @@
 
 <script setup>
 import { useMediaUtils } from '../../composables/useMediaUtils'
+import { useCarousel } from '../../composables/useCarousel'
 import VideoThumbnail from '../../components/VideoThumbnail.vue'
 
-defineEmits(['preview'])
+const emit = defineEmits(['preview'])
 
 const { toPublicPath, isVideo } = useMediaUtils()
+
+const carouselImages = [
+  'images/homepage-3.jpg',
+  'images/knife_3.jpg',
+  'images/knife_4.jpg',
+  'images/knife_5.jpg',
+  'images/knife-6.jpg',
+]
+
+const {
+  currentSlide,
+  goToPreviousSlide,
+  goToNextSlide,
+  goToSlide,
+  handleTouchStart,
+  handleTouchMove,
+  handleTouchEnd,
+} = useCarousel(carouselImages, 4000)
+
+const openCurrentSlidePreview = () => {
+  emit('preview', carouselImages[currentSlide.value])
+}
 
 const timeline = [
   {
