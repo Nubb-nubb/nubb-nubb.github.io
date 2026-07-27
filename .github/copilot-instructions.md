@@ -28,18 +28,19 @@ This is a Vue 3 + Vite + Tailwind CSS personal portfolio/hobby site.
 
 ### Existing Components Reference
 
-| Component             | Purpose                                                                                                                     |
-| --------------------- | --------------------------------------------------------------------------------------------------------------------------- |
-| `ImagePreviewModal`   | Full-screen image/video preview modal                                                                                       |
-| `VideoThumbnail`      | Video thumbnail with play button overlay (50% opacity, full on hover); uses `#t=0.1` for mobile thumbnail; click to preview |
-| `TabNavigation`       | Horizontal tab navigation with v-model (main tabs with overflow menu on mobile)                                             |
-| `PillTabs`            | Pill-style sub-tabs with horizontal scroll on mobile                                                                        |
-| `AlbumGrid`           | Apple Photos-style album grid with thumbnails; click to view contents, back button to return                                |
-| `CollapsibleSection`  | Expandable accordion section with two variants: `card` (shadow box) or `stripe` (left border)                               |
-| `CollapsibleControls` | "open all" / "hide all" buttons for pages with multiple CollapsibleSections                                                 |
-| `SetupEntry`          | Image gallery entry with era/title/caption                                                                                  |
-| `WorkshopCard`        | Card for workshop items                                                                                                     |
-| `AppFooter`           | Site footer with social links                                                                                               |
+| Component             | Purpose                                                                                                                                |
+| --------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| `ImagePreviewModal`   | Full-screen image/video preview modal                                                                                                  |
+| `VideoThumbnail`      | Video thumbnail with play button overlay (50% opacity, full on hover); uses `#t=0.1` for mobile thumbnail; click to preview            |
+| `TabNavigation`       | Horizontal tab navigation with v-model (main tabs with overflow menu on mobile)                                                        |
+| `PillTabs`            | Pill-style sub-tabs with horizontal scroll on mobile                                                                                   |
+| `AlbumGrid`           | Apple Photos-style album grid with thumbnails; click to view contents, back button to return                                           |
+| `CollapsibleSection`  | Expandable accordion section with two variants: `card` (shadow box) or `stripe` (left border)                                          |
+| `CollapsibleControls` | "open all" / "hide all" buttons for pages with multiple CollapsibleSections                                                            |
+| `ProcessTimeline`     | Alternating left/right timeline for "see how it's made" sections; supports `collapsible` prop and `labelFormat` ('step' or 'sequence') |
+| `SetupEntry`          | Image gallery entry with era/title/caption                                                                                             |
+| `WorkshopCard`        | Card for workshop items                                                                                                                |
+| `AppFooter`           | Site footer with social links                                                                                                          |
 
 ### Existing Composables Reference
 
@@ -48,6 +49,7 @@ This is a Vue 3 + Vite + Tailwind CSS personal portfolio/hobby site.
 | `useImagePreview` | Preview state management, Escape key handling              |
 | `useMediaUtils`   | `toPublicPath()`, `isVideo()`, `isImage()` utilities       |
 | `useCarousel`     | Auto-scroll carousel with touch swipe support (4s default) |
+| `useRandomTitles` | Shared random title/subtitle state for home page           |
 
 ## Tailwind Best Practices
 
