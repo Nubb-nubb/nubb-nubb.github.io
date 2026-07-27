@@ -59,6 +59,12 @@
       </div>
     </div>
 
+    <CollapsibleControls
+      :all-open="allSectionsOpen"
+      @open-all="openAllSections"
+      @hide-all="hideAllSections"
+    />
+
     <CollapsibleSection
       title="2022–2023"
       v-model="sections['2022-2023']"
@@ -133,9 +139,10 @@
 </template>
 
 <script setup>
-import { reactive } from 'vue'
+import { computed, reactive } from 'vue'
 import SetupEntry from '../../components/SetupEntry.vue'
 import CollapsibleSection from '../../components/CollapsibleSection.vue'
+import CollapsibleControls from '../../components/CollapsibleControls.vue'
 import ImagePreviewModal from '../../components/ImagePreviewModal.vue'
 import { useCarousel } from '../../composables/useCarousel'
 import { useImagePreview } from '../../composables/useImagePreview'
@@ -170,4 +177,14 @@ const sections = reactive({
   2025: true,
   2026: true,
 })
+
+const allSectionsOpen = computed(() => Object.values(sections).every((v) => v))
+
+function openAllSections() {
+  Object.keys(sections).forEach((key) => (sections[key] = true))
+}
+
+function hideAllSections() {
+  Object.keys(sections).forEach((key) => (sections[key] = false))
+}
 </script>

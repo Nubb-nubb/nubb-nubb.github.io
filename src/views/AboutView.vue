@@ -27,6 +27,11 @@
 
       <!-- Text Sections -->
       <div class="space-y-4">
+        <CollapsibleControls
+          :all-open="allSectionsOpen"
+          @open-all="openAllSections"
+          @hide-all="hideAllSections"
+        />
         <!-- Quick About Me -->
         <CollapsibleSection
           title="Quick About Me"
@@ -78,15 +83,28 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useImagePreview } from '../composables/useImagePreview'
 import { useMediaUtils } from '../composables/useMediaUtils'
 import CollapsibleSection from '../components/CollapsibleSection.vue'
+import CollapsibleControls from '../components/CollapsibleControls.vue'
 import ImagePreviewModal from '../components/ImagePreviewModal.vue'
 
 const { toPublicPath } = useMediaUtils()
 const quickExpanded = ref(false)
 const longExpanded = ref(false)
+
+const allSectionsOpen = computed(() => quickExpanded.value && longExpanded.value)
+
+function openAllSections() {
+  quickExpanded.value = true
+  longExpanded.value = true
+}
+
+function hideAllSections() {
+  quickExpanded.value = false
+  longExpanded.value = false
+}
 const { previewImage, openPreview, closePreview } = useImagePreview()
 const aboutmeImage = toPublicPath('images/aboutme-1.jpg')
 const aboutSound = toPublicPath('images/abouta.wav')

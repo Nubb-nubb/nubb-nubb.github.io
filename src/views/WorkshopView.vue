@@ -8,6 +8,11 @@
 
     <div class="space-y-6 mb-10">
       <div v-if="activeTab === 'current'" class="space-y-4">
+        <CollapsibleControls
+          :all-open="allCurrentOpen"
+          @open-all="openAllCurrent"
+          @hide-all="hideAllCurrent"
+        />
         <CollapsibleSection
           v-for="(item, index) in currentWorkshopItems"
           :key="item.title"
@@ -52,6 +57,11 @@
       </div>
 
       <div v-else class="space-y-4">
+        <CollapsibleControls
+          :all-open="allDreamOpen"
+          @open-all="openAllDream"
+          @hide-all="hideAllDream"
+        />
         <CollapsibleSection
           v-for="(item, index) in dreamWorkshopCards"
           :key="item.title"
@@ -81,6 +91,7 @@
 <script setup>
 import { computed, reactive, ref } from 'vue'
 import CollapsibleSection from '../components/CollapsibleSection.vue'
+import CollapsibleControls from '../components/CollapsibleControls.vue'
 import TabNavigation from '../components/TabNavigation.vue'
 import ImagePreviewModal from '../components/ImagePreviewModal.vue'
 import VideoThumbnail from '../components/VideoThumbnail.vue'
@@ -188,6 +199,8 @@ const openStates = reactive(
   Object.fromEntries(currentWorkshopItems.map((item) => [item.title, true]))
 )
 
+const allCurrentOpen = computed(() => Object.values(openStates).every((v) => v))
+
 const dreamWorkshopCards = [
   {
     title: 'Seasonal Maker Space',
@@ -214,6 +227,24 @@ const dreamWorkshopCards = [
 const dreamOpenStates = reactive(
   Object.fromEntries(dreamWorkshopCards.map((item) => [item.title, false]))
 )
+
+const allDreamOpen = computed(() => Object.values(dreamOpenStates).every((v) => v))
+
+function openAllCurrent() {
+  Object.keys(openStates).forEach((key) => (openStates[key] = true))
+}
+
+function hideAllCurrent() {
+  Object.keys(openStates).forEach((key) => (openStates[key] = false))
+}
+
+function openAllDream() {
+  Object.keys(dreamOpenStates).forEach((key) => (dreamOpenStates[key] = true))
+}
+
+function hideAllDream() {
+  Object.keys(dreamOpenStates).forEach((key) => (dreamOpenStates[key] = false))
+}
 
 const activeFooter = computed(() => {
   if (activeTab.value === 'current') {

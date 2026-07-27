@@ -24,20 +24,22 @@ This is a Vue 3 + Vite + Tailwind CSS personal portfolio/hobby site.
    - `variant="card"` - Warm-white card with shadow, monospace red title (used in SetupsTab, Dream Workshop)
    - `variant="stripe"` - Surface background with colored left border (used in AboutView, Current Workshop)
    - Use `v-model` for state, `color` prop for stripe border color
+   - When using multiple CollapsibleSections together, add `CollapsibleControls` above them for "open all" / "hide all" buttons
 
 ### Existing Components Reference
 
-| Component            | Purpose                                                                                                                     |
-| -------------------- | --------------------------------------------------------------------------------------------------------------------------- |
-| `ImagePreviewModal`  | Full-screen image/video preview modal                                                                                       |
-| `VideoThumbnail`     | Video thumbnail with play button overlay (50% opacity, full on hover); uses `#t=0.1` for mobile thumbnail; click to preview |
-| `TabNavigation`      | Horizontal tab navigation with v-model (main tabs with overflow menu on mobile)                                             |
-| `PillTabs`           | Pill-style sub-tabs with horizontal scroll on mobile                                                                        |
-| `AlbumGrid`          | Apple Photos-style album grid with thumbnails; click to view contents, back button to return                                |
-| `CollapsibleSection` | Expandable accordion section with two variants: `card` (shadow box) or `stripe` (left border)                               |
-| `SetupEntry`         | Image gallery entry with era/title/caption                                                                                  |
-| `WorkshopCard`       | Card for workshop items                                                                                                     |
-| `AppFooter`          | Site footer with social links                                                                                               |
+| Component             | Purpose                                                                                                                     |
+| --------------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| `ImagePreviewModal`   | Full-screen image/video preview modal                                                                                       |
+| `VideoThumbnail`      | Video thumbnail with play button overlay (50% opacity, full on hover); uses `#t=0.1` for mobile thumbnail; click to preview |
+| `TabNavigation`       | Horizontal tab navigation with v-model (main tabs with overflow menu on mobile)                                             |
+| `PillTabs`            | Pill-style sub-tabs with horizontal scroll on mobile                                                                        |
+| `AlbumGrid`           | Apple Photos-style album grid with thumbnails; click to view contents, back button to return                                |
+| `CollapsibleSection`  | Expandable accordion section with two variants: `card` (shadow box) or `stripe` (left border)                               |
+| `CollapsibleControls` | "open all" / "hide all" buttons for pages with multiple CollapsibleSections                                                 |
+| `SetupEntry`          | Image gallery entry with era/title/caption                                                                                  |
+| `WorkshopCard`        | Card for workshop items                                                                                                     |
+| `AppFooter`           | Site footer with social links                                                                                               |
 
 ### Existing Composables Reference
 
