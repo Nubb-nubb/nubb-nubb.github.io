@@ -93,7 +93,7 @@
       <!-- Watermelon Cat Clicker -->
       <button
         type="button"
-        class="select-none transition-transform duration-150"
+        class="select-none"
         :class="{ 'animate-bubble': isBubbling }"
         @click="clickCat"
       >
@@ -137,10 +137,14 @@ const isBubbling = ref(false)
 
 function clickCat() {
   catClicks.value++
+  // Reset animation to allow rapid re-triggering
+  isBubbling.value = false
+  // Force reflow to restart animation
+  void document.body.offsetHeight
   isBubbling.value = true
   setTimeout(() => {
     isBubbling.value = false
-  }, 150)
+  }, 80)
 }
 
 const allSectionsOpen = computed(() => quickExpanded.value && longExpanded.value)
@@ -171,7 +175,7 @@ function playAboutSound() {
 
 <style scoped>
 .animate-bubble {
-  animation: bubble 150ms ease-out;
+  animation: bubble 80ms ease-out;
 }
 
 @keyframes bubble {
