@@ -66,9 +66,9 @@
       </div>
 
       <h1 class="text-4xl md:text-5xl font-display font-bold mb-6 md:mb-8 leading-tight">
-        I'm in such a chinese era of my life
+        {{ randomTitle }}
       </h1>
-      <p class="text-lg md:text-xl text-text-secondary">hey meta, take his drawls off.</p>
+      <p class="text-lg md:text-xl text-text-secondary">{{ randomSubtitle }}</p>
     </div>
 
     <ImagePreviewModal :preview-image="previewImage" :base-path="false" @close="closePreview" />
@@ -85,6 +85,26 @@ import ImagePreviewModal from '../components/ImagePreviewModal.vue'
 const showHeroPlaceholder = ref(false)
 const { previewImage, openPreview, closePreview } = useImagePreview()
 const { toPublicPath } = useMediaUtils()
+
+// Random title options
+const titles = [
+  "I'm in such a chinese era of my life",
+  'Can someone please help edit my resume?',
+  "I'm still bronze in valorant",
+  "I'm still gold in league of legends",
+  'I make origami balls at work',
+]
+
+const subtitles = [
+  'i once had over 3 million caseoh channel points',
+  'hey meta, take his drawls off',
+  'i have acid reflux when i drink coffee :(',
+  'my favorite gummies are meta mucil gummies',
+  'ballrightttttt',
+]
+
+const randomTitle = ref(titles[Math.floor(Math.random() * titles.length)])
+const randomSubtitle = ref(subtitles[Math.floor(Math.random() * subtitles.length)])
 
 const carouselImages = [
   'images/aboutme-2.jpg',
