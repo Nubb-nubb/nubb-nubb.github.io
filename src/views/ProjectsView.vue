@@ -1,6 +1,16 @@
 <template>
   <section class="max-w-3xl mx-auto px-4 sm:px-6 py-10 sm:py-16">
-    <h2 class="section-title">Interests</h2>
+    <h2 class="section-title">
+      Interests
+      <button
+        @click="unlockComingSoon"
+        class="inline-flex items-center ml-2 text-warm-white hover:text-accent-red transition-colors text-sm"
+        aria-label="Unlock secret tab"
+        type="button"
+      >
+        ᓚ₍ ^. ̫ .^₎
+      </button>
+    </h2>
 
     <p class="text-text-secondary mb-8">here for some nerd stuff.</p>
 
@@ -22,7 +32,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import ImagePreviewModal from '../components/ImagePreviewModal.vue'
 import TabNavigation from '../components/TabNavigation.vue'
 import SetupsTab from './hobbies/SetupsTab.vue'
@@ -35,14 +45,25 @@ import { useImagePreview } from '../composables/useImagePreview'
 
 const { previewImage, previewType, openPreview, closePreview } = useImagePreview()
 
-const tabs = [
-  { key: 'setups', label: 'Setups' },
-  { key: '3d-prints', label: '3D Prints' },
-  { key: 'blacksmithing', label: 'Blacksmithing' },
-  { key: 'butterfly-knife', label: 'Butterfly Knife' },
-  { key: 'watches', label: 'Watches' },
-  // { key: 'coming-soon', label: 'Coming Soon' },
-]
+const showComingSoon = ref(false)
+
+function unlockComingSoon() {
+  showComingSoon.value = !showComingSoon.value
+}
+
+const tabs = computed(() => {
+  const baseTabs = [
+    { key: 'setups', label: 'Setups' },
+    { key: '3d-prints', label: '3D Prints' },
+    { key: 'blacksmithing', label: 'Blacksmithing' },
+    { key: 'butterfly-knife', label: 'Butterfly Knife' },
+    { key: 'watches', label: 'Watches' },
+  ]
+  if (showComingSoon.value) {
+    baseTabs.push({ key: 'coming-soon', label: 'Coming Soon' })
+  }
+  return baseTabs
+})
 
 const activeTab = ref('setups')
 </script>
