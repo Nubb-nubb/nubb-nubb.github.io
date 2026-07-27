@@ -164,42 +164,48 @@ const timeline = [
     sequence: '10',
   },
   {
+    src: 'images/Grinded_Knife.JPG',
+    label: 'Grinding the Knife',
+    description: 'Finished grinding overall shape',
+    sequence: '11',
+  },
+  {
     src: 'images/forge_1.mp4',
     label: 'Heat Treat',
     description:
       'Heat treated to critical temperature (~1475°F), the steel is cherry red and non-magnetic, quenched in canola oil',
-    sequence: '11',
+    sequence: '12',
   },
   {
     src: 'images/blacksmith_12.MOV',
     label: 'Tempering',
     description: 'Tempering the steel in an oven at 400°F (204°C) for 2 hours, 2 cycles',
-    sequence: '12',
+    sequence: '13',
   },
   {
     src: 'images/blacksmith_11.JPEG',
     label: 'Pins & Wood',
     description: 'Putting in pins and wood',
-    sequence: '13',
+    sequence: '14',
   },
   {
     src: 'images/blacksmith_13.MP4',
     label: 'Handle Shaping',
     description: 'Cutting and shaping the handles, gluing it all together with epoxy',
-    sequence: '14',
+    sequence: '15',
   },
   {
     src: 'images/blacksmith_15.JPEG',
     label: 'Leather Sheath',
     description: 'Making the leather sheath',
-    sequence: '15',
+    sequence: '16',
   },
-  { src: 'images/homepage-3.jpg', label: 'Finished!', description: 'Tadaaaaa', sequence: '16' },
+  { src: 'images/homepage-3.jpg', label: 'Finished!', description: 'Tadaaaaa', sequence: '17' },
   {
     src: 'images/blacksmith_14 .mp4',
     label: 'Sharpness Test',
     description: 'Testing the sharpness by cutting some paper',
-    sequence: '17',
+    sequence: '18',
   },
 ]
 </script>

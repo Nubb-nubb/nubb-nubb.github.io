@@ -81,7 +81,7 @@
         :entries="diyProcess"
         :collapsible="true"
         :default-open="true"
-        @preview="openPreview"
+        @preview="(src, type) => $emit('preview', src, type)"
       />
     </div>
 
@@ -158,6 +158,8 @@ const {
   previousPreview,
 } = useImagePreview()
 const { toPublicPath, isVideo } = useMediaUtils()
+
+const emit = defineEmits(['preview'])
 
 // Carousel images: Teddy first, then DIY watches (Steven, Daniel, Lucas), then collection
 const carouselImages = [
