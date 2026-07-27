@@ -6,7 +6,7 @@
 
     <!-- Carousel -->
     <div
-      class="group w-full max-w-2xl mx-auto mb-8 rounded-sm overflow-hidden cursor-pointer"
+      class="group w-full max-w-4xl mx-auto mb-8 rounded-sm overflow-hidden cursor-pointer"
       style="aspect-ratio: 16/9"
       @click="openCurrentSlidePreview"
       @touchstart="handleTouchStart"
