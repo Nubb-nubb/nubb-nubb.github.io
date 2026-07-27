@@ -90,7 +90,7 @@
     <div v-else-if="activeTab === 'clementine'" class="flex flex-col items-center">
       <div class="text-center max-w-md">
         <h3 class="text-xl font-semibold text-text-primary mb-4">Clementine</h3>
-        <p class="text-text-secondary text-sm mb-8">click bro</p>
+        <p class="text-text-secondary text-sm mb-8">click bro, page coming soon...</p>
       </div>
 
       <!-- Watermelon Cat Clicker -->
