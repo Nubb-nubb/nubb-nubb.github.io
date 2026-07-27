@@ -41,7 +41,7 @@ const tabs = [
   { key: 'blacksmithing', label: 'Blacksmithing' },
   { key: 'butterfly-knife', label: 'Butterfly Knife' },
   { key: 'watches', label: 'Watches' },
-  { key: 'coming-soon', label: 'Coming Soon' },
+  // { key: 'coming-soon', label: 'Coming Soon' },
 ]
 
 const activeTab = ref('setups')
