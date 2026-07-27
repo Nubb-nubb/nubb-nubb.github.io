@@ -13,6 +13,33 @@
       ×
     </button>
 
+    <button
+      v-if="canNavigate"
+      type="button"
+      class="absolute left-4 top-1/2 -translate-y-1/2 flex h-11 w-11 items-center justify-center rounded-full bg-black/50 text-white text-xl shadow-lg transition hover:bg-black/70"
+      @click.stop="emit('previous')"
+      aria-label="Previous media"
+    >
+      ‹
+    </button>
+
+    <button
+      v-if="canNavigate"
+      type="button"
+      class="absolute right-4 top-1/2 -translate-y-1/2 flex h-11 w-11 items-center justify-center rounded-full bg-black/50 text-white text-xl shadow-lg transition hover:bg-black/70"
+      @click.stop="emit('next')"
+      aria-label="Next media"
+    >
+      ›
+    </button>
+
+    <div
+      v-if="canNavigate"
+      class="absolute bottom-4 left-1/2 -translate-x-1/2 rounded-full bg-black/60 px-3 py-1 text-sm text-white"
+    >
+      {{ currentIndex + 1 }} / {{ totalItems }}
+    </div>
+
     <video
       v-if="isVideoSrc"
       controls
@@ -45,13 +72,21 @@ const props = defineProps({
     type: String,
     default: 'image', // 'image' or 'video'
   },
+  previewItems: {
+    type: Array,
+    default: () => [],
+  },
+  previewIndex: {
+    type: Number,
+    default: -1,
+  },
   basePath: {
     type: Boolean,
     default: true,
   },
 })
 
-const emit = defineEmits(['close'])
+const emit = defineEmits(['close', 'next', 'previous'])
 
 const mediaSrc = computed(() => {
   if (!props.previewImage) return ''
@@ -66,6 +101,14 @@ const isVideoSrc = computed(() => {
   if (props.previewType === 'video') return true
   return /\.(mp4|mov|webm|ogg)$/i.test(props.previewImage)
 })
+
+const currentIndex = computed(() => {
+  if (props.previewIndex >= 0) return props.previewIndex
+  return props.previewItems.length > 0 ? 0 : -1
+})
+
+const totalItems = computed(() => props.previewItems.length || 1)
+const canNavigate = computed(() => props.previewItems.length > 1)
 
 function closePreview() {
   emit('close')

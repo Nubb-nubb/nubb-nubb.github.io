@@ -116,7 +116,11 @@
     <ImagePreviewModal
       :preview-image="previewImage"
       :preview-type="previewType"
+      :preview-items="previewItems"
+      :preview-index="previewIndex"
       @close="closePreview"
+      @next="nextPreview"
+      @previous="previousPreview"
     />
   </div>
 </template>
@@ -166,7 +170,16 @@ const props = defineProps({
 })
 
 const failed = ref(new Set())
-const { previewImage, previewType, openPreview, closePreview } = useImagePreview()
+const {
+  previewImage,
+  previewType,
+  previewItems,
+  previewIndex,
+  openPreview,
+  closePreview,
+  nextPreview,
+  previousPreview,
+} = useImagePreview()
 const { toPublicPath, isVideo } = useMediaUtils()
 
 const imageList = computed(() => {

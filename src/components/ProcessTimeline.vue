@@ -53,14 +53,36 @@
               v-if="isVideo(mediaSrc(entry))"
               :src="toPublicPath(mediaSrc(entry))"
               height="auto"
-              @click="$emit('preview', mediaSrc(entry), 'video')"
+              @click="
+                $emit(
+                  'preview',
+                  mediaSrc(entry),
+                  'video',
+                  entries.map((timelineEntry) => ({
+                    src: mediaSrc(timelineEntry),
+                    type: isVideo(mediaSrc(timelineEntry)) ? 'video' : 'image',
+                  })),
+                  index
+                )
+              "
             />
             <img
               v-else
               :src="toPublicPath(mediaSrc(entry))"
               :alt="entry.label || entry.name"
               class="w-full h-auto object-cover cursor-pointer"
-              @click="$emit('preview', mediaSrc(entry))"
+              @click="
+                $emit(
+                  'preview',
+                  mediaSrc(entry),
+                  'image',
+                  entries.map((timelineEntry) => ({
+                    src: mediaSrc(timelineEntry),
+                    type: isVideo(mediaSrc(timelineEntry)) ? 'video' : 'image',
+                  })),
+                  index
+                )
+              "
             />
           </div>
 

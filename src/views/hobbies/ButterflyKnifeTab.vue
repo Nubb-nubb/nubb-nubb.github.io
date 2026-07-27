@@ -80,7 +80,11 @@
     <ImagePreviewModal
       :preview-image="previewImage"
       :preview-type="previewType"
+      :preview-items="previewItems"
+      :preview-index="previewIndex"
       @close="closePreview"
+      @next="nextPreview"
+      @previous="previousPreview"
     />
   </div>
 </template>
@@ -95,7 +99,16 @@ import ImagePreviewModal from '../../components/ImagePreviewModal.vue'
 import PillTabs from '../../components/PillTabs.vue'
 
 const { toPublicPath } = useMediaUtils()
-const { previewImage, previewType, openPreview, closePreview } = useImagePreview()
+const {
+  previewImage,
+  previewType,
+  previewItems,
+  previewIndex,
+  openPreview,
+  closePreview,
+  nextPreview,
+  previousPreview,
+} = useImagePreview()
 
 const carouselImages = [
   'images/butterfly_all1.jpg',
@@ -116,7 +129,7 @@ const {
 } = useCarousel(carouselImages, 4000)
 
 const openCurrentSlidePreview = () => {
-  openPreview(carouselImages[currentSlide.value])
+  openPreview(carouselImages[currentSlide.value], 'image', carouselImages, currentSlide.value)
 }
 
 const subTab = ref('trainers')

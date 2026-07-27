@@ -134,7 +134,16 @@
       />
     </CollapsibleSection>
 
-    <ImagePreviewModal :preview-image="previewImage" :base-path="false" @close="closePreview" />
+    <ImagePreviewModal
+      :preview-image="previewImage"
+      :preview-type="previewType"
+      :preview-items="previewItems"
+      :preview-index="previewIndex"
+      :base-path="false"
+      @close="closePreview"
+      @next="nextPreview"
+      @previous="previousPreview"
+    />
   </div>
 </template>
 
@@ -149,7 +158,16 @@ import { useImagePreview } from '../../composables/useImagePreview'
 import { useMediaUtils } from '../../composables/useMediaUtils'
 
 const { toPublicPath } = useMediaUtils()
-const { previewImage, openPreview, closePreview } = useImagePreview()
+const {
+  previewImage,
+  previewType,
+  previewItems,
+  previewIndex,
+  openPreview,
+  closePreview,
+  nextPreview,
+  previousPreview,
+} = useImagePreview()
 
 const carouselImages = [
   'images/room setup_new1.jpg',
@@ -168,7 +186,12 @@ const {
 } = useCarousel(carouselImages, 4000)
 
 const openCurrentSlidePreview = () => {
-  openPreview(toPublicPath(carouselImages[currentSlide.value]))
+  openPreview(
+    toPublicPath(carouselImages[currentSlide.value]),
+    'image',
+    carouselImages.map((image) => ({ src: toPublicPath(image), type: 'image' })),
+    currentSlide.value
+  )
 }
 
 const sections = reactive({

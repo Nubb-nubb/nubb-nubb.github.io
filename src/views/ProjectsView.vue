@@ -26,7 +26,11 @@
     <ImagePreviewModal
       :preview-image="previewImage"
       :preview-type="previewType"
+      :preview-items="previewItems"
+      :preview-index="previewIndex"
       @close="closePreview"
+      @next="nextPreview"
+      @previous="previousPreview"
     />
   </section>
 </template>
@@ -43,7 +47,16 @@ import PrintsTab from './hobbies/3DPrintsTab.vue'
 import ComingSoonTab from './hobbies/ComingSoonTab.vue'
 import { useImagePreview } from '../composables/useImagePreview'
 
-const { previewImage, previewType, openPreview, closePreview } = useImagePreview()
+const {
+  previewImage,
+  previewType,
+  previewItems,
+  previewIndex,
+  openPreview,
+  closePreview,
+  nextPreview,
+  previousPreview,
+} = useImagePreview()
 
 const showComingSoon = ref(false)
 

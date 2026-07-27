@@ -128,7 +128,11 @@
     <ImagePreviewModal
       :preview-image="previewImage"
       :preview-type="previewType"
+      :preview-items="previewItems"
+      :preview-index="previewIndex"
       @close="closePreview"
+      @next="nextPreview"
+      @previous="previousPreview"
     />
   </div>
 </template>
@@ -143,7 +147,16 @@ import VideoThumbnail from '../../components/VideoThumbnail.vue'
 import PillTabs from '../../components/PillTabs.vue'
 import ProcessTimeline from '../../components/ProcessTimeline.vue'
 
-const { previewImage, previewType, openPreview, closePreview } = useImagePreview()
+const {
+  previewImage,
+  previewType,
+  previewItems,
+  previewIndex,
+  openPreview,
+  closePreview,
+  nextPreview,
+  previousPreview,
+} = useImagePreview()
 const { toPublicPath, isVideo } = useMediaUtils()
 
 // Carousel images: Teddy first, then DIY watches (Steven, Daniel, Lucas), then collection
@@ -169,7 +182,7 @@ const {
 } = useCarousel(carouselImages, 4000)
 
 function openCurrentSlidePreview() {
-  openPreview(carouselImages[currentSlide.value])
+  openPreview(carouselImages[currentSlide.value], 'image', carouselImages, currentSlide.value)
 }
 
 const tabs = [

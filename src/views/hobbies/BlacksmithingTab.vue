@@ -99,7 +99,7 @@ const {
 } = useCarousel(carouselImages, 4000)
 
 const openCurrentSlidePreview = () => {
-  emit('preview', carouselImages[currentSlide.value])
+  emit('preview', carouselImages[currentSlide.value], 'image', carouselImages, currentSlide.value)
 }
 
 const timeline = [

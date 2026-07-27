@@ -71,7 +71,16 @@
       <p class="text-lg md:text-xl text-text-secondary">{{ randomSubtitle }}</p>
     </div>
 
-    <ImagePreviewModal :preview-image="previewImage" :base-path="false" @close="closePreview" />
+    <ImagePreviewModal
+      :preview-image="previewImage"
+      :preview-type="previewType"
+      :preview-items="previewItems"
+      :preview-index="previewIndex"
+      :base-path="false"
+      @close="closePreview"
+      @next="nextPreview"
+      @previous="previousPreview"
+    />
   </section>
 </template>
 
@@ -84,7 +93,16 @@ import { useRandomTitles } from '../composables/useRandomTitles'
 import ImagePreviewModal from '../components/ImagePreviewModal.vue'
 
 const showHeroPlaceholder = ref(false)
-const { previewImage, openPreview, closePreview } = useImagePreview()
+const {
+  previewImage,
+  previewType,
+  previewItems,
+  previewIndex,
+  openPreview,
+  closePreview,
+  nextPreview,
+  previousPreview,
+} = useImagePreview()
 const { toPublicPath } = useMediaUtils()
 const { randomTitle, randomSubtitle } = useRandomTitles()
 
@@ -108,7 +126,12 @@ const {
 
 const openCurrentSlidePreview = () => {
   if (consumeSwipe()) return
-  openPreview(toPublicPath(carouselImages[currentSlide.value]))
+  openPreview(
+    toPublicPath(carouselImages[currentSlide.value]),
+    'image',
+    carouselImages.map((image) => ({ src: toPublicPath(image), type: 'image' })),
+    currentSlide.value
+  )
 }
 </script>
 
