@@ -26,6 +26,13 @@
       >
         LinkedIn
       </a>
+      <a :href="resumePath" target="_blank" rel="noopener noreferrer" class="nav-link pb-0">
+        Resume
+      </a>
     </div>
   </footer>
 </template>
+
+<script setup>
+const resumePath = `${import.meta.env.BASE_URL}images/steven_resume.pdf`
+</script>
