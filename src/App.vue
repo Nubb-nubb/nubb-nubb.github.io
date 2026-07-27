@@ -7,6 +7,7 @@
           <RouterLink
             to="/"
             class="font-display text-lg font-bold text-text-primary hover:text-accent-red transition-colors"
+            @click="randomizeTitles"
           >
             nubbnubb
           </RouterLink>
@@ -23,7 +24,11 @@
 
         <!-- Mobile nav -->
         <div class="flex md:hidden items-center justify-between">
-          <RouterLink to="/" class="font-display text-lg font-bold text-text-primary">
+          <RouterLink
+            to="/"
+            class="font-display text-lg font-bold text-text-primary"
+            @click="randomizeTitles"
+          >
             nubbnubb
           </RouterLink>
           <button
@@ -104,6 +109,12 @@
 import { ref } from 'vue'
 import { RouterLink, RouterView } from 'vue-router'
 import AppFooter from './components/AppFooter.vue'
+import { useRandomTitles } from './composables/useRandomTitles'
 
 const mobileMenuOpen = ref(false)
+const { randomize } = useRandomTitles()
+
+function randomizeTitles() {
+  randomize()
+}
 </script>
