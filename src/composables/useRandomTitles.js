@@ -14,6 +14,7 @@ const subtitles = [
   'i have acid reflux when i drink coffee :(',
   'my favorite gummies are meta mucil gummies',
   'ballrightttttt',
+  'I really like spray paint (fumes)',
 ]
 
 // Shared reactive state
