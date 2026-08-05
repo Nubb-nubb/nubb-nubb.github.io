@@ -181,16 +181,6 @@ const albumGridRef = ref(null)
 
 const huntingKnifeAlbums = [
   {
-    key: 'design-materials',
-    label: 'Design & Materials',
-    media: [
-      'images/blacksmith_1.PNG',
-      'images/blacksmith_2.JPEG',
-      'images/blacksmith_3.MOV',
-      'images/blacksmith_4.png',
-    ],
-  },
-  {
     key: 'shaping',
     label: 'Shaping',
     media: [
@@ -225,12 +215,22 @@ const huntingKnifeAlbums = [
       'images/blacksmith_14 .mp4',
     ],
   },
+  {
+    key: 'design-materials',
+    label: 'Design & Materials',
+    media: [
+      'images/blacksmith_1.PNG',
+      'images/blacksmith_2.JPEG',
+      'images/blacksmith_3.MOV',
+      'images/blacksmith_4.png',
+    ],
+  },
 ]
 
 const koTantoAlbums = [
   {
-    key: 'knife-blank',
-    label: 'Knife Blank',
+    key: 'shaping',
+    label: 'Shaping',
     media: [
       'images/Kotanto aikuchi koshirae/IMG_0167.JPG',
       'images/Kotanto aikuchi koshirae/IMG_0169.MOV',
@@ -278,8 +278,8 @@ const koTantoAlbums = [
     ],
   },
   {
-    key: 'diagrams',
-    label: 'Diagrams',
+    key: 'design-materials',
+    label: 'Design & Materials',
     media: [
       'images/Kotanto aikuchi koshirae/IMG_0166.mov',
       'images/Kotanto aikuchi koshirae/IMG_0195.JPG',
@@ -292,8 +292,8 @@ const koTantoAlbums = [
 
 const gyutoAlbums = [
   {
-    key: 'blank',
-    label: 'Knife Blank',
+    key: 'shaping',
+    label: 'Shaping',
     media: [
       'images/Gyuto/IMG_7644.JPG',
       'images/Gyuto/IMG_7654.MOV',
