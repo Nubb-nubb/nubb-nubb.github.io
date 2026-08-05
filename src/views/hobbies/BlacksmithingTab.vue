@@ -209,9 +209,7 @@ const huntingKnifeAlbums = [
     media: [
       'images/homepage-3.jpg',
       'images/knife_3.jpg',
-      'images/knife_4.jpg',
       'images/knife_5.jpg',
-      'images/knife-6.jpg',
       'images/blacksmith_14 .mp4',
     ],
   },
@@ -315,7 +313,12 @@ const gyutoAlbums = [
   {
     key: 'finished',
     label: 'Finished',
-    media: ['images/Gyuto/IMG_8126.MOV', 'images/Gyuto/IMG_8127.MOV'],
+    media: [
+      'images/Gyuto/IMG_8126.MOV',
+      'images/Gyuto/IMG_8127.MOV',
+      'images/knife-6.jpg',
+      'images/knife_4.jpg',
+    ],
   },
 ]
 
