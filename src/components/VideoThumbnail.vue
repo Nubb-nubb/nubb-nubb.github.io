@@ -1,20 +1,16 @@
 <template>
   <div
-    ref="containerRef"
     class="group relative w-full rounded-sm overflow-hidden cursor-pointer bg-black"
     :class="heightClass"
     @click="$emit('click')"
   >
     <video
-      v-if="isVisible"
-      :src="src + '#t=0.1'"
+      :src="thumbnailSrc"
       class="w-full h-full object-cover pointer-events-none"
       muted
       playsinline
       preload="metadata"
     />
-    <!-- Placeholder while not visible / loading -->
-    <div v-else class="w-full h-full bg-neutral-800" />
     <div
       class="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/40 transition-colors"
     >
@@ -30,7 +26,8 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
+import { computed } from 'vue'
+import { useMediaUtils } from '../composables/useMediaUtils'
 
 const props = defineProps({
   src: {
@@ -45,9 +42,7 @@ const props = defineProps({
 
 defineEmits(['click'])
 
-const containerRef = ref(null)
-const isVisible = ref(false)
-let observer = null
+const { toPublicPath } = useMediaUtils()
 
 const heightClass = computed(() => {
   const heights = {
@@ -59,22 +54,17 @@ const heightClass = computed(() => {
   return heights[props.height] || heights.md
 })
 
-onMounted(() => {
-  observer = new IntersectionObserver(
-    (entries) => {
-      if (entries[0].isIntersecting) {
-        isVisible.value = true
-        observer.disconnect()
-      }
-    },
-    { rootMargin: '200px' } // Start loading 200px before entering viewport
-  )
-  if (containerRef.value) {
-    observer.observe(containerRef.value)
+const videoSrc = computed(() => {
+  if (!props.src) return ''
+  if (
+    props.src.startsWith('http://') ||
+    props.src.startsWith('https://') ||
+    props.src.startsWith('/')
+  ) {
+    return props.src
   }
+  return toPublicPath(props.src)
 })
 
-onBeforeUnmount(() => {
-  observer?.disconnect()
-})
+const thumbnailSrc = computed(() => `${videoSrc.value}#t=0.1`)
 </script>

@@ -1,8 +1,6 @@
 <template>
   <div>
-    <h3 class="text-2xl font-display font-bold mb-6 text-wood-dark">
-      Hunting & Kitchen Knife 2025
-    </h3>
+    <h3 class="text-2xl font-display font-bold mb-6 text-wood-dark">Blacksmithing Projects</h3>
 
     <!-- Carousel -->
     <div
@@ -24,6 +22,7 @@
             :src="toPublicPath(src)"
             :alt="`Knife photo ${i + 1}`"
             class="w-full h-full object-cover shrink-0"
+            decoding="async"
           />
         </div>
 
@@ -61,32 +60,191 @@
       </div>
     </div>
 
-    <ProcessTimeline
-      :entries="timeline"
-      :collapsible="true"
-      :default-open="true"
-      label-format="sequence"
-      @preview="(src, type) => $emit('preview', src, type)"
-    />
+    <PillTabs :tabs="tabs" v-model="activeTab" />
+
+    <div v-if="activeTab === 'hunting-knife'">
+      <ProcessTimeline
+        :entries="timeline"
+        :collapsible="true"
+        :default-open="true"
+        label-format="sequence"
+        @preview="(src, type) => $emit('preview', src, type)"
+      />
+    </div>
+
+    <div v-else-if="activeTab === 'gyuto'" class="space-y-4">
+      <p class="text-sm text-text-secondary">Gyuto project gallery coming soon.</p>
+      <div class="grid gap-4 grid-cols-2 sm:grid-cols-3">
+        <div v-for="src in gyutoMedia" :key="src" class="rounded-sm overflow-hidden bg-surface">
+          <img
+            v-if="!isVideo(src)"
+            :src="toPublicPath(src)"
+            alt="Gyuto media"
+            class="w-full h-56 md:h-64 object-cover cursor-pointer"
+            decoding="async"
+            fetchpriority="high"
+            @click="$emit('preview', src, 'image')"
+          />
+          <VideoThumbnail v-else :src="src" height="md" @click="$emit('preview', src, 'video')" />
+        </div>
+      </div>
+    </div>
+
+    <div v-else-if="activeTab === 'ko-tanto'" class="space-y-4">
+      <p class="text-sm text-text-secondary">Ko-Tanto project gallery coming soon.</p>
+      <div class="grid gap-4 grid-cols-2 sm:grid-cols-3">
+        <div v-for="src in koTantoMedia" :key="src" class="rounded-sm overflow-hidden bg-surface">
+          <img
+            v-if="!isVideo(src)"
+            :src="toPublicPath(src)"
+            alt="Ko-Tanto media"
+            class="w-full h-56 md:h-64 object-cover cursor-pointer"
+            decoding="async"
+            fetchpriority="high"
+            @click="$emit('preview', src, 'image')"
+          />
+          <VideoThumbnail v-else :src="src" height="md" @click="$emit('preview', src, 'video')" />
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup>
+import { ref, onMounted } from 'vue'
 import { useMediaUtils } from '../../composables/useMediaUtils'
 import { useCarousel } from '../../composables/useCarousel'
 import ProcessTimeline from '../../components/ProcessTimeline.vue'
+import PillTabs from '../../components/PillTabs.vue'
+import VideoThumbnail from '../../components/VideoThumbnail.vue'
 
 const emit = defineEmits(['preview'])
 
-const { toPublicPath } = useMediaUtils()
+const { toPublicPath, isVideo } = useMediaUtils()
 
 const carouselImages = [
+  'images/3 in 1 1.JPG',
+  'images/3 in 1 2.JPG',
+  'images/3 in 1 3.JPG',
   'images/homepage-3.jpg',
   'images/knife_3.jpg',
   'images/knife_4.jpg',
   'images/knife_5.jpg',
   'images/knife-6.jpg',
 ]
+
+const tabs = [
+  { key: 'hunting-knife', label: 'Hunting Knife' },
+  { key: 'gyuto', label: 'Gyuto' },
+  { key: 'ko-tanto', label: 'Ko-Tanto' },
+]
+
+const activeTab = ref('hunting-knife')
+
+const gyutoMedia = [
+  'images/Gyuto/IMG_7644.JPG',
+  'images/Gyuto/IMG_7654.MOV',
+  'images/Gyuto/IMG_7659.MOV',
+  'images/Gyuto/IMG_7667.MOV',
+  'images/Gyuto/IMG_7668.MOV',
+  'images/Gyuto/IMG_7671.MOV',
+  'images/Gyuto/IMG_7672.mov',
+  'images/Gyuto/IMG_7675.mov',
+  'images/Gyuto/IMG_8110.mov',
+  'images/Gyuto/IMG_8113.mov',
+  'images/Gyuto/IMG_8125.mov',
+  'images/Gyuto/IMG_8126.MOV',
+  'images/Gyuto/IMG_8127.MOV',
+]
+
+const koTantoMedia = [
+  'images/Kotanto aikuchi koshirae/IMG_0166.mov',
+  'images/Kotanto aikuchi koshirae/IMG_0167.JPG',
+  'images/Kotanto aikuchi koshirae/IMG_0169.MOV',
+  'images/Kotanto aikuchi koshirae/IMG_0171.JPG',
+  'images/Kotanto aikuchi koshirae/IMG_0173.JPG',
+  'images/Kotanto aikuchi koshirae/IMG_0175.JPG',
+  'images/Kotanto aikuchi koshirae/IMG_0178.jpg',
+  'images/Kotanto aikuchi koshirae/IMG_0182.JPG',
+  'images/Kotanto aikuchi koshirae/IMG_0184.JPG',
+  'images/Kotanto aikuchi koshirae/IMG_0188.JPG',
+  'images/Kotanto aikuchi koshirae/IMG_0195.JPG',
+  'images/Kotanto aikuchi koshirae/IMG_0202.JPG',
+  'images/Kotanto aikuchi koshirae/IMG_0204.jpg',
+  'images/Kotanto aikuchi koshirae/IMG_0205.JPG',
+  'images/Kotanto aikuchi koshirae/IMG_0206.JPG',
+  'images/Kotanto aikuchi koshirae/IMG_0207.JPG',
+  'images/Kotanto aikuchi koshirae/IMG_0208.JPG',
+  'images/Kotanto aikuchi koshirae/IMG_0209.JPG',
+  'images/Kotanto aikuchi koshirae/IMG_0212.JPG',
+  'images/Kotanto aikuchi koshirae/IMG_0219.JPG',
+  'images/Kotanto aikuchi koshirae/IMG_0230.MOV',
+  'images/Kotanto aikuchi koshirae/IMG_0239.MOV',
+  'images/Kotanto aikuchi koshirae/IMG_0240.JPG',
+  'images/Kotanto aikuchi koshirae/IMG_0245.JPG',
+  'images/Kotanto aikuchi koshirae/IMG_0259.JPG',
+  'images/Kotanto aikuchi koshirae/IMG_0260.MOV',
+  'images/Kotanto aikuchi koshirae/IMG_0264.JPG',
+  'images/Kotanto aikuchi koshirae/IMG_0265.JPG',
+  'images/Kotanto aikuchi koshirae/IMG_0266.JPG',
+  'images/Kotanto aikuchi koshirae/IMG_0267.JPG',
+  'images/Kotanto aikuchi koshirae/IMG_0268.JPG',
+  'images/Kotanto aikuchi koshirae/IMG_0269.JPG',
+  'images/Kotanto aikuchi koshirae/IMG_0270.JPG',
+  'images/Kotanto aikuchi koshirae/IMG_0272.JPG',
+  'images/Kotanto aikuchi koshirae/IMG_0275.JPG',
+  'images/Kotanto aikuchi koshirae/IMG_0278.MOV',
+  'images/Kotanto aikuchi koshirae/IMG_0281.JPG',
+  'images/Kotanto aikuchi koshirae/IMG_0286.JPG',
+  'images/Kotanto aikuchi koshirae/IMG_0290.MOV',
+  'images/Kotanto aikuchi koshirae/IMG_0291.JPG',
+  'images/Kotanto aikuchi koshirae/IMG_0296.JPG',
+  'images/Kotanto aikuchi koshirae/IMG_0299.JPG',
+  'images/Kotanto aikuchi koshirae/IMG_0300.JPG',
+  'images/Kotanto aikuchi koshirae/IMG_0304.JPG',
+  'images/Kotanto aikuchi koshirae/IMG_0305.MOV',
+  'images/Kotanto aikuchi koshirae/IMG_0306.MOV',
+  'images/Kotanto aikuchi koshirae/IMG_0308.JPG',
+  'images/Kotanto aikuchi koshirae/IMG_0309.MOV',
+  'images/Kotanto aikuchi koshirae/IMG_0310.mov',
+  'images/Kotanto aikuchi koshirae/IMG_0311.JPG',
+  'images/Kotanto aikuchi koshirae/IMG_0312.JPG',
+  'images/Kotanto aikuchi koshirae/IMG_0322.JPG',
+]
+
+const preloadedMedia = new Set()
+
+function preloadMedia(src) {
+  if (preloadedMedia.has(src)) return
+  preloadedMedia.add(src)
+  const url = toPublicPath(src)
+  if (isVideo(src)) {
+    const video = document.createElement('video')
+    video.preload = 'metadata'
+    video.muted = true
+    video.src = `${url}#t=0.1`
+  } else {
+    const image = new Image()
+    image.src = url
+  }
+}
+
+function preloadGallery(media) {
+  media.forEach(preloadMedia)
+}
+
+onMounted(() => {
+  const preloadDelay = () => {
+    preloadGallery(gyutoMedia)
+    preloadGallery(koTantoMedia)
+  }
+
+  if ('requestIdleCallback' in window) {
+    requestIdleCallback(preloadDelay)
+  } else {
+    setTimeout(preloadDelay, 200)
+  }
+})
 
 const {
   currentSlide,
