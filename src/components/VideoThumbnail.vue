@@ -1,16 +1,21 @@
 <template>
   <div
+    ref="containerRef"
     class="group relative w-full rounded-sm overflow-hidden cursor-pointer bg-black"
     :class="heightClass"
     @click="$emit('click')"
   >
+    <!-- Lazy-loaded video thumbnail -->
     <video
+      v-if="isVisible"
       :src="thumbnailSrc"
       class="w-full h-full object-cover pointer-events-none"
       muted
       playsinline
       preload="metadata"
     />
+    <!-- Placeholder while not visible -->
+    <div v-else class="w-full h-full bg-surface/50 flex items-center justify-center" />
     <div
       class="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/40 transition-colors"
     >
@@ -26,7 +31,7 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { useMediaUtils } from '../composables/useMediaUtils'
 
 const props = defineProps({
@@ -38,11 +43,50 @@ const props = defineProps({
     type: String,
     default: 'md', // 'sm', 'md', 'lg', 'auto'
   },
+  rootMargin: {
+    type: String,
+    default: '200px', // Start loading 200px before viewport
+  },
 })
 
 defineEmits(['click'])
 
 const { toPublicPath } = useMediaUtils()
+
+const containerRef = ref(null)
+const isVisible = ref(false)
+let observer = null
+
+onMounted(() => {
+  if ('IntersectionObserver' in window) {
+    observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            isVisible.value = true
+            observer.disconnect()
+          }
+        })
+      },
+      {
+        rootMargin: props.rootMargin,
+        threshold: 0,
+      }
+    )
+    if (containerRef.value) {
+      observer.observe(containerRef.value)
+    }
+  } else {
+    // Fallback for browsers without IntersectionObserver
+    isVisible.value = true
+  }
+})
+
+onUnmounted(() => {
+  if (observer) {
+    observer.disconnect()
+  }
+})
 
 const heightClass = computed(() => {
   const heights = {

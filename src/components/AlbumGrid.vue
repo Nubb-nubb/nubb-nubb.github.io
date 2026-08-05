@@ -25,6 +25,8 @@
             :src="getAlbumThumbnail(album)"
             :alt="album.label"
             class="w-full h-full object-cover"
+            loading="lazy"
+            decoding="async"
           />
           <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors" />
         </div>
@@ -36,9 +38,10 @@
     <!-- Selected album content -->
     <div v-else>
       <button
+        v-if="!hideBackButton"
         type="button"
         class="mb-4 flex items-center gap-1 text-sm text-text-secondary hover:text-text-primary transition-colors"
-        @click="selectedAlbum = null"
+        @click="deselectAlbum"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -76,6 +79,8 @@
             :src="toPublicPath(media)"
             :alt="selectedAlbum.label"
             class="w-full h-48 object-cover cursor-pointer"
+            loading="lazy"
+            decoding="async"
             @click="$emit('preview', media)"
           />
         </div>
@@ -139,9 +144,13 @@ const props = defineProps({
     required: true,
     // Each album: { key: string, label: string, media: string[], thumbnail?: string }
   },
+  hideBackButton: {
+    type: Boolean,
+    default: false,
+  },
 })
 
-defineEmits(['preview'])
+const emit = defineEmits(['preview', 'albumSelected'])
 
 const { toPublicPath, isVideo } = useMediaUtils()
 
@@ -169,7 +178,16 @@ function getAlbumThumbnail(album) {
 
 function selectAlbum(album) {
   selectedAlbum.value = album
+  emit('albumSelected', album)
 }
+
+function deselectAlbum() {
+  selectedAlbum.value = null
+  emit('albumSelected', null)
+}
+
+// Expose deselectAlbum so parent can call it
+defineExpose({ deselectAlbum })
 
 function getTikTokEmbedUrl(url) {
   // Extract video ID from TikTok URL and return embed URL

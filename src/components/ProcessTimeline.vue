@@ -71,6 +71,8 @@
               :src="toPublicPath(mediaSrc(entry))"
               :alt="entry.label || entry.name"
               class="w-full h-auto object-cover cursor-pointer"
+              loading="lazy"
+              decoding="async"
               @click="
                 $emit(
                   'preview',

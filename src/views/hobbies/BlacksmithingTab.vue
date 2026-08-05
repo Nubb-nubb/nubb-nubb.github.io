@@ -60,54 +60,102 @@
       </div>
     </div>
 
-    <PillTabs :tabs="tabs" v-model="activeTab" />
-
-    <div v-if="activeTab === 'hunting-knife'">
-      <ProcessTimeline
-        :entries="timeline"
-        :collapsible="true"
-        :default-open="true"
-        label-format="sequence"
-        @preview="(src, type) => $emit('preview', src, type)"
-      />
-    </div>
-
-    <div v-else-if="activeTab === 'gyuto'" class="space-y-6">
-      <p class="text-sm text-text-secondary">Gyuto photo albums show the key knife-building stages below.</p>
-      <AlbumGrid :albums="gyutoAlbums" @preview="(src) => $emit('preview', src, isVideo(src) ? 'video' : 'image')" />
-    </div>
-
-    <div v-else-if="activeTab === 'ko-tanto'" class="space-y-6">
-      <p class="text-sm text-text-secondary">Ko-Tanto photo albums show the key blacksmithing steps below.</p>
-
+    <!-- Top-level knife type albums -->
+    <div v-if="!selectedKnifeType" class="space-y-4">
+      <p class="text-sm text-text-secondary">Knives I made from October 2025 - August 2026</p>
       <div class="grid gap-4 grid-cols-2 sm:grid-cols-3">
-        <div v-for="src in koTantoHeroMedia" :key="src" class="rounded-sm overflow-hidden bg-surface">
-          <img
-            v-if="!isVideo(src)"
-            :src="toPublicPath(src)"
-            alt="Ko-Tanto hero photo"
-            class="w-full h-56 md:h-64 object-cover cursor-pointer"
-            decoding="async"
-            fetchpriority="high"
-            @click="$emit('preview', src, 'image')"
-          />
-          <VideoThumbnail v-else :src="src" height="md" @click="$emit('preview', src, 'video')" />
-        </div>
+        <button
+          v-for="knife in knifeTypes"
+          :key="knife.key"
+          type="button"
+          class="group text-left"
+          @click="selectedKnifeType = knife"
+        >
+          <div
+            class="relative aspect-square rounded-lg overflow-hidden bg-surface shadow-md transition-transform group-hover:scale-[1.02]"
+          >
+            <img
+              :src="toPublicPath(knife.thumbnail)"
+              :alt="knife.label"
+              class="w-full h-full object-cover"
+              loading="lazy"
+              decoding="async"
+            />
+            <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors" />
+          </div>
+          <p class="mt-2 text-sm font-medium text-text-primary truncate">{{ knife.label }}</p>
+          <p class="text-xs text-text-secondary">{{ knife.albums.length }} albums</p>
+        </button>
       </div>
+    </div>
 
-      <AlbumGrid :albums="koTantoAlbums" @preview="(src) => $emit('preview', src, isVideo(src) ? 'video' : 'image')" />
+    <!-- Selected knife type: show its sub-albums -->
+    <div v-else class="space-y-4">
+      <!-- Back to projects (when viewing sub-albums list) -->
+      <button
+        v-if="!insideSubAlbum"
+        type="button"
+        class="flex items-center gap-1 text-sm text-text-secondary hover:text-text-primary transition-colors"
+        @click="selectedKnifeType = null"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-4 w-4"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M15 19l-7-7 7-7"
+          />
+        </svg>
+        Back to projects
+      </button>
+      <!-- Back to albums (when viewing photos inside a sub-album) -->
+      <button
+        v-else
+        type="button"
+        class="flex items-center gap-1 text-sm text-text-secondary hover:text-text-primary transition-colors"
+        @click="albumGridRef?.deselectAlbum()"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-4 w-4"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M15 19l-7-7 7-7"
+          />
+        </svg>
+        Back to albums
+      </button>
+
+      <h4 class="text-lg font-semibold text-text-primary">{{ selectedKnifeType.label }}</h4>
+
+      <AlbumGrid
+        ref="albumGridRef"
+        :albums="selectedKnifeType.albums"
+        :hide-back-button="true"
+        @preview="(src) => $emit('preview', src, isVideo(src) ? 'video' : 'image')"
+        @albumSelected="(album) => (insideSubAlbum = !!album)"
+      />
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref } from 'vue'
 import { useMediaUtils } from '../../composables/useMediaUtils'
 import { useCarousel } from '../../composables/useCarousel'
-import ProcessTimeline from '../../components/ProcessTimeline.vue'
-import PillTabs from '../../components/PillTabs.vue'
 import AlbumGrid from '../../components/AlbumGrid.vue'
-import VideoThumbnail from '../../components/VideoThumbnail.vue'
 
 const emit = defineEmits(['preview'])
 
@@ -124,16 +172,59 @@ const carouselImages = [
   'images/knife-6.jpg',
 ]
 
-const tabs = [
-  { key: 'hunting-knife', label: 'Hunting Knife' },
-  { key: 'gyuto', label: 'Gyuto' },
-  { key: 'ko-tanto', label: 'Ko-Tanto' },
-]
+// Currently selected knife type (null = showing top-level albums)
+const selectedKnifeType = ref(null)
+// Track if we're inside a sub-album (to hide back-to-projects button)
+const insideSubAlbum = ref(false)
+// Ref to AlbumGrid for calling deselectAlbum
+const albumGridRef = ref(null)
 
-const koTantoHeroMedia = [
-  'images/Kotanto aikuchi koshirae/IMG_0311.JPG',
-  'images/Kotanto aikuchi koshirae/IMG_0312.JPG',
-  'images/Kotanto aikuchi koshirae/IMG_0322.JPG',
+const huntingKnifeAlbums = [
+  {
+    key: 'design-materials',
+    label: 'Design & Materials',
+    media: [
+      'images/blacksmith_1.PNG',
+      'images/blacksmith_2.JPEG',
+      'images/blacksmith_3.MOV',
+      'images/blacksmith_4.png',
+    ],
+  },
+  {
+    key: 'shaping',
+    label: 'Shaping',
+    media: [
+      'images/blacksmith_7.MOV',
+      'images/blacksmith_8.MP4',
+      'images/blacksmith_5.JPEG',
+      'images/blacksmith_6.JPEG',
+      'images/blacksmith_9 .mp4',
+      'images/1x30 sander.mp4',
+      'images/Grinded_Knife.JPG',
+    ],
+  },
+  {
+    key: 'heat-treatment',
+    label: 'Heat Treatment',
+    media: ['images/forge_1.mp4', 'images/blacksmith_12.MOV'],
+  },
+  {
+    key: 'handle-finishing',
+    label: 'Handle & Finishing',
+    media: ['images/blacksmith_11.JPEG', 'images/blacksmith_13.MP4', 'images/blacksmith_15.JPEG'],
+  },
+  {
+    key: 'finished',
+    label: 'Finished',
+    media: [
+      'images/homepage-3.jpg',
+      'images/knife_3.jpg',
+      'images/knife_4.jpg',
+      'images/knife_5.jpg',
+      'images/knife-6.jpg',
+      'images/blacksmith_14 .mp4',
+    ],
+  },
 ]
 
 const koTantoAlbums = [
@@ -219,97 +310,36 @@ const gyutoAlbums = [
   {
     key: 'handle',
     label: 'Handle',
-    media: [
-      'images/Gyuto/IMG_8125.mov',
-    ],
+    media: ['images/Gyuto/IMG_8125.mov'],
   },
   {
     key: 'finished',
     label: 'Finished',
-    media: [
-      'images/Gyuto/IMG_8126.MOV',
-      'images/Gyuto/IMG_8127.MOV',
-    ],
+    media: ['images/Gyuto/IMG_8126.MOV', 'images/Gyuto/IMG_8127.MOV'],
   },
 ]
 
-const koTantoMedia = [
-  'images/Kotanto aikuchi koshirae/IMG_0311.JPG',
-  'images/Kotanto aikuchi koshirae/IMG_0312.JPG',
-  'images/Kotanto aikuchi koshirae/IMG_0322.JPG',
-  'images/Kotanto aikuchi koshirae/IMG_0166.mov',
-  'images/Kotanto aikuchi koshirae/IMG_0167.JPG',
-  'images/Kotanto aikuchi koshirae/IMG_0169.MOV',
-  'images/Kotanto aikuchi koshirae/IMG_0171.JPG',
-  'images/Kotanto aikuchi koshirae/IMG_0173.JPG',
-  'images/Kotanto aikuchi koshirae/IMG_0178.jpg',
-  'images/Kotanto aikuchi koshirae/IMG_0184.JPG',
-  'images/Kotanto aikuchi koshirae/IMG_0188.JPG',
-  'images/Kotanto aikuchi koshirae/IMG_0202.JPG',
-  'images/Kotanto aikuchi koshirae/IMG_0205.JPG',
-  'images/Kotanto aikuchi koshirae/IMG_0206.JPG',
-  'images/Kotanto aikuchi koshirae/IMG_0207.JPG',
-  'images/Kotanto aikuchi koshirae/IMG_0208.JPG',
-  'images/Kotanto aikuchi koshirae/IMG_0212.JPG',
-  'images/Kotanto aikuchi koshirae/IMG_0219.JPG',
-  'images/Kotanto aikuchi koshirae/IMG_0230.MOV',
-  'images/Kotanto aikuchi koshirae/IMG_0239.MOV',
-  'images/Kotanto aikuchi koshirae/IMG_0240.JPG',
-  'images/Kotanto aikuchi koshirae/IMG_0245.JPG',
-  'images/Kotanto aikuchi koshirae/IMG_0260.MOV',
-  'images/Kotanto aikuchi koshirae/IMG_0264.JPG',
-  'images/Kotanto aikuchi koshirae/IMG_0266.JPG',
-  'images/Kotanto aikuchi koshirae/IMG_0267.JPG',
-  'images/Kotanto aikuchi koshirae/IMG_0268.JPG',
-  'images/Kotanto aikuchi koshirae/IMG_0269.JPG',
-  'images/Kotanto aikuchi koshirae/IMG_0270.JPG',
-  'images/Kotanto aikuchi koshirae/IMG_0272.JPG',
-  'images/Kotanto aikuchi koshirae/IMG_0275.JPG',
-  'images/Kotanto aikuchi koshirae/IMG_0281.JPG',
-  'images/Kotanto aikuchi koshirae/IMG_0286.JPG',
-  'images/Kotanto aikuchi koshirae/IMG_0291.JPG',
-  'images/Kotanto aikuchi koshirae/IMG_0299.JPG',
-  'images/Kotanto aikuchi koshirae/IMG_0300.JPG',
-  'images/Kotanto aikuchi koshirae/IMG_0304.JPG',
-  'images/Kotanto aikuchi koshirae/IMG_0306.MOV',
-  'images/Kotanto aikuchi koshirae/IMG_0308.JPG',
-  'images/Kotanto aikuchi koshirae/IMG_0309.MOV',
-  'images/Kotanto aikuchi koshirae/IMG_0310.mov',
+// Top-level knife type albums
+const knifeTypes = [
+  {
+    key: 'hunting-knife',
+    label: 'Hunting Knife',
+    thumbnail: 'images/homepage-3.jpg',
+    albums: huntingKnifeAlbums,
+  },
+  {
+    key: 'gyuto',
+    label: 'Gyuto',
+    thumbnail: 'images/3 in 1 1.JPG',
+    albums: gyutoAlbums,
+  },
+  {
+    key: 'ko-tanto',
+    label: 'Ko-Tanto',
+    thumbnail: 'images/Kotanto aikuchi koshirae/IMG_0311.JPG',
+    albums: koTantoAlbums,
+  },
 ]
-
-const preloadedMedia = new Set()
-
-function preloadMedia(src) {
-  if (preloadedMedia.has(src)) return
-  preloadedMedia.add(src)
-  const url = toPublicPath(src)
-  if (isVideo(src)) {
-    const video = document.createElement('video')
-    video.preload = 'metadata'
-    video.muted = true
-    video.src = `${url}#t=0.1`
-  } else {
-    const image = new Image()
-    image.src = url
-  }
-}
-
-function preloadGallery(media) {
-  media.forEach(preloadMedia)
-}
-
-onMounted(() => {
-  const preloadDelay = () => {
-    preloadGallery(gyutoMedia)
-    preloadGallery(koTantoMedia)
-  }
-
-  if ('requestIdleCallback' in window) {
-    requestIdleCallback(preloadDelay)
-  } else {
-    setTimeout(preloadDelay, 200)
-  }
-})
 
 const {
   currentSlide,
@@ -324,111 +354,4 @@ const {
 const openCurrentSlidePreview = () => {
   emit('preview', carouselImages[currentSlide.value], 'image', carouselImages, currentSlide.value)
 }
-
-const timeline = [
-  {
-    src: 'images/blacksmith_1.PNG',
-    label: 'Knife Template',
-    description: 'Knife template that I made on Procreate',
-    sequence: '1',
-  },
-  {
-    src: 'images/blacksmith_2.JPEG',
-    label: 'Tools',
-    description: 'Some machinery I got from Harbor Freight',
-    sequence: '2',
-  },
-  {
-    src: 'images/blacksmith_3.MOV',
-    label: 'Steel',
-    description: 'Steel is 1084 high carbon steel',
-    sequence: '3',
-  },
-  {
-    src: 'images/blacksmith_4.png',
-    label: 'Template Transfer',
-    description: 'Cutting out the template and gluing it onto the steel',
-    sequence: '4',
-  },
-  {
-    src: 'images/blacksmith_7.MOV',
-    label: 'Safety First',
-    description: 'Putting on respirator to prevent eating yucky wucky particles',
-    sequence: '5',
-  },
-  {
-    src: 'images/blacksmith_8.MP4',
-    label: 'Angle Grinding',
-    description: 'Angle grinding out the shape',
-    sequence: '6',
-  },
-  {
-    src: 'images/blacksmith_5.JPEG',
-    label: 'Rough Cutout',
-    description: 'Rough cutout',
-    sequence: '7',
-  },
-  {
-    src: 'images/blacksmith_6.JPEG',
-    label: 'Cleaned Cutout',
-    description: 'Cleaned up cutout',
-    sequence: '8',
-  },
-  {
-    src: 'images/blacksmith_9 .mp4',
-    label: 'Drilling',
-    description: 'Drilling out the holes for pins',
-    sequence: '9',
-  },
-  {
-    src: 'images/1x30 sander.mp4',
-    label: 'Sanding Bevels',
-    description: 'Sanding the bevels',
-    sequence: '10',
-  },
-  {
-    src: 'images/Grinded_Knife.JPG',
-    label: 'Grinding the Knife',
-    description: 'Finished grinding overall shape',
-    sequence: '11',
-  },
-  {
-    src: 'images/forge_1.mp4',
-    label: 'Heat Treat',
-    description:
-      'Heat treated to critical temperature (~1475°F), the steel is cherry red and non-magnetic, quenched in canola oil',
-    sequence: '12',
-  },
-  {
-    src: 'images/blacksmith_12.MOV',
-    label: 'Tempering',
-    description: 'Tempering the steel in an oven at 400°F (204°C) for 2 hours, 2 cycles',
-    sequence: '13',
-  },
-  {
-    src: 'images/blacksmith_11.JPEG',
-    label: 'Pins & Wood',
-    description: 'Putting in pins and wood',
-    sequence: '14',
-  },
-  {
-    src: 'images/blacksmith_13.MP4',
-    label: 'Handle Shaping',
-    description: 'Cutting and shaping the handles, gluing it all together with epoxy',
-    sequence: '15',
-  },
-  {
-    src: 'images/blacksmith_15.JPEG',
-    label: 'Leather Sheath',
-    description: 'Making the leather sheath',
-    sequence: '16',
-  },
-  { src: 'images/homepage-3.jpg', label: 'Finished!', description: 'Tadaaaaa', sequence: '17' },
-  {
-    src: 'images/blacksmith_14 .mp4',
-    label: 'Sharpness Test',
-    description: 'Testing the sharpness by cutting some paper',
-    sequence: '18',
-  },
-]
 </script>
